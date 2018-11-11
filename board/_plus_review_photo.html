@@ -1,0 +1,66 @@
+{*** 플러스 리뷰 포토 위젯 | board/plus_review_photo.php ***}
+<style>
+    .js-pr-btn-image {
+        cursor:pointer;
+    }
+</style>
+<link type="text/css" rel="stylesheet" href="\{=c.PATH_SKIN}css/gd_plus_review.css?ts={=time()}">
+<div class="plus_review_widget">
+    <!--{ @data}-->
+    <div class="plus_review_widget_item">
+        <img src="{=.uploadHeadImage.thumSquareSrc}" style="display:none" class="js-pr-btn-image" data-sno="{=.sno}">
+    </div>
+    <!--{ ? (.index_+1) % req.cols == 0 }-->
+    <div style="clear:both"></div>
+    <!--{/}-->
+    <!--{/}-->
+    <div style="clear:both"></div>
+</div>
+
+<div id="plusReviewPhotoLayer" class="layer_wrap plus_review_view_layer dn"></div>
+
+<script>
+    var thumSizeType = '{=req.thumSizeType}';
+    $(document).ready(function () {
+        $('.js-pr-btn-image').bind('click',function () {
+            $.ajax({
+                method: "get",
+                data: {sno : $(this).data('sno')},
+                cache: false,
+                url: "../board/plus_review_view.php",
+                success: function (data) {
+                    photoLayer.show(data);
+                },
+                error: function (data) {
+                    alert('error');
+                }
+            });
+        })
+
+
+        setTimeout(function () {
+            if (thumSizeType == 'menual') {
+                $('.plus_review_widget_item img').css('width', '{=req.thumWidth}px').css('height', '{=req.thumWidth}px');
+            }
+            else {
+                var containerWidth = ($('.plus_review_widget').width());
+                var autoSize = Math.floor(containerWidth / { = req.cols})-8;
+                $('.plus_review_widget_item').css('width', autoSize + 'px').css('height', autoSize + 'px');
+                $('.plus_review_widget_item img').css('width', '100%').css('height', '100%');
+            }
+            $('.plus_review_widget_item img').show();
+        }, 1);
+    })
+
+    var photoLayer = {
+        show: function (data) {
+            $('#layerDim').removeClass('dn');
+            $('#plusReviewPhotoLayer').removeClass('dn');
+            $('#plusReviewPhotoLayer').html(data);
+            $('#plusReviewPhotoLayer').find('>div').center();
+        },
+        close: function () {
+            $('#plusReviewPhotoLayer').find('.close').trigger('click');
+        },
+    }
+</script>

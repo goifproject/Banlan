@@ -1,0 +1,82 @@
+{*** 플러스리뷰 상품기준 리뷰 게시판 | board/plus_review_goods.php ***}
+{ # header }
+<div class="content">
+    <style type="text/css">
+        .plus_review_goods_list{/* width:98%; margin-left:30px; */ position:relative;}
+        .plus_review_goods_list .item{position:absolute;}
+        .plus_review_goods_list .item img{width:100%; max-width:100%; height:auto; cursor:pointer;}
+    </style>
+
+    <div class="board_zone_sec">
+        <div class="board_zone_tit">
+            <h2>{=__('상품기준 리뷰')}</h2>
+        </div>
+        <div class="board_zone_cont">
+            <div class="board_zone_list">
+                <div class="board_list_plus_review">
+
+                    <ul class="plus_review_goods_list">
+                        <!--{@data.list}-->
+                        <li class="item" data-goodsno="{.goodsNo}">
+                            <div class="plus_review_cont">
+                                <div class="board_img">
+                                    <img src="{=.goodsImageSrc}" class="js_pr_btn_link_goods">
+                                </div>
+                                <div class="plus_review_info_cont">
+                                    <div class="board_tit">
+                                        <a href="javascript:void(0);" class="js_pr_btn_link_goods">
+                                            <strong>{=.goodsNm}</strong>
+                                        </a>
+                                    </div>
+                                    <div class="board_review_list">
+                                        <ul>
+                                            <!--{ @ .article}-->
+                                            <li><span <!--{ ? ..isNew == 'y' }-->class="new"<!--{/}-->>{..contents}</span></li>
+                                            <!--{/}-->
+                                        </ul>
+                                    </div>
+                                    <div class="board_review_num">
+                                        <em>{=__('평가')} <strong>{.avgGoodsPt}</strong> {=__('리뷰')} <strong>{.countArticle}</strong></em>
+                                    </div>
+                                </div>
+                                <!-- //plus_review_info_cont -->
+                            </div>
+                            <!-- //plus_review_cont -->
+                        </li>
+                        <!--{/}-->
+                    </ul>
+                </div>
+                <!-- //board_list_plus_review -->
+
+                {=data.pagination}
+
+            </div>
+            <!-- //board_zone_list -->
+        </div>
+        <!-- //board_zone_cont -->
+
+    </div>
+    <!-- //board_zone_sec -->
+
+
+</div>
+<!-- //content -->
+
+{ # footer }
+<script>
+    $(document).ready(new function () {
+        $('.plus_review_goods_list').pinterest_grid({
+            no_columns: 4,
+            padding_x: 20,
+            padding_y: 20,
+            margin_bottom: $('.plus_review_goods_list .item').length * 5,
+            single_column_breakpoint: 0
+        });
+
+        $('.js_pr_btn_link_goods').bind('click', function () {
+            var goodsno = $(this).closest('.item').data('goodsno');
+            window.open('../goods/goods_view.php?goodsNo=' + goodsno);
+        })
+
+    });
+</script>

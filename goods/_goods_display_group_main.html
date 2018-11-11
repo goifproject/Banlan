@@ -1,0 +1,13 @@
+{*** [위젯] 기획전 그룹 상품 출력 | goods/_goods_display_group_main.php ***}
+
+<!--{ @ groupData }-->
+    <!--{ ? .index_ == 0 }-->
+        <!-- 기획전 일반형 상품 노출 -->
+        {=includeWidget('goods/_goods_display_main.html','sno', sno, 'groupSno',.sno, 'firstGroup', 'y')}
+        <!-- 기획전 일반형 상품 노출 -->
+    <!--{ : }-->
+        <!-- 기획전 일반형 상품 노출 -->
+        {=includeWidget('goods/_goods_display_main.html','sno', sno, 'groupSno',.sno)}
+        <!-- 기획전 일반형 상품 노출 -->
+    <!--{ / }-->
+<!--{/}-->

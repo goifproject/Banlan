@@ -1,0 +1,68 @@
+{*** 상단 고정 레이어 팝업창 | main/html.php?htmid=popup/top.htm ***}
+<style>
+    #{=popupCode} {
+        width: 100%;
+    }
+    #{=popupCode} .pc_top_banner {
+        width: {=data.popupSizeW}{=data.sizeTypeW};
+        height: {=data.popupSizeH}{=data.sizeTypeH};
+        margin-top: {=data.popupPositionT}px;
+        margin-left: {=data.popupPositionL}px;
+        background: {=data.popupBgColor};
+		overflow-x:hidden;
+    }
+    <!--{ ? data.contentImgFl == 'y'}-->
+    #{=popupCode} .pc_top_banner_content img {
+        max-width:{=data.popupSizeW}{=data.sizeTypeW};
+    }
+    <!--{ / }-->
+
+</style>
+<div class="pc_top_banner">
+    <div class="pc_top_banner_in">
+        <div class="pc_top_banner_content">
+            {=viewPopupContent}
+        </div>
+        <div class="pc_top_banner_ctrl">
+            <a href="#test_banner_close" class="pc_top_banner_close" onclick="gd_hide_top_popup('2','{=popupCode}');">
+                <img src="../img/common/layer/btn_layer_close.png" alt="">
+            </a>
+            <!--{ ? todayUnSee.todayUnSeeFl == 'y' }-->
+            <a href="#test_banner_today" class="pc_top_banner_today">
+                <label><input type="checkbox" id="todayUnSee_{=popupCode}" class="checkbox" onClick="gd_hide_top_popup('1','{=popupCode}', this);"> {=__('오늘 하루 보이지 않음')}</label>
+            </a>
+            <!--{ / }-->
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    <!--
+    $(function() {
+        <!--{ ? data.sizeTypeH == '%' }-->
+        var percentHeight = $(window).height() * (Number('{=data.popupSizeH}') / 100);
+        $('#{=popupCode} .pc_top_banner').css('height', percentHeight + 'px');
+        <!--{ / }-->
+        var topHeight = $('.top_area').height();
+        var height = $('#{=popupCode}').height();
+        if (height > topHeight) $('.top_area').height(height + 'px');
+
+        if ($('#scroll_left').length > 0) {
+            var sLeftTop = Number($('#scroll_left').css('top').replace('px', ''));
+            if (sLeftHeight <= 0) sLeftHeight = sLeftTop;
+            if (height > topHeight) sLeftTotalHeight = height + sLeftHeight;
+
+            var sLeftRealTop = (sLeftTotalHeight - $(window).scrollTop()) < sLeftHeight ? sLeftHeight : sLeftTotalHeight - $(window).scrollTop();
+            $('#scroll_left').css('top', sLeftRealTop + 'px');
+        }
+        if ($('#scroll_right').length > 0) {
+            var sRightTop = Number($('#scroll_right').css('top').replace('px', ''));
+            if (sRightHeight <= 0) sRightHeight = sRightTop;
+            if (height > topHeight) sRightTotalHeight = height + sRightHeight;
+
+            var sRightRealTop = (sRightTotalHeight - $(window).scrollTop()) < sRightHeight ? sRightHeight : sRightTotalHeight - $(window).scrollTop();
+            $('#scroll_right').css('top', sRightRealTop + 'px');
+        }
+    });
+    //-->
+</script>

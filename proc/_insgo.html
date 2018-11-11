@@ -1,0 +1,196 @@
+{*** 인스타그램 | share/insgo_widget.php ***}
+<script src="../js/slider/slick/slick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    var insgoData{sno} = $.parseJSON('{=insgoData}');
+    var widthCountSize{sno} = 0;
+    var borderSize{sno} = 0;
+    var speed{sno} = 0;
+    var size{sno} = 0;
+
+    $(function(){
+        if (typeof insgoData{sno}.thumbnails == 'undefined') return false;
+        if(insgoData{sno}.displayType == null) return false;
+        if (insgoData{sno}.data.widgetThumbnailSize == 'auto') {
+            if (insgoData{sno}.displayType == 'grid') {
+                widthCountSize{sno} = (insgoData{sno}.data.widgetWidthCount * insgoData{sno}.data.widgetImageMargin) + Number(insgoData{sno}.data.widgetImageMargin);
+                borderSize{sno} = (insgoData{sno}.data.widgetThumbnailBorder == 'y' ? insgoData{sno}.data.widgetWidthCount * 2 : 0);
+                size{sno} = Math.floor(($('.inso_widget_area_{sno}').width() - widthCountSize{sno} - borderSize{sno}) / insgoData{sno}.data.widgetWidthCount);
+            } else {
+                size{sno} = 150;
+            }
+        } else {
+            size{sno} = Number(insgoData{sno}.data.widgetThumbnailSizePx);
+        }
+
+        var imageType{sno} = getImageSize(size{sno});
+        //이미지 사이즈
+        var imageStyle{sno} = 'width:' + size{sno} + 'px; height:' + size{sno} + 'px;';
+        //이미지 테두리
+        imageStyle{sno} += (insgoData{sno}.data.widgetThumbnailBorder == 'y' ? 'border:1px solid #ACACAC;' : 'border:none;');
+        var marginLeft{sno} = (insgoData{sno}.data.widgetImageMargin > 0 && insgoData{sno}.displayType == 'grid' ? 'margin-left:' + insgoData{sno}.data.widgetImageMargin + 'px;' : 'margin-left:0;');
+        var marginTop{sno} = (insgoData{sno}.data.widgetImageMargin > 0 && insgoData{sno}.displayType == 'grid' ? 'margin-top:' + insgoData{sno}.data.widgetImageMargin + 'px;' : 'margin-top:0;');
+
+        var insgoWidgetHtml{sno} = '';
+        $.each(insgoData{sno}.thumbnails, function(index, thumb){
+            var imageTag{sno} = '<a href="' + thumb.viewUrl + '" target="_blank"><img src="' + thumb.image[imageType{sno}]['url'] + '" style="cursor:pointer; ' + imageStyle{sno} + marginLeft{sno} + marginTop{sno} + '" /></a>';
+            if (insgoData{sno}.displayType == 'grid' && index % insgoData{sno}.data.widgetWidthCount == (insgoData{sno}.data.widgetWidthCount - 1)) imageTag{sno} += '<br />';
+            insgoWidgetHtml{sno} += imageTag{sno};
+        });
+        $('.inso_widget_data_{sno}').append(insgoWidgetHtml{sno});
+
+        if (insgoData{sno}.data.widgetOverEffect != 'n') {
+            $('.inso_widget_data_{sno} img').hover(
+                    function(){
+                        var idx = $('.inso_widget_data_{sno} img').index(this);
+                        if (insgoData{sno}.data.widgetOverEffect == 'blurPoint') {
+                            $('.inso_widget_data_{sno} img').eq(idx).stop().fadeTo(50, 0.3);
+                        } else if (insgoData{sno}.data.widgetOverEffect == 'blurException') {
+                            $('.inso_widget_data_{sno} img').not(':eq(' + idx + ')').stop().fadeTo(50, 0.3);
+                        }
+                    },
+                    function(){
+                        var idx = $('.inso_widget_data_{sno} img').index(this);
+                        if (insgoData{sno}.data.widgetOverEffect == 'blurPoint') {
+                            $('.inso_widget_data_{sno} img').eq(idx).stop().fadeTo(50, 1);
+                        } else if (insgoData{sno}.data.widgetOverEffect == 'blurException') {
+                            $('.inso_widget_data_{sno} img').not(':eq(' + idx + ')').stop().fadeTo(50, 1);
+                        }
+                    }
+            );
+        }
+
+        if(insgoData{sno}.data.widgetBackgroundColor) {
+            $(".inso_widget_data_{sno}").attr("style", "background-color:" + insgoData{sno}.data.widgetBackgroundColor + ";");
+        }
+
+        switch (insgoData{sno}.displayType) {
+        case 'grid':
+            if (insgoData{sno}.data.widgetImageMargin > 0) {
+                $('.inso_widget_area_{sno}, .inso_widget_data_{sno}').css('padding-bottom', insgoData{sno}.data.widgetImageMargin + 'px');
+            }
+            break;
+        case 'scroll':
+        case 'slide':
+            switch (insgoData{sno}.data.widgetScrollSpeed) {
+            case 'fast':
+                speed = 1000;
+                break;
+            case 'normal':
+                speed = 2000;
+                break;
+            case 'slow':
+                speed = 3000;
+                break;
+            }
+            var setting{sno} = {
+                draggable : false,
+                infinite: true,
+                autoplaySpeed : speed,
+                speed: (insgoData{sno}.displayType == 'scroll') ? speed : (insgoData{sno}.data.widgetScrollTime * 1000),
+                slidesToShow: (insgoData{sno}.displayType == 'scroll') ? Math.floor((insgoData{sno}.data.widgetWidth > size{sno} ? insgoData{sno}.data.widgetWidth : size{sno}) / (size{sno} + borderSize{sno})) : 1,
+                slidesToScroll: 1
+        };
+
+            if (insgoData{sno}.displayType == 'scroll') {
+                $('.inso_widget_area_{sno}, .inso_widget_data_{sno}').css({'width': (insgoData{sno}.data.widgetWidth > size{sno}) ? insgoData{sno}.data.widgetWidth : size{sno} + 'px'});
+
+                if (insgoData{sno}.data.widgetAutoScroll == 'auto') {
+                    setting{sno}['autoplay'] = true;
+                    setting{sno}['arrows'] = false;
+                    setting{sno}['prevArrow'] = '';
+                    setting{sno}['nextArrow'] = '';
+                } else {
+                    setting{sno}['false'] = true;
+                    setting{sno}['arrows'] = true;
+                    var insgoMove = '';
+                    $('.inso_widget_data_{sno}').on('mouseenter', '.slick-prev, .slick-next', function(){
+                        var arrow = $(this).hasClass('slick-prev') ? 'slickPrev' : 'slickNext';
+                        var insgoMoveFunc = function(){
+                            $('.inso_widget_data_{sno}').slick(arrow);
+                        };
+                        insgoMove = setInterval(insgoMoveFunc, speed);
+                        insgoMoveFunc();
+                    });
+                    $('.inso_widget_data_{sno}').on('mouseleave', '.slick-prev, .slick-next', function(){
+                        clearInterval(insgoMove);
+                    });
+                }
+            } else {
+                var areaWidth = (insgoData{sno}.data.widgetThumbnailBorder == 'y') ? size{sno} + 2 : size{sno};
+                $('.inso_widget_area_{sno}').css({'width': areaWidth + 'px'});
+                $('.inso_widget_data_{sno}').css({'width': areaWidth + 'px'});
+
+                setting{sno}['autoplay'] = true;
+                setting{sno}['arrow'] = false;
+                setting{sno}['prevArrow'] = '';
+                setting{sno}['nextArrow'] = '';
+                if (insgoData{sno}.data.widgetEffect == 'fade') {
+                    setting{sno}['fade'] = true;
+                }
+            }
+
+            $('.inso_widget_data_{sno}').slick(setting{sno});
+            break;
+        }
+    });
+
+    function getImageSize(size) {
+        var type = '';
+        if (size <= 150) {
+            type = 'thumbnail';
+        } else if (size <= 320) {
+            type = 'low_resolution';
+        } else {
+            type = 'standard_resolution';
+        }
+
+        return type;
+    }
+</script>
+<style>
+    .inso_widget_area_{sno} {
+        width:100%;
+    }
+    .inso_widget_data_{sno}  {
+        margin: 0 auto;
+        overflow:hidden;
+    }
+
+    .inso_widget_data_{sno} .slick-slide img {
+        position:static !important;
+        top:0px  !important;
+    }
+    .inso_widget_data_{sno} .slick-prev , .inso_widget_data_{sno} .slick-next {
+        font-size: 0;
+        line-height: 0;
+        position: absolute;
+        top: 45%;
+        display: block;
+        width: 27px;
+        height: 44px;
+        padding: 0;
+        -webkit-transform: translate(0, -45%);
+        -ms-transform: translate(0, -45%);
+        transform: translate(0, -45%);
+        cursor: pointer;
+        z-index:10;
+    }
+
+    .inso_widget_data_{sno} .slick-prev {
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23{=str_replace('#', '', widgetSideButtonColor)}'%2F%3E%3C%2Fsvg%3E");
+        background-repeat:no-repeat;
+        left: 10px;
+        right: auto;
+        background:ffffff\0/IE8;
+    }
+    .inso_widget_data_{sno} .slick-next {
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23{=str_replace('#', '', widgetSideButtonColor)}'%2F%3E%3C%2Fsvg%3E");
+        background-repeat:no-repeat;
+        right: 10px;
+        left: auto;
+        background:ffffff\0/IE8;
+    }
+</style>
+<div class="inso_widget_area_{sno}">
+    <div class="inso_widget_data_{sno} slider-wrap"></div>
+</div>

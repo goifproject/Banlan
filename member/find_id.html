@@ -1,0 +1,98 @@
+{*** 비밀번호 찾기 | member/find_password.php ***}
+{ # header }
+<div class="content_box">
+	<div class="member_wrap">
+		<div class="member_tit">
+			<h2>{=__('아이디찾기')}</h2>
+		</div>
+		<!-- //member_tit -->
+		<div class="member_cont">
+			<form id="formFindId" method="post" action="../member/member_ps.php">
+				<div class="find_id_box">
+					<div class="find_id_sec">
+						<h3>{=__('회원 아이디찾기')}</h3>
+						<div class="login_input">
+							<div>
+								<input type="text" id="userName" name="userName" placeholder="{=__('이름')}">
+								<input type="text" id="userEmail" name="userEmail" placeholder="{=__('가입메일주소')}">
+							</div>
+							<button type="submit" class="btn_member_id">{=__('아이디 찾기')}</button>
+						</div>
+						<p class="dn js_caution_msg1">{=__('일치하는 회원정보가 없습니다. 다시 입력해 주세요.')}</p>
+					</div>
+					<!-- //find_id_sec -->
+					<div class="btn_member_sec">
+						<ul>
+							<li><button class="btn_member_white js_btn_find_password">{=__('비밀번호 찾기')}</button></li>
+							<li><button class="btn_comfirm js_btn_login">{=__('로그인하기')}</button></li>
+						</ul>
+					</div>
+					<!-- //btn_member_sec -->
+				</div>
+				<!-- //find_id_box -->
+			</form>
+		</div>
+		<!-- //member_cont -->
+	</div>
+	<!-- //member_wrap -->
+</div>
+<!-- //content_box -->
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('input').keyup(function () {
+			$('.js_caution_msg1', 'form').addClass('dn');
+		});
+		$('.js_btn_find_password', 'form').click(function (e) {
+			location.href = '../member/find_password.php';
+			e.preventDefault();
+		});
+		$('.js_btn_login', 'form').click(function (e) {
+			location.href = '../member/login.php';
+			e.preventDefault();
+		});
+
+		$('#formFindId').validate({
+			dialog: false,
+			rules: {
+				userName: {
+					required: true
+				},
+				userEmail: {
+					required: true,
+					email: true
+				}
+			},
+			messages: {
+				userName: {
+					required: "{=__('이름을 입력해주세요.')}"
+				},
+				userEmail: {
+					required: "{=__('이메일을 입력해주세요.')}",
+					email: "{=__('메일 형식이 틀렸습니다.')}"
+				}
+			}, submitHandler: function (form) {
+				var params = $(form).serializeArray();
+				params.push({name: "mode", value: "findId"});
+				$.post('../member/find_ps.php', params).done(function (data, textStatus, jqXHR) {
+					if (data.result) {
+						var compiled = _.template($('#templateFindIdResult').html());
+						var templateData = {memberId: data.memberId, userName: $('#userName').val()};
+						$('.find_id_sec').html(compiled(templateData));
+					} else {
+						$(form).find('.js_caution_msg1').removeClass('dn').text(data.message);
+					}
+				});
+			}, invalidHandler: function (form, validator) {
+				var errors = validator.numberOfInvalids();
+				if (errors) {
+					$(form.target).find('.js_caution_msg1').removeClass('dn').text(validator.errorList[0].message);
+					validator.errorList[0].element.focus();
+				}
+			}
+		});
+	});
+</script>
+<script type="text/template" id="templateFindIdResult">
+	<div class="find_complete_box"><p><%=userName%> {=__('회원님의 아이디는 %s 입니다', '<br><strong>'+'<%=memberId%>'+ '</strong>')}</p></div>
+</script>
+{ # footer }

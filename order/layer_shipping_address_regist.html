@@ -1,0 +1,217 @@
+{*** 배송지관리 등록/수정 | order/layer_shipping_address_regist.php ***}
+
+<div class="layer_wrap_cont">
+    <form name="frmDeliveryAddressRegist" id="frmDeliveryAddressRegist" action="../order/layer_shipping_ps.php" method="post">
+        <input type="hidden" name="mode" value="{mode}" />
+        <input type="hidden" name="sno" value="{data.sno}" />
+        <input type="hidden" name="shippingNo" value="{shippingNo}" />
+        <div class="ly_tit">
+            <h4>{=__('나의 배송지 관리')}</h4>
+        </div>
+        <div class="ly_cont">
+            <div class="scroll_box">
+                <h5>{=__('배송지 등록')}</h5>
+                <div class="left_table_type">
+                    <table>
+                        <colgroup>
+                            <col style="width:20%;">
+                            <col style="width:80%;">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th scope="row"><span class="important">{=__('배송지 이름')}</span></th>
+                            <td><input type="text" name="shippingTitle" value="{data.shippingTitle}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><span class="important">{=__('받으실 분')}</span></th>
+                            <td><input type="text" name="shippingName" maxlength="20" value="{data.shippingName}"></td>
+                        </tr>
+                        <!--{ ? gGlobal.isFront }-->
+                        <tr>
+                            <th scope="row"><span>{=__('국가')}</span></th>
+                            <td>{=gd_select_box('shippingCountryCode', 'shippingCountryCode', countryAddress, null, data.shippingCountryCode, __('=선택해주세요='), null, 'chosen-select')}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><span>{=__('도시')}</span></th>
+                            <td><input type="text" name="shippingCity" value="{data.shippingCity}" maxlength="20" /></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><span>{=__('주/지방/지역')}</span></th>
+                            <td><input type="text" name="shippingState" value="{data.shippingState}" maxlength="20" /></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><span>{=__('주소')}1</span></th>
+                            <td><input type="text" name="shippingAddress" value="{data.shippingAddress}" /></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><span>{=__('주소')}2</span></th>
+                            <td><input type="text" name="shippingAddressSub" value="{data.shippingAddressSub}" /></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><span>{=__('우편번호')}</span></th>
+                            <td><input type="text" name="shippingZonecode" value="{data.shippingZonecode}" /></td>
+                        </tr>
+                        <!--{ : }-->
+                        <tr>
+                            <th scope="row"><span class="important">{=__('받으실 곳')}</span></th>
+                            <td class="member_address">
+                                <div class="address_postcode">
+                                    <input type="text" name="shippingZonecode" value="{data.shippingZonecode}" readonly="readonly"> <button type="button" onclick="gd_postcode_search('shippingZonecode', 'shippingAddress', 'shippingZipcode');" class="btn_post_search">{=__('우편번호검색')}</button>
+                                    <input type="hidden" name="shippingZipcode" value="{data.shippingZipcode}"/>
+                                </div>
+                                <div class="address_input">
+                                    <input type="text" name="shippingAddress" value="{data.shippingAddress}" readonly="readonly">
+                                    <input type="text" name="shippingAddressSub" value="{data.shippingAddressSub}">
+                                </div>
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                        <tr>
+                            <th scope="row">{=__('전화번호')}</th>
+                            <td>
+                                <!--{ ? gGlobal.isFront }-->
+                                {=gd_select_box('shippingPhonePrefixCode', 'shippingPhonePrefixCode', countryPhone, null, data.shippingPhonePrefixCode, __('국가코드'), null, 'tune select-small')}
+                                <!--{ / }-->
+                                <input type="text" id="shippingPhone" name="shippingPhone" value="{data.shippingPhone}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><span class="important">{=__('휴대폰번호')}</span></th>
+                            <td>
+                                <!--{ ? gGlobal.isFront }-->
+                                {=gd_select_box('shippingCellPhonePrefixCode', 'shippingCellPhonePrefixCode', countryPhone, null, data.shippingCellPhonePrefixCode, __('국가코드'), null, 'tune select-small')}
+                                <!--{ / }-->
+                                <input type="text" id="shippingMobile" name="shippingCellPhone" value="{data.shippingCellPhone}">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form_element">
+                    <input type="checkbox" id="defaultFl" name="defaultFl" value="y" class="checkbox" <!--{ ? data.defaultFl == 'y' }-->checked="checked" <!--{ ? data.sno|| data.defaultFlDisabled == true }-->readonly="readonly"<!--{ / }--><!--{ / }-->>
+                    <label for="defaultFl" class="check_s<!--{ ? data.defaultFl == 'y' }--> on<!--{ / }-->"><b>{=__('기본 배송지로 설정 합니다.')}</b></label>
+                </div>
+            </div>
+            <!-- //scroll_box -->
+            <div class="btn_center_box">
+                <button type="button" class="btn_ly_cancel layer_close"><strong>{=__('취소')}</strong></button>
+                <button type="submit" class="btn_ly_save"><strong>{=__('저장')}</strong></button>
+            </div>
+        </div>
+        <!-- //ly_cont -->
+        <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+    </form>
+</div>
+<!-- //layer_wrap_cont -->
+
+
+<script type="text/javascript" src="../js/jquery/jquery.serialize.object.js"></script>
+<script type="text/javascript">
+    $(function(){
+        // 우편번호 체크를 위한 알파벳+숫자+띄어쓰기 체크
+        $.validator.addMethod( "alphanumeric", function( value, element ) {
+            return this.optional( element ) || /^[a-zA-Z0-9\s]+$/i.test( value );
+        }, __("알파벳과 숫자로만 구성되어야 합니다.") );
+
+        // 폼체크
+        $('#frmDeliveryAddressRegist').validate({
+            submitHandler: function(form) {
+                var currentPage = $('.js_delivery_layer .pagination > li.active').text();
+                var params = $(form).serializeObject();
+                $.post(form.action, params, function(data){
+                    if(data.code == 200) {
+                        if (_.isFunction(goPageOnDeliveryAddress)) {
+                            goPageOnDeliveryAddress('page=' + currentPage + '&shippingNo={shippingNo}');
+
+                            // 기본배송지로 설정시 주문서 페이지의 기본배송지 데이터 재설정
+                            if ($('#defaultFl').prop('checked') === true) {
+                                var obj = $('#frmDeliveryAddressRegist');
+                                var params = {
+                                    shippingName: obj.find('input[name=shippingName]:eq(0)').val(),
+                                    shippingZonecode: obj.find('input[name=shippingZonecode]:eq(0)').val(),
+                                    shippingZipcode: obj.find('input[name=shippingZipcode]:eq(0)').val(),
+                                    shippingAddress: obj.find('input[name=shippingAddress]:eq(0)').val(),
+                                    shippingAddressSub: obj.find('input[name=shippingAddressSub]:eq(0)').val(),
+                                    shippingPhone: obj.find('input[name=shippingPhone]:eq(0)').val(),
+                                    shippingCellPhone: obj.find('input[name=shippingCellPhone]:eq(0)').val(),
+                                };
+                                <!--{ ? gGlobal.isFront }-->
+                                params['shippingCountryCode'] = obj.find('select[name=shippingCountryCode]:eq(0)').val();
+                                params['shippingCity'] = obj.find('input[name=shippingCity]:eq(0)').val();
+                                params['shippingState'] = obj.find('input[name=shippingState]:eq(0)').val();
+                                params['shippingPhonePrefixCode'] = obj.find('select[name=shippingPhonePrefixCode]:eq(0)').val();
+                                params['shippingCellPhonePrefixCode'] = obj.find('select[name=shippingCellPhonePrefixCode]:eq(0)').val();
+                                <!--{ / }-->
+
+                                // 기본배송지 체크 여부
+                                if ($('input[name=shipping]:radio').eq(0).prop('checked') === true) {
+                                    gd_set_delivery_shipping_address(params);
+                                    if (!_.isEmpty(defaultShippingAddress)) {
+                                        defaultShippingAddress = params;
+                                    }
+                                } else {
+                                    gd_set_default_shipping_address(params);
+                                }
+                            }
+                        } else {
+                            alert(data.message);
+                            location.reload();
+                        }
+                    } else {
+                        alert(data.message);
+                        $('.delivery_add_layer .close').trigger('click');
+                    }
+                });
+                return false;
+            },
+            rules: {
+                shippingTitle: 'required',
+                shippingName: 'required',
+                shippingZipcode: 'required',
+                <!--{ ? gGlobal.isFront }-->
+                shippingCountryCode: 'required',
+                shippingZonecode: {
+                    required: true,
+                    alphanumeric: true,
+                },
+                <!--{ / }-->
+                shippingAddress: 'required',
+                shippingAddressSub: 'required',
+                shippingPhone: {
+                    maxlength: 14,
+                },
+                shippingCellPhone:  {
+                    required: true,
+                    maxlength: 14,
+                },
+            },
+            messages: {
+                shippingTitle: "{=__('배송지 이름을 입력하세요')}",
+                shippingName: "{=__('받으실 분 이름을 입력하세요')}",
+                shippingZipcode: "{=__('우편번호를 입력하세요')}",
+                <!--{ ? gGlobal.isFront }-->
+                shippingCountryCode: "{=__('국가를 선택하세요.')}",
+                shippingZonecode: {
+                    required: "{=__('받으실 곳 우편번호 정보를 입력해 주세요.')}",
+                    alphanumeric: "{=__('알파벳과 숫자로만 구성되어야 합니다.')}",
+                },
+                <!--{ / }-->
+                shippingAddress: "{=__('주소를 입력하세요')}",
+                shippingAddressSub: "{=__('주소를 입력하세요')}",
+                shippingPhone: {
+                    maxlength: "{=__('전화번호는 14자리 이상 입력하실 수 없습니다.')}"
+                },
+                shippingCellPhone: {
+                    required: "{=__('휴대폰번호를 입력하세요')}",
+                    maxlength: "{=__('휴대폰번호는 14자리 이상 입력하실 수 없습니다.')}"
+                }
+            }
+        });
+
+        // 국가 선택
+        $('select[name=shippingCountryCode]').change(function(e){
+            $('select[name=shippingPhonePrefixCode]').val($('select[name=shippingCountryCode]').val()).trigger('chosen:updated');
+            $('select[name=shippingCellPhonePrefixCode]').val($('select[name=shippingCountryCode]').val()).trigger('chosen:updated');
+        });
+    });
+</script>

@@ -1,0 +1,96 @@
+{*** 타임세일 리스트 | goods/goods_list.php ***}
+{ # header }
+
+
+
+<div class="content">
+    <div class="goods_list_item">
+
+        <div class="goods_list_item_tit">
+            <h2>{displayMain.themeNm}</h2>
+        </div>
+
+        <div class="goods_pick_list">
+            <span class="pick_list_num">{=__('상품 %s개', '<strong>' + number_format(gd_isset(page->recode['total'])) + '</strong>')} </span>
+            <form name="frmList" action="">
+                <input type="hidden" name="sno" value="{sno}"/>
+                <!--{ ? groupSno}-->
+                <input type="hidden" name="groupSno" value="{groupSno}"/>
+                <!--{/}-->
+                <div class="pick_list_box">
+                    <ul class="pick_list">
+                        <li>
+                            <input type="radio" id="sort1" class="radio" name="sort" value="">
+                            <label for="sort1">{=__('추천순')}</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="sort2" class="radio" name="sort" value="orderCnt desc,g.regDt desc">
+                            <label for="sort2">{=__('판매인기순')}</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="sort3" class="radio" name="sort" value="goodsPrice asc,g.regDt desc">
+                            <label for="sort3">{=__('낮은가격순')}</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="sort4" class="radio" name="sort" value="goodsPrice desc,g.regDt desc">
+                            <label for="sort4">{=__('높은가격순')}</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="sort5" class="radio" name="sort" value="reviewCnt desc,g.regDt desc">
+                            <label for="sort5">{=__('상품평순')}</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="sort6" class="radio" name="sort" value="g.regDt desc">
+                            <label for="sort6">{=__('등록일순')}</label>
+                        </li>
+                    </ul>
+                    <div class="choice_num_view">
+                        <select class="chosen-select" name="pageNum">
+                            <!--{ @ goodsData.multiple }-->
+                            <option value="{=.value_}"  <!--{ ? pageNum == .value_ }-->selected='selected'<!--{ / }-->>{=.value_}{=__('개씩보기')}</option>
+                            <!--{ / }-->
+                        </select>
+                    </div>
+                    <!-- //choice_num_view -->
+                </div>
+                <!-- //pick_list_box -->
+            </form>
+        </div>
+        <!-- //goods_pick_list -->
+
+        <div class="goods_list">
+            <div class="goods_list_cont">
+                <!-- 상품 리스트 -->
+                { # goodsTemplate }
+                <!-- //상품 리스트 -->
+            </div>
+        </div>
+
+        <div class="pagination">
+            {page->getPage()}
+        </div>
+
+    </div>
+    <!-- //goods_list_item -->
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+
+			$('form[name=frmList] select[name=pageNum]').change(function() {
+				$('form[name=frmList]').get(0).submit();
+			});
+
+			$('form[name=frmList] input[name=sort]').click(function() {
+				$('form[name=frmList]').get(0).submit();
+			});
+
+			$(':radio[name="sort"][value="{sort}"]').prop("checked","checked")
+			$(':radio[name="sort"][value="{sort}"]').next().addClass('on');
+
+		});
+
+	</script>
+</div>
+<!-- //content -->
+
+{ # footer }

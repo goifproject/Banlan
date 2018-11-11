@@ -1,0 +1,183 @@
+{*** 상품 재입고 알림 신청 | goods/popup_goods_restock.php ***}
+{ # share_header }
+
+<form name="restock_form" id="restock_form" method="post">
+<input type="hidden" name="mode" value="save_restock" />
+<input type="hidden" name="goodsNo" value="{goodsNo}" />
+<input type="hidden" name="goodsNm" value="{goodsData['goodsNm']}" />
+<input type="hidden" name="optionName" value="{goodsData['optionName']}" />
+<input type="hidden" name="memNo" value="{memNo}" />
+
+<div id="goodsRestock">
+	<div class="layer_wrap_cont">
+		<div class="ly_tit">
+			<h4>{=__('재입고 알림 신청')}</h4>
+		</div>
+
+		<div class="ly_cont">
+			<div class="content goods_restock">
+				<div class="gs_product_cont">
+					<span>
+						<strong>{goodsData['goodsNm']}</strong>
+					</span>
+				</div>
+				<!-- //gs_product_cont -->
+
+				<!--{ ? goodsData['optionFl'] === 'y' }-->
+				<div class="gs_option_list">
+					<strong>{=__('옵션별 품절상품 리스트')}</strong>
+					<div class="scroll_box">
+						<div class="top_table_type">
+							<table>
+								<colgroup>
+									<col style="width:30px;">
+									<col>
+								</colgroup>
+								<tbody>
+									<!--{ @ goodsData['option'] }-->
+									<tr>
+										<td>
+											<span class="form_element">
+												<input type="checkbox" id="check{.sno}" name="restock_option[]" class="checkbox" value="{.sno}@|@{.optionValue}"/>
+												<label class="check_s single" for="check{.sno}">{=__('선택')}</label>
+											</span>
+										</td>
+										<td class="td_left">
+											<label for="check{.sno}">
+												<span>{.optionValueFront}</span>
+											</label>
+										</td>
+									</tr>
+									<!--{ / }-->
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="btn_center_box">
+						<button type="button" class="btn_select" id="restock_all_check">{=__('전체선택')}</button>
+						<button type="button" class="btn_select_cancel" id="restock_all_reset">{=__('전체선택해제')}</button>
+					</div>
+				</div>
+				<!-- //gs_option_list -->
+				<!--{ / }-->
+
+				<div class="gs_request_input">
+					<dl class="request_area">
+						<dt>{=__('신청자')}</dt>
+						<dd><input type="text" name="name" value="{name}" id="restock_name" required="" aria-required="true" minlength="1" maxlength="10"/></dd>
+					</dl>
+					<dl class="phone_area">
+						<dt>{=__('휴대폰')}</dt>
+						<dd><input type="text" name="cellPhone" value="{cellPhone}" id="restock_cellPhone" minlength="10" maxlength="11"/></dd>
+					</dl>
+				</div>
+				<!-- //gs_request_input -->
+
+				<div class="gs_privacy_agree">
+					<div class="form_element">
+						<div class="agree_choice_box">
+							<input type="checkbox" id="restock_private" name="restock_private">
+							<label for="restock_private" class="check_s"><strong> ({=__('필수')})</strong> {=__('개인정보 수집 및 이용에 동의합니다.')}</label>
+							<a href="../service/private.php" class="link_agree_go" target="_blank"> {=__('전체보기')}</a>
+						</div>
+						<textarea cols="30" rows="3">
+{=privateData['content']}
+						</textarea>
+						<em>{=__('해당 상품이 재입고되면 SMS를 발송해 드립니다.')} {=__('입고된 상품은 재입고 알림 신청접수 순서대로 발송됩니다.')}</em>
+					</div>
+				</div>
+				<!-- //gs_privacy_agree -->
+				<div class="btn_center_box">
+					<button type="button" class="btn_goods_restock" id="restock_submit"><strong>{=__('재입고 알림 신청하기')}</strong></button>
+				</div>
+			</div>
+			<!-- //goods_restock -->
+		</div>
+		<!-- //ly_cont -->
+	</div>
+	<a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+</div>
+<!-- //goodsRestock -->
+
+</form>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $(window).load(function(){
+        var docWidth = $('body').innerWidth();
+        var docHeight = $('body').innerHeight();
+        var borderWidth = window.outerWidth - window.innerWidth;
+        var borderHeight = window.outerHeight - window.innerHeight;
+        window.resizeTo(docWidth + borderWidth, docHeight + borderHeight + 10);
+    });
+
+    //휴대폰 숫자 체크
+    $("#restock_cellPhone").keyup(function(){
+        var thisValue = $(this).val();
+        if(thisValue !== '' && $.isNumeric(thisValue) === false){
+            alert("숫자만 입력 가능합니다.");
+            $(this).val(thisValue.replace(/[^0-9]/gi,""));
+            return;
+        }
+    });
+    //재입고 알림 신청하기
+    $("#restock_submit").click(function(){
+        $("#restock_name").val($.trim($("#restock_name").val()));
+        $("#restock_cellPhone").val($.trim($("#restock_cellPhone").val()));
+        var restock_name = $("#restock_name");
+        var restock_cellPhone = $("#restock_cellPhone");
+        var restock_private = $("#restock_private");
+
+        //옵션이 존재할 시
+        if($(".gs_option_list").length > 0){
+            if($("input[name='restock_option[]']:checkbox:checked").length < 1){
+                alert("재입고 알림을 신청할 옵션을 선택하세요.");
+                return;
+            }
+        }
+        if(restock_name.val() === ''){
+            alert("신청자명을 입력해 주세요.");
+            restock_name.focus();
+            return;
+        }
+        if(restock_name.val().length > 10){
+            alert("신청자명은 10자리 이내로 입력해 주세요.");
+            restock_name.focus();
+            return;
+        }
+        if(restock_cellPhone.val() === ''){
+            alert("휴대폰을 입력해 주세요.");
+            restock_cellPhone.focus();
+            return;
+        }
+        if(restock_cellPhone.val().length < 10 || restock_cellPhone.val().length > 11){
+            alert("휴대폰은 10자리 미만 또는 11자리를 초과할 수 없습니다.");
+            restock_cellPhone.focus();
+            return;
+        }
+        if(restock_private.prop("checked") === false){
+            alert("(필수) 개인정보 수집 및 이용 을 체크해주세요");
+            return;
+        }
+
+        $("#restock_form").attr('action', './goods_ps.php');
+        $("#restock_form").submit();
+    });
+    //전체선택
+    $("#restock_all_check").click(function(){
+        $("input[name='restock_option[]']").prop("checked", true);
+		$('.check_s.single').addClass('on');
+    });
+    //전체선택해제
+    $("#restock_all_reset").click(function(){
+        $("input[name='restock_option[]']").prop("checked", false);
+		$('.check_s').removeClass('on');
+	});
+    //닫기
+    $(".ly_close.layer_close").click(function(){
+        window.close();
+    });
+});
+</script>
+
+{ # share_footer }

@@ -1,0 +1,97 @@
+{*** 마이페이지 | mypage/index.php ***}
+{ # header }
+
+<div class="content">
+    <div class="mypage_main">
+
+        <!-- 마이페이지 회원 요약정보 -->
+        {=includeWidget('mypage/_member_summary.html')}
+        <!--// 마이페이지 회원 요약정보 -->
+
+
+        <div class="mypage_order_info">
+            <div class="mypage_zone_tit">
+                <h3>{=__('진행 중인 주문')}<span>{=__('최근 30일 내에 진행중인 주문정보입니다.')}</span></h3>
+            </div>
+            <div class="mypage_order_info_cont">
+                <ol>
+                    <li class="{eachOrderStatus.o1.active}">
+                        <b>{eachOrderStatus.o1.name}</b>
+                        <strong>{=number_format(eachOrderStatus.o1.count)}</strong>
+                    </li>
+                    <li class="{eachOrderStatus.p1.active}">
+                        <b>{eachOrderStatus.p1.name}</b>
+                        <strong>{=number_format(eachOrderStatus.p1.count)}</strong>
+                    </li>
+                    <li class="{eachOrderStatus.g1.active}">
+                        <b>{eachOrderStatus.g1.name}</b>
+                        <strong>{=number_format(eachOrderStatus.g1.count)}</strong>
+                    </li>
+                    <li class="{eachOrderStatus.d1.active}">
+                        <b>{eachOrderStatus.d1.name}</b>
+                        <strong>{=number_format(eachOrderStatus.d1.count)}</strong>
+                    </li>
+                    <li class="{eachOrderStatus.d2.active}">
+                        <b>{eachOrderStatus.d2.name}</b>
+                        <strong>{=number_format(eachOrderStatus.d2.count)}</strong>
+                    </li>
+                    <li class="{eachOrderStatus.s1.active}">
+                        <b>{eachOrderStatus.s1.name}</b>
+                        <strong>{=number_format(eachOrderStatus.s1.count)}</strong>
+                    </li>
+                </ol>
+                <div class="order_case_list">
+                    <ul>
+                        <li>
+                            <b>&bull; {=__('취소')}</b>
+                            <span>{?eachOrderStatus.c.active}<strong>{/}{=number_format(eachOrderStatus.c.count + eachOrderStatus.f.count)}{?eachOrderStatus.c.active}</strong>{/}{=__('건')}</span>
+                        </li>
+                        <li>
+                            <b>&bull; {=__('교환')}</b>
+                            <span>{?eachOrderStatus.e.active}<strong>{/}{=number_format(eachOrderStatus.e.count)}{?eachOrderStatus.e.active}</strong>{/}{=__('건')}</span>
+                        </li>
+                        <li>
+                            <b>&bull; {=__('반품')}</b>
+                            <span>{?eachOrderStatus.b.active}<strong>{/}{=number_format(eachOrderStatus.b.count)}{?eachOrderStatus.b.active}</strong>{/}{=__('건')}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- //mypage_order_info_cont -->
+        </div>
+        <!-- //mypage_order_info -->
+
+        <div class="mypage_lately_info">
+            <div class="mypage_zone_tit">
+                <h3>{=__('최근 주문 정보')}<span>{=__('최근 30일 내에 주문하신 내역입니다.')}</span></h3>
+            </div>
+
+            <div class="mypage_lately_info_cont">
+                <!-- 주문상품 리스트 -->
+                {=includeFile('mypage/_order_goods_list.html')}
+                <!--// 주문상품 리스트 -->
+            </div>
+            <!-- //mypage_lately_info_cont -->
+            <a href="../mypage/order_list.php" class="btn_board_more">+ {=__('더보기')}</a>
+        </div>
+        <!-- //mypage_lately_info -->
+
+        <div class="mypage_lately_goods">
+            <div class="mypage_zone_tit">
+                <h3>{=__('최근 본 상품')}<span>{=__('%s님께서 본 최근 상품입니다.', gMember.memNm)}</span></h3>
+            </div>
+            <div class="goods_list_cont">
+                {=includeWidget('goods/_goods_display.html')}
+            </div>
+            <!-- //goods_list_cont -->
+
+        </div>
+        <!-- //mypage_lately_goods -->
+
+    </div>
+    <!-- //mypage_main -->
+
+</div>
+<!-- //content -->
+
+{ # footer }

@@ -1,0 +1,107 @@
+{ # header }
+<!--{ ? strReqNum == clntReqNum}-->
+<script type="text/javascript">
+    function loadAction() {
+        var strResult = "{=strRetDtlCd}";		// 결과코드
+        var di = "{=dupeInfo}";			// 중복가입확인정보(DI)
+        var adultFl = "{=adultFl}";			// 중복가입확인정보(DI)
+        var strName = "{=strName}";			// 이름
+        var birthday = "{=birthday}";		// 생년월일
+        var phoneNo = "{=phoneNum}";		// 휴대폰번호
+        var phoneService = "{=strPhoneCorp}"; //통신사
+        var foreigner = "{=foreigner}";		// 내외국인정보
+        var sex = "{=sex}";		// 성별
+        var dupeExistsYn = "{=memExist}";		// 가입된 횟수
+        var callType = "{=callType}";		// 호출유형
+        var certificationType = "{=certificationType}";		// 인증유형
+        //나이정보
+        //        var checkAge = "{=checkAge}";
+        //        var limitAge = "{=limitAge}";
+        //        var age = "{age}";
+        // var under14Code = "{=$under14Code}";	// 만14세 미만 회원가입 허용상태코드
+
+        if (strResult != '00') { // 휴대폰인증 성공이 아니면
+            alert('휴대폰인증이 실패했습니다.\n\n'); //결과 메시지 출력
+            return;
+        }
+        // 휴면회원해제 인증의 경우 session에 인증 타입을 저장한다.
+        if (callType == "wakeMember") {
+            parent.window.location.href = '/member/wake.php';
+
+        } else {
+            alert("휴대폰인증이 정상처리 되었습니다."); //결과 메시지 출력
+            // 아이디/비밀번호 찾기에서 호출한 경우, parent 에 callType 엘레먼트가 있다.
+
+            if (callType == "certAdult") {
+                if (adultFl == 'y') {
+                    parent.window.location.href = "{=returnUrl}";
+                    console.log("{=returnUrl}");
+                    return false;
+                }
+            } else if (callType == "findid" || callType == "findpwd") {
+                parent.document.formAuth.action = '/member/find_password_reset.php';
+                // parent.document.formAuth.target = '';
+                parent.document.formAuth.rncheck.value = 'authCellphone';
+                parent.document.formAuth.dupeinfo.value = di;
+                parent.document.formAuth.submit();
+
+            } else if (callType == "modifymember") {
+                //회원정보 수정시 휴대폰본인인증후 인증된 휴대폰번호&정보 업데이트
+                parent.document.formJoin.rncheck.value = 'authCellphone';
+                parent.document.formJoin.dupeinfo.value = di;
+                parent.document.formJoin.memNm.value = strName;
+                if (parent.document.getElementById('cellPhone')) {
+                    parent.document.formJoin.cellPhone.value = phoneNo;
+                }
+                if (parent.document.getElementById('birthDt')) {
+                    parent.document.formJoin.birthDt.value = birthday;
+                }
+                if (parent.document.getElementById('sexFlMan') || parent.document.getElementById('sexFlWoman')) {
+                    if (sex == 'M') {
+                        parent.document.getElementById('sexFlMan').disabled = false;
+                        parent.document.getElementById('sexFlWoman').disabled = true;
+                        parent.document.getElementById('sexFlMan').click();
+                    } else {
+                        parent.document.getElementById('sexFlMan').disabled = true;
+                        parent.document.getElementById('sexFlWoman').disabled = false;
+                        parent.document.getElementById('sexFlWoman').click();
+                    }
+                }
+            }
+            else { // default 회원가입
+                //            if (dupeExistsYn == 'y') { alert("이미 가입이 되어 있습니다."); return true; } if (checkAge == 'n') { alert(limitAge +"미만은 가입하실 수 없습니다."); return; }
+
+                //   var targetWindow = (opener) ? opener : parent;
+                // alert( "휴대폰인증이 정상처리 되었습니다." ); //결과 메시지 출력
+                parent.document.formTerms.action = '/member/join.php';
+                parent.document.formTerms.target = '';
+                parent.document.formTerms.rncheck.value = 'authCellphone';
+                parent.document.formTerms.nice_nm.value = strName;
+                parent.document.formTerms.mobile.value = phoneNo;
+                parent.document.formTerms.mobileService.value = phoneService;
+                parent.document.formTerms.birthday.value = birthday;
+                parent.document.formTerms.adultFl.value = adultFl;
+                parent.document.formTerms.sex.value = sex;
+                parent.document.formTerms.dupeinfo.value = di;
+                parent.document.formTerms.foreigner.value = foreigner;
+                parent.document.formTerms.submit();
+
+
+            }
+            if (callType == "joinmembermobile") {
+                if (typeof(parent.frmMaskRemove) != 'undefined')  parent.frmMaskRemove('hpauthFrame');
+                //                else self.close();
+            } else {
+                //                self.close();
+            }
+        }
+    }
+</script>
+<!--{:}-->
+<script type="text/javascript">
+    alert("잘못된 접근입니다.");
+</script>
+<!--{/}-->
+
+<body onload="javascript:loadAction();"></body>
+</html>

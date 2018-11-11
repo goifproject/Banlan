@@ -1,0 +1,108 @@
+{*** 교환신청 레이어 | mypage/layer_order_exchange_regist.php ***}
+{ # header }
+
+<div class="content">
+    <div class="mypage_cont">
+        <form name="frmClaimRegist" id="frmClaimRegist" method="post" action="../mypage/order_ps.php">
+            <div class="mypage_zone_tit">
+                <h3>{=__('교환 신청')}</h3>
+            </div>
+
+            <div class="mypage_claim_cont">
+
+                <!-- 주문상품 리스트 -->
+                {=includeFile('mypage/_order_goods_list.html')}
+                <!--// 주문상품 리스트 -->
+
+                <!--{ ? gd_is_plus_shop(c.PLUSSHOP_CODE_USEREXCHANGE) === true }-->
+                <div class="mypage_claim_reason">
+                    <input type="hidden" name="mode" value="{mode}">
+                    <input type="hidden" name="orderNo" value="{orderNo}">
+                    <input type="hidden" name="returnUrl" value="{returnUrl}">
+                    <div class="mypage_zone_tit">
+                        <h4>{=__('교환사유')}</h4>
+                    </div>
+
+                    <div class="mypage_table_type">
+                        <table class="table_left">
+                            <colgroup>
+                                <col style="width:15%;">
+                                <col style="width:85%;">
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th scope="row"> {=__('사유')} </th>
+                                <td class="mypage_claim_select">
+                                    {=gd_select_box(null, 'userHandleReason', userHandleReason, null, null, __('선택하세요'), 'style="width:312px;"', 'chosen-select')}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{=__('메모')}</th>
+                                <td>
+                                    <textarea title="{=__('메모입력')}" name="userHandleDetailReason" cols="15" rows="5" maxlength="1000"></textarea>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <!-- //mypage_claim_reason -->
+                <!--{ / }-->
+
+            </div>
+            <!-- //mypage_claim_cont -->
+            <!--{ ? gd_is_plus_shop(c.PLUSSHOP_CODE_USEREXCHANGE) === true }-->
+            <div class="btn_center_box">
+                <a href="{returnUrl}" class="btn_claim_cancel"><em>{=__('취소')}</em></a>
+                <button type="submit" class="btn_claim_ok"><em>{=__('확인')}</em></button>
+            </div>
+            <!--{ / }-->
+        </form>
+
+    </div>
+    <!-- //mypage_cont -->
+
+</div>
+<!-- //content -->
+
+<!--{ ? gd_is_plus_shop(c.PLUSSHOP_CODE_USEREXCHANGE) === true }-->
+<script type="text/javascript" src="../js/jquery/jquery.serialize.object.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('#frmClaimRegist').validate({
+            submitHandler: function (form) {
+                if (!$('input[name*="orderGoodsNo"]:checkbox:checked').length) {
+                    alert("{=__('처리 할 상품을 선택하세요.')}");
+                    return false;
+                }
+
+                form.target = 'ifrmProcess';
+                form.submit();
+            },
+            rules: {
+                userHandleReason: 'required',
+            },
+            messages: {
+                userHandleReason: {
+                    required: "{=__('사유를 선택하세요.')}"
+                },
+            }
+        });
+
+        // 신청수량 검증
+        $('#frmClaimRegist input[name*=claimGoodsCnt]').each(function() {
+            $(this).rules('add', {
+                required: true,
+                min : 1,
+                messages: {
+                    required: "{=__('수량을 입력해주세요.')}",
+                    min: "{=__('수량은 1개 이상 입력해주세요.')}",
+                }
+            });
+        });
+    });
+
+</script>
+<!--{ / }-->
+{ # footer }

@@ -1,0 +1,15 @@
+﻿skin_name : 퓨어
+skin_code : pure
+skin_version : 2.0
+skin_date : 2018-10-17
+skin_license : NHN 고도：
+skin_device : front
+skin_country : kr_global
+apply_solution : 고도몰5
+author : NHN 고도：
+company : NHN 고도：
+homepage : http
+notice1 : 샘플 이미지 크기는 130pixel X 123pixel, 이미지명은 code 명과 동일 하게, 이미지 형식은 jpg.
+notice2 : NHN 고도：무료스킨의 저작권은 NHN 고도：에 있으며, 구매한 솔루션내에서만 복제가 가능합니다. 무단 복제시 법적인 책임을 질 수 있습니다.
+notice3 : 유료 스킨의 저작권은 해당 업체에 있으며, 무단 복제시 해당업체와 상의를 하시기 바랍니다. 그렇지 않을 경우 법적인 책임을 질 수 있습니다.
+skin_language : Korean (한국어)

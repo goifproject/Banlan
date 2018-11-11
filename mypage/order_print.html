@@ -1,0 +1,57 @@
+{*** 마이페이지 > 주문인쇄 | mypage/order_print.php ***}
+{ # share_header }
+
+<style type="text/css">
+    .order_print table{margin:auto;}
+    .order_print td, .order_print th{font-family:돋움;font-size:9pt;color:#333333;margin:auto;}
+    .order_print{padding:0px 30px 10px 30px;}
+    .order_print .panel{-webkit-box-shadow:none;box-shadow:none;border-radius:0;color:#333333;border:1px solid #888888;margin-top:15px;margin-bottom:30px;}
+    .order_print .panel_default > .panel_heading{background:#FFFFFF;border-color:#dddddd;}
+    .order_print .panel_heading,
+    .order_print .panel-body{padding:10px;}
+    .order_print .panel_heading{padding:10px 15px;border-bottom:1px solid transparent;border-top-right-radius:3px;border-top-left-radius:3px;}
+    .order_print p{margin:0 0 8.5px;}
+    .order_print ul, .order_print ol{margin-top:0;margin-bottom:8.5px;}
+    .order_print li{list-style:decimal;}
+    .order_print ol{display:block;list-style-type:decimal;-webkit-margin-before:1em;-webkit-margin-after:1em;-webkit-margin-start:0px;-webkit-margin-end:0px;-webkit-padding-start:40px;}
+    .order_print .page_header{margin-top:24px;margin-bottom:25px;width:100%;border-bottom:2px solid #888888;padding-bottom:10px;}
+    .order_print .page_header h3{font-size:22px;color:#222222;font-weight:bold;}
+    .order_print .page_header .btn_group{float:right;margin-top:-40px;}
+    @media print{
+        .hidden_print{display:none !important;}
+    }
+    .btn_print{width:149px;height:44px;line-height:42px;font-weight:bold;border:1px solid #a3a3a3;color:#666;display:inline-block;*display:inline;*zoom:1;padding:0 5px;text-align:center;vertical-align:top;   box-sizing:border-box;cursor:pointer;font-size:12px;}
+</style>
+
+
+<div class="order_print">
+
+    <div class="page_header">
+        <h3>{popupTitle}</h3>
+        <div class="btn_group">
+            <button class="btn_print hidden_print">{=__('인쇄하기')}</button>
+        </div>
+    </div>
+
+    <div>{ # orderPrintTemplate }</div>
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).on('click', '.btn_print', function (e) {
+    window.print();
+    });
+
+    $(document).ready(function(){
+        var centerHeight = $("#centerTd").height();
+        console.log(centerHeight);
+        $("#providerT").height(centerHeight);
+        $("#buyerT").height(centerHeight);
+
+    });
+</script>
+
+{ # share_footer }
+
+

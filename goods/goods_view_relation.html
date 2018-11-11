@@ -1,0 +1,15 @@
+{*** 관련상품 | goods/goods_view_relation.php ***}
+<!--{ ? relation.relationFl != 'n' }-->
+<div class="detail_explain_box">
+    <h3>{=__('관련 상품')}</h3>
+    <div class="goods_list">
+        <div class="goods_list_cont">
+            <!-- 추천상품 -->
+            <!--{ ? widgetGoodsList}-->
+            {=includeWidget('goods/_goods_display.html')}
+            <!--{ / }-->
+            <!-- 추천상품 -->
+        </div>
+    </div>
+</div>
+<!--{ / }-->

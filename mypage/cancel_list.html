@@ -1,0 +1,131 @@
+{*** 마이페이지 > 취소/반품/교환 내역 | mypage/cancel_list.php ***}
+{ # header }
+
+<div class="content">
+    <div class="mypage_cont">
+
+        <!-- 마이페이지 회원 요약정보 -->
+        {=includeWidget('mypage/_member_summary.html')}
+        <!-- 마이페이지 회원 요약정보 -->
+
+        <div class="mypage_lately_info">
+            <div class="mypage_zone_tit">
+                <h3>{=__('주문취소/반품/교환')}</h3>
+            </div>
+
+            <div class="date_check_box">
+                <form method="get" name="frmDateSearch">
+                    <input type="hidden" name="mode" value="{mode}">
+                    <h3> {=__('조회기간')} </h3>
+                    <div class="date_check_list" data-target-name="wDate[]">
+                        <button type="button" data-value="0">{=__('오늘')}</button>
+                        <button type="button" data-value="7">7{=__('일')}</button>
+                        <button type="button" data-value="15">15{=__('일')}</button>
+                        <button type="button" data-value="30">1{=__('개월')}</button>
+                        <button type="button" data-value="90">3{=__('개월')}</button>
+                        <button type="button" data-value="365">1{=__('년')}</button>
+                    </div>
+                    <!-- //date_check_list -->
+                    <div class="date_check_calendar">
+                        <input type="text" id="picker2" name="wDate[]" class="anniversary js_datepicker" value="{wDate[0]}"> ~ <input type="text" name="wDate[]" class="anniversary js_datepicker" value="{wDate[1]}">
+                    </div>
+                    <!-- //date_check_calendar -->
+
+                    <button type="submit" class="btn_date_check"><em>{=__('조회')}</em></button>
+                </form>
+
+            </div>
+            <!-- //date_check_box -->
+
+            <div class="mypage_lately_info_cont">
+                <!--{ ? gd_is_plus_shop(c.PLUSSHOP_CODE_USEREXCHANGE) === true && userHandleFl === true }-->
+                <div class="mypage_breakdown_tab">
+                    <ul>
+                        <li <!--{ ? empty(mode) === true || mode === 'cancelRequest' }-->class="on"<!--{ / }-->><a href="./cancel_list.php?mode=cancelRequest"><span>{=__('취소/반품/교환 신청 내역')}</span></a></li>
+                        <li <!--{ ? mode === 'cancel' }-->class="on"<!--{ / }-->><a href="./cancel_list.php?mode=cancel"><span>{=__('취소/반품/교환 처리 현황')}</span></a></li>
+                    </ul>
+                </div>
+                <!-- //mypage_breakdown_tab -->
+                <!--{ / }-->
+
+                <span class="pick_list_num">
+                    <!--{ ? wData[0] && wDate[1] }-->
+                    <b><span>{=gd_date_format('Y.m.d', wDate[0])}</span> ~ <span>{=gd_date_format('Y.m.d', wDate[1])}</span></b> {=__('까지의')}
+                    <!--{ / }-->
+                    {=__('취소/반품/교환 내역')} {=__('총')} <strong>{=number_format(total)}</strong> {=__('건')}
+                </span>
+
+                <!-- 주문상품 리스트 -->
+                {=includeFile('mypage/_order_goods_list.html')}
+                <!--// 주문상품 리스트 -->
+
+            </div>
+            <!-- //mypage_lately_info_cont -->
+        </div>
+        <!-- //mypage_lately_info -->
+
+        <div class="pagination">
+            {page->getPage()}
+        </div>
+        <!-- //pagination -->
+
+    </div>
+    <!-- //mypage_cont -->
+
+</div>
+<!-- //content -->
+
+<script type="text/javascript">
+    $(function(){
+        // 인풋박스 선택 이벤트
+        if ($('.js_datepicker').length) {
+            var today = new Date();
+            var minDate = new Date();
+            minDate.setDate(today.getDate() - 365);
+            minDate = new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate());
+
+            $('.js_datepicker').datetimepicker({
+                locale: '{=gGlobal.locale}',
+                format: 'YYYY-MM-DD',
+                dayViewHeaderFormat: 'YYYY MM',
+                viewMode: 'days',
+                ignoreReadonly: true,
+                debug: false,
+                keepOpen: false,
+                maxDate: today,
+                minDate: minDate
+            });
+
+        }
+
+        // 기간버튼 선택 이벤트
+        if ($('.date_check_list').length) {
+            $('.date_check_list button').click(function (e) {
+                $startDate = $endDate = '';
+                $period = $(this).data('value');
+                $elements = $('input[name="' + $(this).closest('.date_check_list').data('target-name') + '"]');
+                $format = $($elements[0]).data('DateTimePicker').format();
+                if ($period >= 0) {
+                    $startDate = moment().hours(0).minutes(0).seconds(0).subtract($period, 'days').format($format);
+                    $endDate = moment().hours(0).minutes(0).seconds(0).format($format);
+                }
+                $($elements[0]).val($startDate);
+                $($elements[1]).val($endDate);
+                $('.date_check_list button').removeClass('on');
+                $(this).addClass('on');
+            });
+
+            // 선택된 버튼에 따른 값 초기화
+            $elements = $('input[name*=\'' + $('.date_check_list').data('target-name') + '\']');
+            if ($elements.length && $elements.val() != '') {
+                $interval = moment($($elements[1]).val()).diff(moment($($elements[0]).val()), 'days');
+                $('.date_check_list').find('button[data-value="' + $interval + '"]').trigger('click');
+            } else {
+                $('.date_check_list').find('button[data-value="-1"]').trigger('click');
+            }
+        }
+    });
+</script>
+
+
+{ # footer}

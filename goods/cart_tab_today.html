@@ -1,0 +1,80 @@
+{*** 쇼핑 카트탭 - 오늘 본 상품 | goods/cart_tab_today.php ***}
+<div id="cartTabToday" class="shop_view_tab cart_tab_cont">
+    <button type="button" class="slick_prev"><img src="../img/icon/shop_cart/btn_slide_prev.png" alt="{=__('이전')}" /></button>
+    <div class="slider_wrap shop_view_list chart_view_horizontal"> <!-- //slick : chart_view_horizontal -->
+        <ul>
+            <!--{ @ dataTodayGoods(5) }-->
+            <!--{ @ .value_ }-->
+            <li>
+                <div class="view_tab_cont">
+                    <div class="prdt_photo_box">
+                        <a href="#" class="today_view_photo" data-goods-no="{..goodsNo}">{..goodsImage}</a>
+                        <a href="#del" class="btn_del" data-goods-no="{..goodsNo}"><span><img src="../img/icon/shop_cart/ico_cart_del.png" title="{=__('삭제')}" alt="{=__('삭제')}" /></span></a>
+                    </div>
+                    <!-- //prdt_photo_box -->
+                    <div class="prdt_info_box">
+                        <a href="../goods/goods_view.php?goodsNo={..goodsNo}">
+                            <span class="prdt_tit">{=gd_html_cut(gd_remove_tag(..goodsNm), 30, '..')}</span>
+                            <!--{ ? ..goodsPriceString !='' }-->
+                            <span class="prdt_price">{..goodsPriceString}</span>
+                            <!--{ : }-->
+                            <span class="prdt_price"><strong>{=gd_global_currency_symbol()}{=gd_global_money_format(..goodsPrice)}</strong>{=gd_global_currency_string()}</span>
+                            <!--{ / }-->
+                        </a>
+                    </div>
+                    <!-- //prdt_info_box -->
+                </div>
+                <!-- //view_tab_cont -->
+            </li>
+            <!--{ / }-->
+            <!--{ / }-->
+        </ul>
+    </div>
+    <!-- //shop_view_list -->
+    <button type="button" class="slick_next"><img src="../img/icon/shop_cart/btn_slide_next.png" alt="{=__('다음')}"/></button>
+</div>
+<!-- //shop_view_tab -->
+<!-- //cart_tab_box -->
+<!--{ ? is_array(gd_isset(headerScript)) }-->
+<!-- Add script : start -->
+<!--{ @ headerScript }-->
+<script type="text/javascript" src="{=.value_}"></script>
+<!--{ / }-->
+<!-- Add script : end -->
+<!--{ / }-->
+<script type="text/javascript">
+    <!--
+    $(document).ready(function() {
+        /* slick */
+        $('.chart_view_horizontal ul').slick({
+            draggable : false,
+            autoplay: false,
+            infinite: true,
+            slidesToShow: 6,
+            slidesToScroll: 1,
+            prevArrow: $('.slick_prev'),
+            nextArrow: $('.slick_next')
+        });
+
+        $(".prdt_photo_box .today_view_photo img").on('click', function(e) {
+            var goodsNo = $(this).parent().data('goods-no');
+            document.location.href = "../goods/goods_view.php?goodsNo=" + goodsNo;
+        });
+
+        $("#cartTabToday .prdt_photo_box .btn_del").on('click', function(e) {
+            $.post('../goods/goods_ps.php', {
+                'mode': 'delete_today_goods',
+                'goodsNo': $(this).data('goods-no')
+            }, function (data, status) {
+                // 값이 없는 경우 성공
+                if (status == 'success' && data == '') {
+                    gd_cart_tab_action('#cart_tab_today');
+                }
+                else {
+                    console.log('request fail. ajax status (' + status + ')');
+                }
+            });
+        });
+    });
+    //-->
+</script>

@@ -1,0 +1,140 @@
+{*** 채팅창 | goods/chat.php ***}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<style>
+  .chatBox{
+	position: relative;
+	margin: 1%;
+	padding: 10px 10px;
+	border: 1px solid #ececec;
+	border-radius: 1px;
+  max-height: 100vh;
+	min-height: 80vh;
+  max-width: 100vh;
+  min-width: 80vh;
+    overflow: scroll;
+    margin-top
+}
+
+
+.inputum{
+	background-color: #ececec;
+	padding:2%;
+	
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+
+.w3-input{padding:10px;display:block;border:1px solid #ccc; width:100%; 
+ margin: 1px auto !important;}
+
+ .response{
+ 	border: 1px solid #007AFF;
+ 	background: #007AFF;
+ 	padding:2%;
+ 	width: 40%;
+ 	color: #fff;
+ 	border-radius:  20px;
+ }
+ .request{
+ 	background: #00CC47;
+ 	border: 1px solid #00CC47;
+ 	padding:2%;
+ 	width: 40%;
+ 	color: #fff;
+ 	border-radius: 20px;
+ 	float: right;
+
+
+ }
+ .btun{
+ 	position: absolute;
+ 	right: 2.5%;
+ 	bottom: 22%;
+ }
+</style>
+
+<script>
+  var questionNum = 0;
+var mt = '<strong>BOT:</strong><br>';
+var divr = '<div class="request">';
+var divi = '</div>' 												// keep count of question, used for IF condition.
+var question = mt+'What is your id?';				  // first question
+
+
+var output = document.getElementById('AutoMessage');                // store id="output" in output variable
+output.innerHTML = question;
+
+var mes = document.getElementById('request');
+
+
+
+													// ouput first question
+
+function bot() { 
+    var input = document.getElementById("mesbox").value;
+    console.log(input);
+
+    if (questionNum == 0) {
+    mes.innerHTML = divr  + input + divi;// output response
+    document.getElementById("mesbox").value = "";   		// clear text box
+    question = mt+ 'how old are you?';			    	// load next question		
+    setTimeout(timedQuestion, 2000);									// output next question after 2sec delay
+    }
+
+    else if (questionNum == 1) {
+    mes.innerHTML = divr+ input +divi;
+    document.getElementById("mesbox").value = "";   
+    question = mt+ 'where are you from?';					      	
+    setTimeout(timedQuestion, 2000);
+    }  
+     else if (questionNum == 2) {
+    mes.innerHTML = divr +  input+divi;
+    document.getElementById("mesbox").value = "";   
+    question = mt+ 'is that good?';                           
+    setTimeout(timedQuestion, 2000);
+    }   
+}
+
+function timedQuestion() {
+    output.innerHTML = question;
+}
+
+//push enter key (using jquery), to run bot function.
+//push enter key (using jquery), to run bot function.
+$(document).keypress(function(e) {
+  if (e.which == 13) {
+    bot();                                                                                      // run bot function when enter key pressed
+    questionNum++;                                                                      // increase questionNum count by 1
+  }
+   $(document).find('#chatBox').append(html);
+      $(this).val('');
+});
+</script>
+
+<div class="container">
+         <hr>
+
+         <div class="chatBox" id="chatBox">
+
+             <div class="response"><div id="AutoMessage"> <strong>company:</strong> <br>안녕하세요 반란입니다. </div></div>
+
+
+            <div  id="request"></div>
+    
+             
+            
+
+                   <input class="w3-input" id="mesbox" type="text" placeholder="input here...">
+                  
+
+          
+               
+         </div>
+</div>

@@ -1,0 +1,169 @@
+{*** 쇼핑몰 메인본문 | main/index.php ***}
+{ # header }
+<style>
+progress {
+  display: block; /* default: inline-block */
+  width: 300px;
+  margin: 2em auto;
+  padding: 4px;
+  border: 0 none;
+  background: #FEB101;
+  border-radius: 14px;
+  box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+}
+progress::-moz-progress-bar {
+  border-radius: 12px;
+  background: #FFF;
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4), 0 2px 5px 0px rgba(0,0,0,0.3);
+  
+}
+/* webkit */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  progress {
+    height: 25px;
+  }
+}
+progress::-webkit-progress-bar {
+    background: transparent;
+}  
+progress::-webkit-progress-value {  
+  border-radius: 12px;
+  background: #FFF;
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4), 0 2px 5px 0px rgba(0,0,0,0.3); 
+} 
+/* environnement styles */
+
+
+h1 {
+	color: #eee;
+	font: 30px Helvetica, Arial, sans-serif;
+	text-shadow: 0px 1px black;
+	text-align: center;
+	margin-bottom: 50px;
+  -webkit-font-smoothing: antialiased;
+}
+</style>
+<!-- //main_visual -->
+<div class="main_content">
+	<!-- 메인 상단 배너 -->
+	{=includeWidget('proc/_slider_banner.html', 'bannerCode', '511517418')}
+    <!-- 메인 상단 배너 -->
+
+	<h3 class="main_matching_h">이벤트/기획전</h3> 
+	<div class = "main_event_banner_wrap">
+			<div class="main_slide_ban">
+				<div class="main_slide">
+					<!--{ @dataBanner('378864211') }-->{.tag}<!--{ / }-->
+				</div>
+				<!-- //main_slide -->
+
+				<div class="main_banner">
+					<!--{ @dataBanner('735864301') }-->{.tag}<!--{ / }-->
+				</div>
+				<!-- //main_banner -->
+		    </div>
+	</div>
+	<h3 class="main_matching_h">상품 총판/밴더사 모집</h3> 
+	<div class="main_matching_wrap">
+		<script type="text/javascript">
+		
+			var $items = $(".item_cont");
+			$(document).ready(function(){
+				$('.item_price').remove();
+				$.each($(".main_matching_wrap .item_cont"), function(index, value){
+				var title = $(this).find(".item_name").text();
+				var explain = $(this).find(".item_name_explain").text();
+				var hash_tag = $(this).find(".item_brand").text(); 
+				$(value).parent().append('<div class="item_cont" style="margin-top: 16px;border-top: 1px solid; display: block">' +
+                '<div class="item_info_cont">' +
+                '   <div class="item_tit_box">' +
+				' <h2 style ="overflow: hidden; height: 32px; text-overflow: ellipsis;">'+ title +' </h2>' +
+				explain +
+                '    </div>' +
+                '    <!-- //item_tit_box -->' +
+                '    <div class="item_money_box">' +
+                '    </div>' +
+                '    <!-- //item_money_box -->' +
+                '    <!-- //item_number_box -->' +
+                '    <div class="item_icon_box">' +
+                '    </div>' + 
+                '    <div>' +
+        '    </div>' + 
+
+        '    <div>' +
+
+				'   <p><h2><strong class="item_name">남은 시간 : 20일 남음</strong></h2></p>' +
+				'   <p><h2><strong class="item_name">남은 인원 50 Goal KRW</strong></h2></p>' +
+				'   <progress style="width:280px; height:30px"  value="22" max="100"></progress>' +
+                '    <!-- //item_icon_box -->' +
+                '</div>' +
+                '</div>' +
+                '</div>');
+                });
+					
+			$.each($(".main_finding_wrap .item_cont") ,function(index, value){
+				$($(value).find('img')).attr('width','300');
+				$($(value).find('img')).attr('height','180');				
+				$(value).parent().append('<div class="item_cont" style="margin-top: 16px;border-top: 1px solid; display: block">' +
+                '<div class="item_info_cont">' +
+                '   <div class="item_tit_box">' +
+				' <h2>국내 1위, 하비 플랫폼 건담샵</h2>' +
+				' 공룡프라모델을 글로벌 독점 제조 및 공급하며 56만 회원의 국내 최대 오프라인 프라모델 피규어, 캐릭터샵을 운영합니다.' +
+                '    </div>' +
+                '    <!-- //item_tit_box -->' +
+                '    <div class="item_money_box">' +
+                '    </div>' +
+                '    <!-- //item_money_box -->' +
+                '    <!-- //item_number_box -->' +
+                '    <div class="item_icon_box">' +
+                '    </div>' + 
+				' 	<div style = "float: left; width: 20%; border: 1px solid red; margin-right:5px;">#건담샵 </div>' +
+				' 	<div style = "float: left; width: 20%; border: 1px solid red; margin-right:5px;">#프라모델 </div>' +
+				' 	<div style = "float: left; width: 20%; border: 1px solid red; margin-right:5px;">#키덜트 </div>' +
+				' 	<div style = "float: left; width: 30%; border: 1px solid red; margin-right:5px;">#공룡프라모델특허 </div> <br>' +
+                '    <!-- //item_icon_box -->' +
+                '</div>' +
+                '</div>');
+			});
+			});
+		</script>
+				
+		<div class="main_matching_section"> 
+			<div class = "section1">
+			 <!-- 공급사 상품 판매권 입찰 -->{=includeWidget('goods/_goods_display_main.html','sno','1')}<!-- 공급사 상품 판매권 입찰 -->
+			</div>
+		</div>
+	</div>
+	
+	<h3 class="main_finding_h">업체를 찾고 있어요(판매사, 공급사 신청)</h3> 
+	<div class="btn_apply" style="position:absolute; left:81%;">
+            <a href="" class="btn_qna_more">지원하기</a>
+     </div>
+	<div class="main_finding_wrap">
+		<div class = "section1">
+		{=includeWidget('goods/_goods_display_main.html','sno','7')}
+		</div>
+	</div>
+
+	
+	<h3 class="main_helping_h">저희가 도와드려요(경영지원)-신청</h3> 
+	<div class="main_helping_wrap">
+		{=includeWidget('goods/_goods_display_main.html','sno','8')}
+	</div>
+
+
+    <script>
+        $(window).scroll(function(){
+            if($(window).scrollTop() >= 165){
+                $('.scroll_wrap').css({'top':'842px'});
+            }else{
+                $('.scroll_wrap').css({'top':'891px'});
+            }
+        });
+    </script>
+</div>
+<!-- //main_content -->
+
+
+
+{ # footer }

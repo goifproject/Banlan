@@ -1,0 +1,72 @@
+{*** 명함 폼 | goods/Business_card_form.php ***}
+
+<style>
+  body
+  {
+    background-image:url(/data/icon/Business_card_01.jpg);
+    background-size:cover;
+  }
+
+
+.left-box {
+  float: left;
+  width: 50%;
+}
+.right-box {
+  float: right;
+  width: 50%;
+}
+	
+.right-top {
+  float: topt;
+  height: 50%;
+}
+.right-bottom {
+  float: bottom;
+  height: 50%;
+}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+var spot = $('#spot').val();
+var name = $('#name').val();
+var phone = $('#phone').val();
+var e-mail = $('#e-mail').val();
+var address = $('#address').val();
+var site-url = $('#site-url').val();
+var logo = $('#logo').val();
+	
+var data = { spot : spot,
+			name : name,
+			phone : phone,
+			e-mail : e-mail,
+			address : address,
+			site-url : site-url,
+			logo : logo
+		   };
+	
+
+</script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    window.resizeTo(400, 280);
+	  
+   });
+  
+</script>
+
+
+
+<div class='left-box'></div>
+<div class='right-box'>
+<div class='right-top'>
+  위
+</div>
+<div class='right-bottom'>
+  아래
+  
+</div>
+</div>

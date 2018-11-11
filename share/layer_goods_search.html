@@ -1,0 +1,56 @@
+<div class="top_table_type">
+    <form id="frmSelect">
+        <span class="pick_list_num">{=__('상품')} <strong>{total}</strong> {=__('건')}</span>
+        <table>
+            <colgroup>
+                <col style="width:80px">
+                <col>
+                <col style="width:137px">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>{=__('선택')}</th>
+                <th>{=__('상품명')}</th>
+                <th>{=__('상품금액')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--{ @list }-->
+            <tr id="tbl_add_{.goodsNo}">
+                <td colspan="2" class="td_left">
+                    <div class="form_element">
+                        <input type="radio" id="{.goodsNo}" name="goodsNo[]" class="radio" value="{.goodsNo}">
+                        <label class="choice_s" for="{.goodsNo}">
+                            <div class="pick_add_cont">
+                                <span class="pick_add_img">
+                                    <img src="{.goodsImageSrc}" alt="">
+                                </span>
+                                <div class="pick_add_info">
+                                    <em>{.goodsNm}</em>
+                                </div>
+                            </div>
+                            <!-- //pick_add_info -->
+                        </label>
+                    </div>
+                </td>
+                <td class="js_item_price">
+                    <!--{ ? .soldOut =='y' && soldoutDisplay.soldout_price == 'text'}-->
+                    <strong>{=soldoutDisplay.soldout_price_text}</strong>
+                    <!--{ : }-->
+                        <!--{ ? .goodsPriceString !='' }-->
+                        <strong>{.goodsPriceString}</strong>
+                        <!--{ : }-->
+                        <strong>{=gd_global_currency_symbol()}{=gd_global_money_format(.oriGoodsPrice)}</strong>
+                        {=gd_global_currency_string()}
+                        <!--{ / }-->
+                    <!--{ / }-->
+                </td>
+            </tr>
+            <!--{/}-->
+            </tbody>
+        </table>
+    </form>
+</div>
+
+{pagination}
+<!-- //pagination -->

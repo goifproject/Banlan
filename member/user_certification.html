@@ -1,0 +1,125 @@
+{*** 본인인증 수단 선택 | member/user_certification.php ***}
+{ # header }
+<div class="content_box">
+	<div class="member_wrap">
+		<div class="member_tit">
+			<h2>{boxHeader}</h2>
+		</div>
+		<!-- //member_tit -->
+		<div class="member_cont">
+			<div class="user_certify_box">
+				<form name="formAuth" id="formAuth" method="post" action="">
+					<input type="hidden" name="act" value="Y"/>
+					<input type="hidden" name="rncheck" value="none"/>
+					<input type="hidden" name="dupeinfo" value=""/>
+					<input type="hidden" name="token" value="{token}"/>
+					<div class="user_certify_tit">
+						<h3>{=__('인증수단 선택')}</h3>
+						<p>{=__('본인인증 방법을 선택해 주세요.')}</p>
+					</div>
+					<!-- //user_certify_tit -->
+					<div class="login_input">
+						<div class="form_element">
+							<ul class="user_certify_list">
+								<!-- {? emailFl === true}  -->
+								<li>
+									<input type="radio" id="authEmail" name="authType" value="authEmail">
+									<label class="choice" for="authEmail">{=__('이메일 인증')}</label>
+									<strong>( {email} )</strong>
+									<span>{=__('가입시 등록한 이메일로 인증번호가 발송됩니다.')}</span>
+								</li>
+								<!-- {/} -->
+								<!-- {? smsFl === true}  -->
+								<li>
+									<input type="radio" id="authSms" name="authType" value="authSms" class="radio">
+									<label class="choice" for="authSms">SMS {=__('인증')}</label>
+									<strong>( {cellphone} )</strong>
+								</li>
+								<!-- {/} -->
+								<!-- {? ipinFl === true}  -->
+								<li>
+									<input type="radio" id="authIpin" name="authType" value="authIpin">
+									<label class="choice" for="authIpin">{=__('아이핀 본인인증')}</label>
+									<iframe id="ifrmRnCheck" name="ifrmRnCheck" style="width:500px;height:500px;display:none;"></iframe>
+								</li>
+								<!-- {/} -->
+								<!-- {? authCellphoneFl === true}  -->
+								<li>
+									<input type="radio" id="authCellphone" name="authType" value="authCellphone">
+									<label class="choice" for="authCellphone">{=__('휴대폰 본인인증')}</label>
+									<iframe id="ifrmHpauth" name="ifrmHpauth" style="width:500px;height:500px;display:none;"></iframe>
+								</li>
+								<!-- {/} -->
+								<p id="errorMessage" class="dn"></p>
+							</ul>
+						</div>
+					</div>
+					<!-- //user_certify_list -->
+					<div class="btn_member_sec">
+						<ul>
+							<li><button type="submit">{=__('다음')}</button></li>
+						</ul>
+					</div>
+					<!-- //btn_member_sec -->
+				</form>
+			</div>
+			<!-- //user_certify_box -->
+		</div>
+		<!-- //member_cont -->
+	</div>
+	<!-- //member_wrap -->
+</div>
+<!-- //content_box -->
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#formAuth').validate({
+			dialog: false,
+			rules: {
+				authType: {
+					required: true
+				}
+			},
+			messages: {
+				authType: {
+					required: "{=__('인증수단을 선택해 주세요.')}"
+				}
+			}, submitHandler: function (form) {
+				$('#errorMessage').addClass('dn');
+				//                console.log('submitHandler');
+				var params = $(form).serializeArray();
+				params.push({name: "mode", value: "requestAuth"});
+
+				switch ($('input[name=authType]:checked').val()) {
+					case 'authIpin' :
+						var popupWindow = window.open("", "popupCertKey", "top=100, left=200, status=0, width=417, height=490");
+						ifrmRnCheck.location.href = "../member/ipin/ipin_main.php?callType=findpwd";
+						return;
+						break;
+					case 'authCellphone' :
+						var protocol = location.protocol;
+						var callbackUrl = "{=domaiUrl}/member/authcellphone/dreamsecurity_result.php";
+						ifrmHpauth.location.href = protocol + "//hpauthdream.godo.co.kr/module/NEW_hpauthDream_Main.php?callType=findid&shopUrl=" + callbackUrl + "&cpid={=authDataCpCode}";
+						break;
+					case 'authEmail':
+					case 'authSms':
+						$.post('../member/user_certification_ps.php', params).done(function (data, textStatus, jqXHR) {
+							console.log('gd_member ajax', data, textStatus, jqXHR);
+							var code = data.code;
+							var message = data.message;
+							if (_.isUndefined(code) && _.isUndefined(message)) {
+								alert(data);
+								form.action = '../member/user_certification_confirm.php';
+								form.submit();
+							} else {
+								$('#errorMessage', form).removeClass('dn').html('<strong>' + message + '</strong>');
+							}
+						});
+						break;
+					default :
+				}
+
+			}
+		});
+	});
+</script>
+{ # footer }

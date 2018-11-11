@@ -1,0 +1,43 @@
+{*** 회원가입 > 가입완료 | member/join_ok.php ***}
+{ # header }
+<div class="content_box">
+	<div class="member_wrap">
+		<div class="member_tit">
+			<h2>{=__('회원가입')}</h2>
+		</div>
+		<!-- //member_tit -->
+		<div class="member_cont">
+			<div class="join_ok_box">
+				<div class="join_ok_tit">
+					<p class="complete">{=__('회원가입이 %s완료%s 되었습니다.', '<strong>', '</strong>')}</p>
+					<p>{=__('%s님의 회원가입을 축하합니다. %s 알차고 실속있는 서비스로 찾아뵙겠습니다.', '<span>' + memNm + '</span>', '<br/>')}</p>
+				</div>
+				<!-- //join_ok_tit -->
+				<div class="btn_member_sec">
+					<ul>
+						<li><button id="btnHome">{=__('홈으로')}</button></li>
+						<li><button class="btn_login">{=__('로그인')}</button></li>
+					</ul>
+				</div>
+				<!-- //btn_member_sec -->
+			</div>
+			<!-- //join_ok_box -->
+		</div>
+		<!-- //member_cont -->
+	</div>
+	<!-- //member_wrap -->
+</div>
+<!-- //content_box -->
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#btnHome').click(function (e) {
+			e.preventDefault();
+			top.location.href = '../main/index.php';
+		});
+		$('.btn_login').click(function (e) {
+			e.preventDefault();
+			top.location.href = '../member/login.php';
+		});
+	});
+</script>
+{ # footer }

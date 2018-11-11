@@ -1,0 +1,44 @@
+{*** 아이핀인증 | member/join.php ***}
+
+<script language="javascript">
+    function validate(fm) {
+
+
+        return true;
+    }
+
+    function goIDCheckIpin() {
+        fm = document.getElementById("form");
+        var popupWindow = window.open("", "popupCertKey", "top=100, left=200, status=0, width=417, height=490");
+        ifrmRnCheck.location.href = "../member/ipin/ipin_main.php?callType=joinmember";
+    }
+
+
+</script>
+<div id="div_RnCheck_ipin" style="width:100%;display:non2e;">
+
+    <div style="border:1px solid #DEDEDE;" class="hundred">
+        <table width=100% cellpadding=0 cellspacing=0 border=0>
+            <tr>
+                <td style="border:5px solid #F3F3F3;padding:10">
+
+                    <table align=center>
+                        <col width=80%>
+                        <tr>
+                            <td align=left style="padding-right:20px"><font color='5d5d5d'>
+                                <img src="../img/ipin/Regist_box_icon.gif"/> 아이핀(i-PIN)은 방송통신위원회에서 주관하는 주민등록번호 대체수단으로 회원님의 주민등록번호 대신<br>&nbsp;&nbsp;&nbsp;&nbsp;아이핀 ID를
+                                NICE신용평가정보(주)
+                                로부터 발급받아 본인확인을 하는 서비스입니다.<br><br>
+                                <img src="../img/ipin/Regist_box_icon.gif"/> i-PIN 인증으로 가입시 i-PIN 인증기관을 통해 실명인증을 받게 되므로<br>&nbsp;&nbsp;&nbsp;&nbsp;{shopName}에는 회원님의 주민등록번호가 저장되지
+                                않습니다.
+                            </font>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <iframe id="ifrmRnCheck" name="ifrmRnCheck" style="width:500px;height:500px;display:non2e;"></iframe>
+    </div>
+
+</div>

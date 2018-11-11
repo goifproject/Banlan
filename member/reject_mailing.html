@@ -1,0 +1,28 @@
+{*** 이메일 수신거부 | member/reject_mailing.php ***}
+<!--{ ? is_array(gd_isset(headerScript)) }-->
+<!-- Add script : start -->
+<!--{ @ headerScript }-->
+<script type="text/javascript" src="{=.value_}"></script>
+<!--{ / }-->
+<!-- Add script : end -->
+<!--{ / }-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        var params = [];
+        params.push({name: "mode", value: "rejectMailing"});
+        params.push({name: "rejectEmail", value: "{email}"});
+        var $ajax = $.ajax('../member/member_ps.php', {type: "post", data: params});
+        $ajax.done(function (data, textStatus, jqXHR) {
+            console.log(data, textStatus, jqXHR);
+            var code = data.code;
+            var message = data.message;
+            if (code === undefined && message === undefined) {
+                alert(data);
+                window.self.close();
+            } else {
+                alert(message);
+                window.self.close();
+            }
+        });
+    });
+</script>

@@ -1,0 +1,55 @@
+{ # share_header }
+{=acecounterScript}
+
+<div class="adult_wrap">
+    <div class="adult_member_cont">
+        <div class="member_tit_box">
+            <em>{=__('%s님, %s성인인증%s 해주셔야 서비스를 이용하실 수 있습니다.', gMember.memNm, '<strong>', '</strong>')}</em>
+            <p>{=__('개정된 청소년 관련 법령 및 여성가족부 정책 에 따라 %s1년에 한번 성인인증%s 하도록 변경되었습니다.', '<strong>', '</strong>')} {=__('오늘 성인인증 하시면 1년간 별도의 인증 없이 서비스를 이용하실 수 있습니다.')}<</p>
+        </div>
+        <!-- //member_tit_box -->
+        <div class="member_login_wrap">
+            <div class="member_certify_box">
+                <div class="member_certify">
+                    <h3>{=__('인증수단 선택')}</h3>
+                    <ul>
+                        <!--{ ? authCellphoneFl  }-->
+                        <li>
+                            <button class="js_auth_cellphone">{=__('휴대폰 인증 받기')}</button>
+                            <iframe id="ifrmHpauth" name="ifrmHpauth" style="width:500px;height:500px;display:none;"></iframe>
+                        </li>
+                        <!--{ / }-->
+                        <!--{ ? ipinFl  }-->
+                        <li>
+                            <button class="js_auth_ipin">{=__('아이핀 인증 받기')}</button>
+                            <iframe id="ifrmRnCheck" name="ifrmRnCheck" style="width:500px;height:500px;display:none;"></iframe>
+                        </li>
+                        <!--{ / }-->
+                    </ul>
+                </div>
+            </div>
+            <!-- //member_login_box -->
+        </div>
+        <!-- //member_login_wrap -->
+    </div>
+    <!-- //adult_member_cont -->
+</div>
+<!-- //adult_wrap -->
+
+<script type="text/javascript" src="../js/jquery/jquery.serialize.object.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".js_auth_ipin").on('click', function(){
+            var popupWindow = window.open("", "popupCertKey", "top=100, left=200, status=0, width=417, height=490");
+            ifrmRnCheck.location.href = "/member/ipin/ipin_main.php?callType=certAdult&returnUrl={=urlencode(returnUrl)}";
+        });
+
+        $(".js_auth_cellphone").on('click', function(){
+            var protocol = location.protocol;
+            var callbackUrl = "{=domainUrl}/member/authcellphone/dreamsecurity_result.php";
+            ifrmHpauth.location.href = protocol + "//hpauthdream.godo.co.kr/module/NEW_hpauthDream_Main.php?callType=certAdult&returnUrl={=urlencode(returnUrl)}&shopUrl=" + callbackUrl + "&cpid={=authDataCpCode}";
+        });
+    });
+</script>
+
+{ # share_footer }

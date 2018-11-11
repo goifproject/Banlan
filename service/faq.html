@@ -1,0 +1,136 @@
+{*** 자주묻는 질문 | service/faq.php ***}
+{ # header }
+<div class="content">
+    <div class="board_zone_sec">
+        <div class="board_zone_cont">
+            <div class="board_zone_list <!--{ ? req.noheader == 'y'}-->index<!--{ / }-->">
+                <div class="date_check_box">
+                    <form name="frmList" id="frmList" action="faq.php" method="get">
+                        <input type="hidden" name="noheader" value="{req.noheader}">
+                        <div class="date_faq_list">
+                                <h2>{=__('자주묻는 질문 검색')}</h2>
+                                <input type="hidden" name="searchField" value="all"/>
+                                <input type="text" id="time" name="searchWord" class="text" placeholder="{=__('검색어를 입력하세요')}"/>
+                                <button type="submit" class="btn_date_check"><em>{=__('검색')}</em></button>
+                        </div>
+                        <div class="date_faq_txt">
+                            <p>
+                                <strong>{=__('찾으시는 질문이 없다면?')}</strong>
+                                <span class="btn_gray_list"><a href="qa.php" class="btn_gray_mid" target="_top"><span>1:1 {=__('문의하기')}</span></a></span>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+                <!-- //date_check_box -->
+
+                <div class="board_zone_tit">
+                    <h3>{title}</h3>
+
+                </div>
+                <div class="board_list_faq">
+                    <div class="board_hot_list">
+                        <ul>
+                            <li <!--{ ? !req.category }-->class="on"<!--{ / }-->><a href="faq.php?noheader={req.noheader}&isBest={req.isBest}&searchField={req.searchField}&searchWord={req.searchWord}"><span>{=__('전체')}</span></a></li>
+                            <!--{ @ faqCode }-->
+                            <li <!--{ ? req.category == .key_ }-->class="on"<!--{ / }-->><a href="faq.php?category={.key_}&noheader={req.noheader}&isBest={req.isBest}&searchField={req.searchField}&searchWord={req.searchWord}"><span>{.value_}</span></a></li>
+                            <!--{ / }-->
+                        </ul>
+                    </div>
+                    <table id="faqList" class="board_list_table">
+                        <colgroup>
+                            <col style="width:67px">
+                            <col style="width:144px">
+                            <col>
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>{=__('번호')}</th>
+                                <th>{=__('분류')}</th>
+                                <th>{=__('내용')}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--{ @ faqList.data }-->
+                            <tr class="toggle_faq" data-sno="{.sno}">
+                                <td>{.no}</td>
+                                <td>{.categoryNm}</td>
+                                <td class="board_tit">
+                                    <a href="javascript:void(0);">
+                                        <span class="icon_qan"><img src="../img/icon/board/icon_qna_q.png" alt="{=__('질문제목')}"></span>
+                                        <strong class="btnView">{.subject}</strong>
+                                    </a>
+                                </td>
+                            </tr>
+                            <!--{ / }-->
+                        </tbody>
+                    </table>
+                    <!--{ ? req.noheader == 'y' }-->
+                    <a href="faq.php" target="_top" class="btn_board_more">+ {=__('더보기')}</a>
+                    <!--{ / }-->
+                </div>
+                <!-- //board_list_faq -->
+                {faqList.pagination}
+            </div>
+            <!-- //board_zone_list -->
+        </div>
+        <!-- //board_zone_cont -->
+    </div>
+    <!-- //board_zone_sec -->
+</div>
+<!-- //content -->
+<script>
+    $(function () {
+        $('.btnView').bind('click', function () {
+            var targetTr = $(this).closest('tr');
+            var sno = targetTr.attr('data-sno');
+            var targetSubject = $(this).parents('.board_tit');
+
+            //열려진거 다 삭제
+            $('#faqList tr.toggle_faq.a').hide();
+
+            if (targetSubject.hasClass('on')) {    //내용이 열려있으면
+                $('#faqList .board_tit').removeClass('on');
+                gd_resize_frame(parent.document.getElementById('faqIframe'));
+            }
+            else {
+                $('#faqList .board_tit').removeClass('on');
+                targetSubject.addClass('on');
+
+                //내용뷰
+                $.ajax({
+                    method: "POST",
+                    url: "./faq.php",
+                    data: {mode: 'getAnswer', sno: sno},
+                    dataType: 'json'
+                }).success(function (data) {
+                    var answerHtml = _.template($("#template").html());
+                    targetTr.after(answerHtml({questionContents: data['questionContents'], answerContents: data['answerContents']}));
+                    var ele = parent.document.getElementById('faqIframe');
+                    if (typeof(ele) != 'undefined' && ele != null) {
+                        gd_resize_frame(parent.document.getElementById('faqIframe'));
+                    }
+                    $('.js-smart-img').css('max-width', '100%');
+                }).error(function (e) {
+                    alert(e.responseText);
+                });
+            }
+        })
+
+    });
+
+</script>
+<script type="text/template" id="template">
+    <tr class="toggle_faq a">
+        <td colspan="3" class="board_faq">
+            <div class="board_faq_cont">
+                <p><%=questionContents%></p>
+            </div>
+            <div class="board_faq_cont">
+                <span class="icon_qan"><img src="../img/icon/board/icon_qna_a.png" alt="{=__('답변')}"></span>
+                <p><%=answerContents%></p>
+            </div>
+        </td>
+    </tr>
+</script>
+
+{ # footer }

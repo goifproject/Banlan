@@ -1,0 +1,1158 @@
+{
+"default":
+{
+"outline_header":"outline\/header\/standard.html",
+"outline_side":"noprint",
+"outline_footer":"outline\/footer\/standard.html",
+"outline_sidefloat":"left",
+"outbg_color":"#ffffff"
+},
+
+"outline\/_header.html":
+{
+"linkurl":"main\/index.php",
+"text":"상단 레이아웃"
+},
+
+"outline\/_footer.html":
+{
+"linkurl":"main\/index.php",
+"text":"하단 레이아웃"
+},
+
+"outline\/_share_header.html":
+{
+"text":"팝업 상단 레이아웃"
+},
+
+"outline\/_share_footer.html":
+{
+"text":"팝업 하단 레이아웃"
+},
+
+"outline\/header\/standard.html":
+{
+"linkurl":"main\/index.php",
+"text":"상단 기본파일"
+},
+
+"outline\/footer\/standard.html":
+{
+"linkurl":"main\/index.php",
+"text":"하단 기본타입"
+},
+
+"outline\/side\/standard.html":
+{
+"linkurl":"main\/index.php",
+"text":"측면 기본타입"
+},
+
+"outline\/side\/goods_search.html":
+{
+"linkurl":"goods\/goods_search.php",
+"text":"측면 상품검색타입"
+},
+
+"outline\/scroll\/scroll_banner_left.html":
+{
+"text":"좌측 스크롤 배너"
+},
+
+"outline\/scroll\/scroll_banner_right.html":
+{
+"text":"우측 스크롤 배너"
+},
+
+"main\/index.html":
+{
+"linkurl":"main\/index.php",
+"text":"쇼핑몰 메인본문",
+"current_page":"n"
+},
+
+"proc\/category_all.html":
+{
+"text":"레이어형 전체 카테고리"
+},
+
+"proc\/category_layer.html":
+{
+"text":"레이어형 측면 카테고리"
+},
+
+"proc\/category_menu.html":
+{
+"text":"트리형 측면 카테고리"
+},
+
+"popup\/layer.html":
+{
+"linkurl":"main\/html.php?htmid=popup\/layer.html",
+"text":"기본 고정 레이어 팝업창"
+},
+
+"popup\/move.html":
+{
+"linkurl":"main\/html.php?htmid=popup\/move.html",
+"text":"기본 이동 레이어 팝업창"
+},
+
+"main\/main.html":
+{
+"linkurl":"main\/main.php",
+"text":"메인페이지"
+},
+
+"member\/login.html":
+{
+"linkurl":"member\/login.php",
+"text":"로그인",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"member\/find_id.html":
+{
+"linkurl":"member\/find_id.php",
+"text":"아이디 찾기",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"member\/join_method.html":
+{
+"linkurl":"member\/join_method.php",
+"text":"회원가입 > 가입방법 선택",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"member\/join_agreement.html":
+{
+"linkurl":"member\/join_agreement.php",
+"text":"회원가입 > 약관동의",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"member\/_join_view_business.html":
+{
+"text":"[위젯] 회원가입\/정보 사업자"
+},
+
+"member\/join.html":
+{
+"linkurl":"member\/join.php",
+"text":"회원가입 > 정보입력",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"goods\/goods_search.html":
+{
+"linkurl":"goods\/goods_search.php",
+"text":"상품검색화면",
+"current_page":"n",
+"outline_side":"outline\/side\/goods_search.html"
+},
+
+"goods\/goods_view.html":
+{
+"linkurl":"goods\/goods_view.php",
+"text":"상품상세화면",
+"current_page":"n"
+},
+
+"order\/cart.html":
+{
+"linkurl":"front\/order\/cart.php",
+"text":"장바구니",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"order\/order.html":
+{
+"linkurl":"order\/order.php",
+"text":"주문서 작성 \/ 결제",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"order\/order_end.html":
+{
+"linkurl":"order\/order_end.php",
+"text":"주문완료",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"mypage\/index.html":
+{
+"linkurl":"mypage\/index.php",
+"text":"마이페이지",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/_reception.html":
+{
+"text":"마이페이지 > 간이영수증"
+},
+
+"mypage\/mypage_qa.html":
+{
+"linkurl":"mypage\/mypage_qa.php",
+"text":"마이페이지 > 1:1문의",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/coupon.html":
+{
+"linkurl":"mypage\/coupon.php",
+"text":"마이페이지 > 쿠폰",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/order_list.html":
+{
+"linkurl":"mypage\/order_list.php",
+"text":"마이페이지 > 주문목록 \/ 배송조회",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/layer_order_back_regist.html":
+{
+"linkurl":"mypage\/layer_order_back_regist.php",
+"text":"마이페이지 > 주문목록 \/ 배송조회 > 반품신청",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/layer_order_exchange_regist.html":
+{
+"linkurl":"mypage\/layer_order_exchange_regist.php",
+"text":"마이페이지 > 주문목록 \/ 배송조회 > 교환신청",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/layer_order_refund_regist.html":
+{
+"linkurl":"mypage\/layer_order_refund_regist.php",
+"text":"마이페이지 > 주문목록 \/ 배송조회 > 환불신청",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/order_view.html":
+{
+"linkurl":"mypage\/order_view.php",
+"text":"마이페이지 > 주문상세",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/wish_list.html":
+{
+"linkurl":"mypage\/wish_list.php",
+"text":"마이페이지 > 찜리스트",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"member\/my_page_password.html":
+{
+"linkurl":"member\/my_page_password.php",
+"text":"마이페이지 > 회원 비밀번호 검증",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"member\/my_page.html":
+{
+"linkurl":"member\/my_page.php",
+"text":"마이페이지 > 내정보수정",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"member\/user_certification.html":
+{
+"linkurl":"member\/user_certification.php",
+"text":"본인인증 수단 선택",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"member\/user_certification_confirm.html":
+{
+"linkurl":"member\/user_certification_confirm.php",
+"text":"본인인증 인증번호 확인",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"member\/_join_view.html":
+{
+"text":"[위젯] 회원가입\/정보 기본"
+},
+
+"member\/find_password_complete.html":
+{
+"linkurl":"member\/find_password_complete.php",
+"text":"비밀번호 변경 완료",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"member\/reject_mailing.html":
+{
+"linkurl":"member\/reject_mailing.php",
+"text":"이메일 수신거부"
+},
+
+"mypage\/hack_out.html":
+{
+"linkurl":"mypage\/hack_out.php",
+"text":"마이페이지 > 회원탈퇴",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/_member_summary.html":
+{
+"text":"[위젯] 마이페이지 요약정보"
+},
+
+"mypage\/shipping.html":
+{
+"linkurl":"mypage\/shipping.php",
+"text":"마이페이지 > 배송지 관리",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/order_print.html":
+{
+"linkurl":"mypage\/order_print.php",
+"text":"마이페이지 > 주문인쇄"
+},
+
+"mypage\/my_page_password.html":
+{
+"linkurl":"mypage\/my_page_password.php",
+"text":"마이페이지 > 회원 비밀번호 검증",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/my_page.html":
+{
+"linkurl":"mypage\/my_page.php",
+"text":"마이페이지 > 내정보수정",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/mileage.html":
+{
+"text":"마이페이지 > 마일리지",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"order\/pg_gate.html":
+{
+"linkurl":"order\/order.php",
+"text":"PG사 결제 페이지 호출"
+},
+
+"member\/find_password.html":
+{
+"linkurl":"member\/find_password.php",
+"text":"비밀번호 찾기",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"member\/_join_view_other.html":
+{
+"text":"[위젯] 회원가입\/정보 부가정보"
+},
+
+"member\/find_password_reset.html":
+{
+"linkurl":"member\/find_password_reset.php",
+"text":"비밀번호 새로 등록",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"member\/join_ok.html":
+{
+"linkurl":"member\/join_ok.php",
+"text":"회원가입 > 가입완료",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"member\/join_wait.html":
+{
+"linkurl":"member\/join_wait.php",
+"text":"회원가입 > 승인대기",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"mypage\/mypage_goods_qa.html":
+{
+"linkurl":"mypage\/index.php",
+"text":"마이페이지 > 상품문의",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/mypage_goods_review.html":
+{
+"linkurl":"mypage\/index.php",
+"text":"마이페이지 > 상품후기",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/_order_goods_list.html":
+{
+"text":"마이페이지 주문상품리스트"
+},
+
+"mypage\/escrow_confirm.html":
+{
+"text":"PG사 에스크로 구매확인 페이지 호출"
+},
+
+"service\/agreement.html":
+{
+"linkurl":"service\/agreement.php",
+"text":"서비스 이용약관",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"service\/company.html":
+{
+"linkurl":"service\/company.php",
+"text":"회사소개",
+"current_page":"y"
+},
+
+"service\/private.html":
+{
+"linkurl":"service\/private.php",
+"text":"개인정보처리방침",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"service\/guide.html":
+{
+"linkurl":"service\/guide.php",
+"text":"이용안내",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"service\/index.html":
+{
+"linkurl":"service\/index.php",
+"text":"고객센터",
+"current_page":"y",
+"outline_side":"outline\/side\/service.html"
+},
+
+"service\/notice.html":
+{
+"linkurl":"service\/notice.php",
+"text":"공지사항",
+"current_page":"y",
+"outline_side":"outline\/side\/service.html"
+},
+
+"service\/qa.html":
+{
+"linkurl":"service\/qa.php",
+"text":"1:1문의하기",
+"current_page":"y",
+"outline_side":"outline\/side\/service.html"
+},
+
+"service\/event.html":
+{
+"linkurl":"service\/event.php",
+"text":"event",
+"current_page":"y",
+"outline_side":"outline\/side\/service.html"
+},
+
+"service\/faq.html":
+{
+"linkurl":"service\/faq.php",
+"text":"FAQ",
+"current_page":"y",
+"outline_side":"outline\/side\/service.html"
+},
+
+"mypage\/cancel_list.html":
+{
+"linkurl":"mypage\/cancel_list.php",
+"text":"취소리스트",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/refund_list.html":
+{
+"linkurl":"mypage\/refund_list.php",
+"text":"환불리스트",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"outline\/side\/service.html":
+{
+"linkurl":"mypage\/index.php",
+"text":"측면 고객센터"
+},
+
+"goods\/brand.html":
+{
+"linkurl":"goods\/goods_list.php",
+"text":"브랜드 리스트",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"goods\/goods_brand.html":
+{
+"linkurl":"goods\/goods_list.php",
+"text":"브랜드상품리스트",
+"current_page":"n"
+},
+
+"mypage\/deposit.html":
+{
+"linkurl":"mypage\/mileage.php",
+"text":"마이페이지 > 예치금",
+"current_page":"y",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"mypage\/_particular.html":
+{
+"text":"마이페이지 > 거래명세서 인쇄"
+},
+
+"member\/wake.html":
+{
+"linkurl":"member\/wake.php",
+"text":"휴면회원 해제 선택",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"member\/wake_certification.html":
+{
+"linkurl":"member\/wake_certification.php",
+"text":"휴면회원 해제 인증",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"member\/wake_complete.html":
+{
+"linkurl":"member\/wake_complete.php",
+"text":"휴면회원 해제 완료",
+"current_page":"y",
+"outline_side":"noprint"
+},
+
+"event\/attend_stamp.html":
+{
+"linkurl":"event\/attend_stamp.php",
+"text":"출석체크 > 스탬프",
+"current_page":"n",
+"outline_side":"noprint"
+},
+
+"event\/attend_reply.html":
+{
+"linkurl":"event\/attend_reply.php",
+"text":"출석체크 > 댓글",
+"current_page":"n",
+"outline_side":"noprint"
+},
+
+"member\/password_change.html":
+{
+"linkurl":"member\/password_change.php",
+"text":"비밀번호 변경안내",
+"current_page":"n",
+"outline_side":"noprint"
+},
+
+"intro\/intro.html":
+{
+"text":"인트로 - 일반"
+},
+
+"intro\/walkout.html":
+{
+"text":"인트로 - 이용제한"
+},
+
+"intro\/adult_member.html":
+{
+"linkurl":"intro\/intro.php",
+"text":"인트로 - 성인인증 (회원)"
+},
+
+"intro\/adult_guest.html":
+{
+"linkurl":"intro\/intro.php",
+"text":"인트로 - 성인인증"
+},
+
+"intro\/member.html":
+{
+"linkurl":"intro\/intro.php",
+"text":"인트로 - 회원전용"
+},
+
+"order\/layer_coupon_apply_order.html":
+{
+"text":"쿠폰적용 레이어 - 주문쿠폰"
+},
+
+"board\/_board_article.html":
+{
+"text":"[위젯] 게시글 리스트"
+},
+
+"board\/_board_article_scrolling.html":
+{
+"text":"[위젯] 게시글 스크롤"
+},
+
+"service\/ghost_depositor.html":
+{
+"text":"미확인 입금자 리스트",
+"current_page":"n"
+},
+
+"event\/time_sale.html":
+{
+"linkurl":"goods\/goods_list.php",
+"text":"타임세일 리스트",
+"current_page":"n"
+},
+
+"proc\/_slider_banner.html":
+{
+"text":"[위젯] 움직이는 배너"
+},
+
+"proc\/_quick_search.html":
+{
+"text":"[위젯] 퀵 검색"
+},
+
+"proc\/_cart_tab.html":
+{
+"text":"쇼핑 카트탭"
+},
+
+"goods\/list\/list_11.html":
+{
+"text":"장바구니형"
+},
+
+"goods\/cart_tab_cart.html":
+{
+"text":"쇼핑 카트탭 - 장바구니"
+},
+
+"goods\/cart_tab_today.html":
+{
+"text":"쇼핑 카트탭 - 오늘 본 상품"
+},
+
+"goods\/cart_tab_wish.html":
+{
+"text":"쇼핑 카트탭 - 찜리스트"
+},
+
+"goods\/goods_list.html":
+{
+"linkurl":"goods\/goods_list.php",
+"text":"상품 리스트",
+"current_page":"n"
+},
+
+"goods\/event_sale.html":
+{
+"linkurl":"main\/index.php",
+"text":"기획전",
+"current_page":"n"
+},
+
+"goods\/layer_coupon_apply.html":
+{
+"text":"쿠폰 적용 레이어"
+},
+
+"goods\/layer_coupon_down.html":
+{
+"text":"쿠폰 다운받기 레이어"
+},
+
+"goods\/layer_option.html":
+{
+"text":"옵션변경 레이어"
+},
+
+"goods\/_goods_display.html":
+{
+"text":"[위젯] 상품 출력"
+},
+
+"goods\/_goods_display_main.html":
+{
+"text":"[위젯] 메인 상품 출력"
+},
+
+"goods\/goods_board_qa_list.html":
+{
+"text":"상품상세 - 상품 문의 리스트"
+},
+
+"goods\/goods_board_qa_view.html":
+{
+"text":"상품상세 - 상품 문의 상세보기"
+},
+
+"goods\/goods_board_review_view.html":
+{
+"text":"상품상세 - 상품 후기 상세보기"
+},
+
+"goods\/goods_board_review_list.html":
+{
+"text":"상품상세 - 상품 후기 리스트"
+},
+
+"goods\/goods_board_write.html":
+{
+"text":"상품상세 - 상품 문의\/후기 작성"
+},
+
+"share\/show_tax_invoice.html":
+{
+"text":"일반 세금계산서 출력"
+},
+
+"mypage\/layer_order_refund_reason.html":
+{
+"linkurl":"mypage\/layer_order_refund_reason.php",
+"text":"사유 레이어"
+},
+
+"goods\/list\/list_01.html":
+{
+"text":"갤러리형"
+},
+
+"goods\/list\/list_02.html":
+{
+"text":"리스트형"
+},
+
+"goods\/list\/list_03.html":
+{
+"text":"리스트그룹형"
+},
+
+"goods\/list\/list_04.html":
+{
+"text":"선택강조형"
+},
+
+"goods\/list\/list_05.html":
+{
+"text":"세로이동형"
+},
+
+"goods\/list\/list_06.html":
+{
+"text":"스크롤형"
+},
+
+"goods\/list\/list_07.html":
+{
+"text":"탭+상품이동형"
+},
+
+"goods\/list\/list_08.html":
+{
+"text":"선택강조형"
+},
+
+"goods\/list\/list_09.html":
+{
+"text":"심플이미지형"
+},
+
+"goods\/list\/list_10.html":
+{
+"text":"말풍선형"
+},
+
+"goods\/goods_main.html":
+{
+"text":"타임세일 리스트"
+},
+
+"goods\/cart_estimate.html":
+{
+"text":"장바구니 > 견적서 출력"
+},
+
+"goods\/layer_shipping_address.html":
+{
+"text":"배송지관리 리스트"
+},
+
+"order\/layer_coupon_apply.html":
+{
+"text":"쿠폰적용 레이어"
+},
+
+"order\/layer_shipping_address_regist.html":
+{
+"text":"배송지관리 등록\/수정"
+},
+
+"board\/skin\/gallery\/write.html":
+{
+"text":"작성"
+},
+
+"board\/template\/gallery\/write.html":
+{
+"text":"작성"
+},
+
+"board\/skin\/gallery\/view.html":
+{
+"text":"상세"
+},
+
+"board\/template\/gallery\/view.html":
+{
+"text":"상세"
+},
+
+"board\/skin\/gallery\/list.html":
+{
+"text":"목록"
+},
+
+"board\/template\/gallery\/list.html":
+{
+"text":"목록"
+},
+
+"board\/skin\/event\/write.html":
+{
+"text":"작성"
+},
+
+"board\/template\/event\/write.html":
+{
+"text":"작성"
+},
+
+"board\/skin\/event\/view.html":
+{
+"text":"상세"
+},
+
+"board\/template\/event\/view.html":
+{
+"text":"상세"
+},
+
+"board\/skin\/event\/list.html":
+{
+"text":"목록"
+},
+
+"board\/template\/event\/list.html":
+{
+"text":"목록"
+},
+
+"board\/skin\/default\/write.html":
+{
+"text":"작성"
+},
+
+"board\/template\/default\/write.html":
+{
+"text":"작성"
+},
+
+"board\/skin\/default\/view.html":
+{
+"text":"상세"
+},
+
+"board\/template\/default\/view.html":
+{
+"text":"상세"
+},
+
+"board\/skin\/default\/list.html":
+{
+"text":"목록"
+},
+
+"board\/template\/default\/list.html":
+{
+"text":"목록"
+},
+
+"board\/skin\/qa\/write.html":
+{
+"text":"작성"
+},
+
+"board\/template\/qa\/write.html":
+{
+"text":"작성"
+},
+
+"board\/skin\/qa\/view.html":
+{
+"text":"상세"
+},
+
+"board\/template\/qa\/view.html":
+{
+"text":"상세"
+},
+
+"board\/skin\/qa\/list.html":
+{
+"text":"목록"
+},
+
+"board\/template\/qa\/list.html":
+{
+"text":"목록"
+},
+
+"board\/write.html":
+{
+"linkurl":"board\/write.php",
+"text":"작성"
+},
+
+"board\/view.html":
+{
+"linkurl":"board\/view.php",
+"text":"상세보기"
+},
+
+"board\/list.html":
+{
+"linkurl":"board\/list.php",
+"text":"목록"
+},
+
+"service\/poll_result.html":
+{
+"linkurl":"service\/poll_result.php",
+"text":"설문조사"
+},
+
+"service\/cooperation.html":
+{
+"linkurl":"service\/cooperation.php",
+"text":"광고제휴문의"
+},
+
+"share\/layer_goods_search.html":
+{
+"text":"게시판 상품선택 레이어"
+},
+
+"share\/layer_goods_select.html":
+{
+"text":"게시판 상품선택 레이어"
+},
+
+"share\/layer_order_select.html":
+{
+"text":"주문 선택 레이어"
+},
+
+"share\/layer_order_search.html":
+{
+"text":"주문 선택 레이어"
+},
+
+"proc\/_category_all.html":
+{
+"text":"[위젯] 레이어형 전체 카테고리"
+},
+
+"proc\/_category_all_banner.html":
+{
+"text":"[위젯] 레이어형 전체 카테고리"
+},
+
+"proc\/_global_select.html":
+{
+"text":"상점 설정"
+},
+
+"proc\/_category_side.html":
+{
+"text":"[위젯] 레이어형 측면 카테고리"
+},
+
+"proc\/_insgo.html":
+{
+"text":"[위젯] 인스고 위젯"
+},
+
+"proc\/_brand_all.html":
+{
+"text":"[위젯] 레이어형 전체 브랜드"
+},
+
+"proc\/_header_search.html":
+{
+"text":"[위젯] 상단 검색"
+},
+
+"proc\/_recom_goods.html":
+{
+"text":"[위젯] 추천상품"
+},
+
+"proc\/_brand_all_banner.html":
+{
+"text":"[위젯] 레이어형 전체 브랜드"
+},
+
+"popup\/multi\/move.html":
+{
+"linkurl":"main\/html.php?htmid=popup\/multi_move.htm",
+"text":"기본 이동 멀티 레이어 팝업창"
+},
+
+"popup\/multi\/standard.html":
+{
+"linkurl":"main\/html.php?htmid=popup\/multi_standard.htm",
+"text":"기본 멀티 윈도우 팝업창"
+},
+
+"popup\/multi\/layer.html":
+{
+"linkurl":"main\/html.php?htmid=popup\/multi_layer.htm",
+"text":"기본 고정 멀티 레이어 팝업창"
+},
+
+"popup\/standard.html":
+{
+"linkurl":"main\/html.php?htmid=popup\/standard.htm",
+"text":"기본 윈도우 팝업폼"
+},
+
+"mypage\/mypage_plus_review_article.html":
+{
+"linkurl":"mypage\/mypage_plus_review_article.php",
+"text":"마이페이지 > 나의 플러스리뷰",
+"current_page":"n",
+"outline_side":"outline\/side\/mypage.html"
+},
+
+"css\/layout\/layout.css":[],"proc\/_category_top.html":
+{
+"linkurl":"proc\/category_top.htm",
+"text":"[위젯] 레이어형 상단 카테고리"
+},
+
+"css\/common\/common.css":[],"proc\/company Introduce.html":
+{
+"linkurl":"proc\/test.php",
+"text":"회사소개 페이지",
+"current_page":"n"
+},
+
+"proc\/test.html":
+{
+"linkurl":"proc\/test.php",
+"text":"테스트",
+"current_page":"n"
+},
+
+"css\/member\/member.css":[],"css\/board\/board.css":[],"js\/gd_ui.js":[],"css\/goods\/list.css":[],"css\/button.css":[],"css\/goods\/goods.css":[],"goods\/companys_view.html":
+{
+"linkurl":"goods\/goods_view.php",
+"text":"회사소개 상세화면",
+"current_page":"n"
+},
+
+"goods\/commuity.html":
+{
+"linkurl":"goods\/commuity.php",
+"text":"커뮤니티 페이지",
+"current_page":"n"
+},
+
+"goods\/Business_card.html":
+{
+"linkurl":"goods\/Business_card.php",
+"text":"명함 선택 페이지",
+"current_page":"n"
+},
+
+"goods\/company_introduce_view.html":
+{
+"linkurl":"goods\/company_introduce_view.php",
+"text":"회사소개(등록된 업체) 페이지",
+"current_page":"n"
+},
+
+"goods\/chat.html":
+{
+"linkurl":"goods\/chat.php",
+"text":"채팅창"
+},
+
+"goods\/Business_card_input.html":
+{
+"linkurl":"goods\/Business_card_input.php",
+"text":"명함 입력 폼"
+},
+
+"goods\/Business_card_form.html":
+{
+"linkurl":"goods\/Business_card_form.php",
+"text":"명함 폼"
+}
+}

@@ -1,0 +1,99 @@
+{*** 기본 고정 멀티 레이어 팝업창 | main/html.php?htmid=popup/multi_layer.htm ***}
+<!--{ ? data.popupKindFl == 'window' }-->
+{ # share_header }
+<!--{ / }-->
+<style>
+    .js_multi_layer{background: #fff; border: 2px solid #727071; position: relative;}
+    .js_multi_layer .multipopup{padding: 30px 30px 20px;}
+    .js_multi_layer .multipopup .mp_select_img{}
+    .js_multi_layer .multipopup .mp_select_img img{width: 100%;}
+    .js_multi_layer .multipopup .mp_item_wrap{overflow: hidden;}
+    .js_multi_layer .multipopup .mp_item{float: left; position: relative; cursor: pointer;}
+    .js_multi_layer .multipopup .mp_item+.mp_item{}
+    .js_multi_layer .multipopup .mp_item img{width: 100%; height: 100%;}
+    .js_multi_layer .layer_bottom{background-color:{=todayUnSee.todayUnSeeBgColor}; color:{=todayUnSee.todayUnSeeFontColor}; text-align:{=todayUnSee.todayUnSeeAlign}; padding: 10px 30px;}
+    .js_multi_layer .layer_bottom *{vertical-align: middle;}
+    .js_multi_layer .layer_bottom .ctrl{font-size: 12px; vertical-align: middle;}
+    .js_multi_layer .close {display: block; position: absolute; top: 7px; right: 7px; width: 18px; height: 18px; text-indent: -9999px; background: url(../../img/common/layer/btn_layer_close.png) no-repeat left top;}
+</style>
+
+<div class="js_multi_layer">
+    <div class="multipopup">
+        <div class="bxslider-wrap" style="width:{=data.popupSlideViewW}px;height:{=data.popupSlideViewH}px;position:relative;overflow:hidden;">
+            <div class="slider-wrap multi_popup_bxslider{=data.sno} mp_select_img">
+                <!--{ @ data.image }-->
+                <div style="width:{=data.popupSlideViewW}px;height:{=data.popupSlideViewH}px;overflow:hidden;">
+                    <a href="{=.imageLinkUrl}" target="{=.imageLinkTarget}"><img src="<!--{ ? .imageUploadFl == 'y' }-->{data.imagePath}<!--{ / }-->{=.mainImage}" style="width:{=data.popupSlideViewW}px;height:{=data.popupSlideViewH}px;" /></a>
+                </div>
+                <!--{ / }-->
+            </div>
+        </div>
+        <div id="multi_popup_pager{=data.sno}">
+            <!--{ @ range(1, data.heightCount) }-->
+            <div class="mp_item_wrap" style="width:{=data.popupSlideViewW}px;height:{=data.popupSlideThumbH}px;overflow:hidden;">
+                <!--{ @ range(1, data.widthCount) }-->
+                <div class="mp_item slider-pager-{.key_}" style="width:{=data.popupSlideThumbW}px;height:{=data.popupSlideThumbH}px;overflow:hidden;">
+                    <a href="" class="js_multi_popup_out js_multi_popup_out{=data.sno}_{=(..index_+(.index_*data.widthCount))}" data-slide-index="{=(..index_+(.index_*data.widthCount))}"><img src="<!--{ ? data['image'][(..index_+(.index_*data.widthCount))]['imageUploadFl'] == 'y' }-->{=data.imagePath}<!--{ / }-->{=data['image'][(..index_+(.index_*data.widthCount))]['thumbImage1']}" style="width:{=data.popupSlideThumbW}px;height:{=data.popupSlideThumbH}px;overflow:hidden;" /></a>
+                    <a href="" class="js_multi_popup_over js_multi_popup_over{=data.sno}_{=(..index_+(.index_*data.widthCount))}" style="display:none" data-slide-index="{=(..index_+(.index_*data.widthCount))}"><img src="<!--{ ? data['image'][(..index_+(.index_*data.widthCount))]['imageUploadFl'] == 'y' }-->{=data.imagePath}<!--{ / }-->{=data['image'][(..index_+(.index_*data.widthCount))]['thumbImage2']}" style="width:{=data.popupSlideThumbW}px;height:{=data.popupSlideThumbH}px;overflow:hidden;" /></a>
+                </div>
+                <!--{ / }-->
+            </div>
+            <!--{ / }-->
+        </div>
+    </div>
+    <!--{ ? todayUnSee.todayUnSeeFl == 'y' }-->
+    <div class="layer_bottom">
+        <div class="ctrl">
+            <label for="todayMultiUnSee{=data.sno}" class="check-s">{=__('오늘 하루 보이지 않음')}</label>
+            <input type="checkbox" id="todayMultiUnSee{=data.sno}" class="checkbox" onClick="gd_popup_cookie('{=popupCode}', this);">
+        </div>
+    </div>
+    <!--{ / }-->
+    <button type="button" class="close" title="{=__('닫기')}" <!--{ ? data.popupKindFl == 'window' }--> onclick="window.close();<!--{ : }--> onclick="$('#{=popupCode}').hide();<!--{ / }-->">{=__('닫기')}</button>
+</div>
+<!-- //js_multi_layer -->
+<script src="../../js/slider/slick/slick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    <!--
+    $(document).ready(function () {
+        $('.multi_popup_bxslider{=data.sno}').slick({
+            draggable : false,
+            autoplay : true,
+            arrows : false,
+            <!--{ ? data.popupSlideDirection == 'up' || data.popupSlideDirection == 'down' }-->vertical : true,<!--{ / }-->
+            <!--{ ? data.popupSlideDirection == 'none' }-->fade : true,<!--{ / }-->
+            infinite : true,
+            speed : {=(data.popupSlideSpeed * 100)},
+            slidesToShow : 1
+        });
+
+        $("#multi_popup_pager{=data.sno} a").click(function(e){
+            e.preventDefault();
+            var slideIndex = $(this).data('slide-index');
+            $('.multi_popup_bxslider{=data.sno}').slick('slickGoTo', slideIndex, true);
+        });
+
+        $('.multi_popup_bxslider{=data.sno}').on('beforeChange', function(event, slick, currentSlide, nextSlide){
+            $("#multi_popup_pager{=data.sno} .js_multi_popup_over").hide();
+            $("#multi_popup_pager{=data.sno} .js_multi_popup_out").show();
+            $(".js_multi_popup_out{=data.sno}_"+nextSlide).hide();
+            $(".js_multi_popup_over{=data.sno}_"+nextSlide).show();
+        });
+
+        $(document).on('mouseover', '#multi_popup_pager{=data.sno} a.js_multi_popup_out', function (e) {
+            var index = $(this).data('slide-index');
+            $(".js_multi_popup_out{=data.sno}_"+index).hide();
+            $(".js_multi_popup_over{=data.sno}_"+index).show();
+        });
+
+        $(document).on('mouseleave', '#multi_popup_pager{=data.sno} a.js_multi_popup_over', function (e) {
+            var index = $(this).data('slide-index');
+            $(".js_multi_popup_out{=data.sno}_"+index).show();
+            $(".js_multi_popup_over{=data.sno}_"+index).hide();
+        });
+
+        $(".js_multi_popup_out{=data.sno}_0").hide();
+        $(".js_multi_popup_over{=data.sno}_0").show();
+    });
+    //-->
+</script>

@@ -1,0 +1,100 @@
+{*** 브랜드 리스트 | goods/goods_list.php ***}
+{ # header }
+
+<div class="content_box">
+    <div class="goods_brand">
+        <div class="goods_brand_tit">
+            <h2>{=__('브랜드')}</h2>
+        </div>
+        <div class="goods_brand_cont">
+            <div class="brand_all_list">
+                <div>
+                    <button type="button" class="bnt_all_brand on" data-key="">{=__('전체')}</button>
+                    <!--{ @ korea_alphabet }-->
+                    <button type="button" data-key="{=.value_}">{=.value_}</button>
+                    <!--{ / }-->
+                </div>
+                <div class="alphabet">
+                    <button type="button" class="all"  data-key="etc">{=__('기타')}</button>
+                    <!--{ @ english_alphabet }-->
+                    <button type="button" data-key="{=.value_}">{=.value_}</button>
+                    <!--{ / }-->
+                </div>
+            </div>
+            <!-- //brand_all_list -->
+            <div class="gnb_allmenu_box">
+                <div class="gnb_scroll_box">
+                    <ul id="brandArea">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- //goods_brand_cont -->
+    </div>
+    <!-- //goods_brand -->
+</div>
+<!-- //content_box -->
+
+<script type="text/javascript">
+    <!--
+    $(document).ready(function(){
+
+        $('.brand_all_list button').on('click', function(){
+
+            $('.brand_all_list button').removeClass('on');
+            $(this).addClass('on');
+            show_brand($(this).data('key'));
+
+        });
+        show_brand('');
+    });
+
+    function show_brand(brand)
+    {
+        $.ajax({
+            method: "POST",
+            cache: false,
+            url: "./goods_ps.php",
+            data: "mode=get_brand&brand="+brand,
+            success: function(data) {
+
+                var getData = $.parseJSON(data);
+                if(data =='false') {
+                    $("#brandArea").html('');
+                } else {
+                    var addHtml = "";
+                    $.each(getData, function (brandKey, brandVal) {
+                        $.each(brandVal, function (key, val) {
+                            addHtml += '<li style="width:20%;"><div class="all_menu_cont"><a href="../goods/goods_list.php?brandCd='+val.cateCd+'">'+val.cateNm+'</a>';
+                            if(val.children) {
+                                addHtml += '<ul class="all_depth1">';
+                                $.each(val.children, function (key1, val1) {
+                                    addHtml += '<li><a href="../goods/goods_list.php?brandCd='+val1.cateCd+'">'+val1.cateNm+'</a>';
+                                    if(val1.children) {
+                                        addHtml += '<ul class="all_depth2">';
+                                        $.each(val1.children, function (key2, val2) {
+                                            addHtml += '<li><a href="../goods/goods_list.php?brandCd='+val2.cateCd+'">'+val2.cateNm+'</a></li>';
+                                        });
+                                        addHtml += '</ul>';
+                                    }
+                                    addHtml += '</li>';
+                                });
+                                addHtml += '</ul>';
+                            }
+                            addHtml += '</div></li>';
+                        });
+                    });
+
+                    $("#brandArea").html(addHtml);
+                }
+
+            },
+            error: function (data) {
+                alert(data.message);
+            }
+        });
+    }
+    //-->
+</script>
+
+{ # footer }

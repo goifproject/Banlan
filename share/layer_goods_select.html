@@ -1,0 +1,149 @@
+{*** 게시판 상품선택 레이어 | share/layer_goods_select.php ***}
+<script type="text/javascript" src="\{=c.PATH_SKIN}js/gd_multi_select_box.js" charset="utf-8"></script>
+<div id="lyCouponDown" class="layer_wrap add_goods_layer" style="height: 745px">
+    <div class="layer_wrap_cont">
+        <div class="ly_tit">
+            <h4>{=__('상품 선택')}</h4>
+        </div>
+        <div class="ly_cont">
+            <form id="frmBoardSearch" name="frmBoardSearch" action="../share/layer_goods_search.php" onsubmit="return false;">
+                <div class="ly_date_list_box">
+                    <div class="ly_date_select_list">
+                        <h5>{=__('카테고리')}</h5>
+                        {=cateDisplay}
+                    </div>
+                    <!-- //ly_date_select_list -->
+
+                    <div class="ly_date_search_list">
+                        <h5>{=__('검색어')}</h5>
+                        <select name="key" class="chosen-select">
+                            <option value="goodsNm">{=__('상품명')}</option>
+                            <option value="goodsNo">{=__('상품코드')}</option>
+                        </select>
+                        <input type="text" name="keyword" maxlength="20" placeholder="{=__('검색어를 입력해주세요.')}">
+                    </div>
+                    <!-- //ly_date_search_list -->
+                </div>
+                <!-- //ly_date_list_box -->
+
+                <div class="btn_center_box">
+                    <button type="button" class="btn_ly_date_check js_select_search"><em>{=__('조회')}</em></button>
+                </div>
+            </form>
+
+            <div class="scroll_box">
+
+            </div>
+            <!-- //scroll_box -->
+
+            <div class="btn_center_box">
+                <button type="button" class="btn_ly_cancel layer_close"><strong>{=__('취소')}</strong></button>
+                <button type="button" class="btn_ly_ok js_select_confirm"><strong>{=__('확인')}</strong></button>
+            </div>
+        </div>
+        <!-- //ly_cont -->
+        <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="닫기"></a>
+    </div>
+    <!-- //layer_wrap_cont -->
+</div>
+<!-- //layer_wrap -->
+
+<script type="text/javascript">
+    <!--
+    $(document).ready(function () {
+        /**
+         * 상품조회클릭
+         */
+        $('input[name=keyword]').keyup(function(e){
+            if(e.keyCode == 13) {
+                $('.js_select_search').trigger('click');
+            }
+        })
+
+        $('.js_select_search').bind('click', function (e) {
+
+            if($.trim($('#cateGoods1').val()).length <1 && $.trim($('#frmBoardSearch input[name=keyword]').val()).length < 1){
+                alert("{=__('카테고리나 검색어를 선택/입력 해주세요.')}");
+                return;
+            }
+
+            params = $("#frmBoardSearch").serialize();
+            $.ajax({
+                method: "get",
+                url: "../share/layer_goods_search.php",
+                data: params,
+                dataType: 'text'
+            }).success(function (data) {
+                $('.scroll_box').html(data);
+            }).error(function (e) {
+                console.log(e.responseText);
+            });
+        })
+
+        $('.js_select_confirm').bind('click', function () {
+            if ($('#frmSelect input[type=radio][name="goodsNo[]"]:checked').length < 1) {
+                alert("{=__('상품을 선택해주세요.')}");
+                return;
+            }
+
+            var bdId = '{bdId}';
+            var bdSno = '{bdSno}';
+            var canFlag = true;
+            var resultJson = {
+                "info": []
+            };
+
+            var checkedGoodsNo = $('#frmSelect input[name="goodsNo[]"]:checked').val();
+            var imgSrc = $('#tbl_add_' + checkedGoodsNo).find('.pick_add_cont .pick_add_img img').attr('src');
+            var goodsName = $('#tbl_add_' + checkedGoodsNo).find('.pick_add_info').text();
+            var price = $('#tbl_add_' + checkedGoodsNo).find('.js_item_price').text();
+            resultJson.info.push({
+                "goodsNo": checkedGoodsNo,
+                "goodsImgageSrc": imgSrc,
+                "goodsName": goodsName,
+                "goodsPrice": price,
+            });
+
+            if (bdId == 'goodsreview') {
+                $.ajax({
+                    method: "post",
+                    async: false,
+                    url: "../board/board_ps.php",
+                    data: {mode: 'validRegistOrderGoodsNo', bdId: bdId, goodsNo: checkedGoodsNo, bdSno: bdSno},
+                    dataType: 'text'
+                }).success(function (data) {
+                    if (data != 'n') {
+                        alert('선택하신 상품은 후기를 작성하실 수 없습니다.');
+                        canFlag = false;
+                    }
+                    console.log(data);
+                    return;
+                }).error(function (e) {
+                    alert(e.responseText);
+                });
+
+                if (canFlag == false) {
+                    return false;
+                }
+            }
+
+            gd_set_add_goods(resultJson);
+            gd_close_layer();
+        })
+    })
+
+    function goAjaxPaging(page) {
+        page = encodeURI(page);
+        $.ajax({
+            method: "get",
+            url: "../share/layer_goods_search.php",
+            data: page,
+            dataType: 'text'
+        }).success(function (data) {
+            $('.scroll_box').html(data);
+        }).error(function (e) {
+            alert(e.responseText);
+        });
+    }
+    //-->
+</script>

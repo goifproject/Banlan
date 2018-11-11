@@ -1,0 +1,101 @@
+{*** 상단 기본파일 | main/index.php ***}
+<div id="header">
+
+    <div class="header_top">
+        <div class="header_top_cont">
+
+            <!-- 멀티상점 선택 -->
+            {=includeWidget('proc/_global_select.html')}
+            <!-- 멀티상점 선택 -->
+
+            <ul class="top_member_box">
+                <!--{ ? gd_is_login() === false }-->
+                <li><a href="../member/login.php">{=__('로그인')}</a><span class="txt_bar"></span></li>
+                <li><a href="../member/join_method.php">{=__('회원가입')}</a><span class="txt_bar"></span>
+                    <!--<span class="accent">
+                        <span><strong>2,000 P</strong></span>
+                    </span>-->
+                </li>
+                <!--{ : }-->
+                <li><a href="../member/logout.php?returnUrl={=logoutReturnUrl}">{=__('로그아웃')}</a><span class="txt_bar"></span></li>
+                <!--{ / }-->
+				<li><a href="http://jpak821.godomall.com/main/html.php?htmid=goods/Business_card.html">{=__('온라인 명함')}</a><span class="txt_bar"></span></li>
+				<li><a href="../member/login.php">{=__('파트너 신청')}</a><span class="txt_bar"></span></li>
+				<li>
+                    <div class="top_mypage_cont">
+                        <span class="top_mypage_tit"><a href="../mypage/index.php">{=__('마이페이지')}</a></span>
+                        <ul style="display:none;">
+                            <li><a href="../mypage/my_page_password.php">{=__('내정보수정')}</a></li>
+                            <li><a href="../mypage/mypage_qa.php">1:1 {=__('문의')}</a></li>
+                        </ul>
+                    </div>
+                    <span class="txt_bar"></span>
+                </li>
+                <li><a href="../service/index.php">{=__('고객센터')}</a></li>
+            </ul>
+
+        </div>
+        <!-- //header_top_cont -->
+    </div>
+    <!-- //header_top -->
+    <div class="header_search">
+        <div class="header_search_cont">
+            <div class="h1_logo"><!--{ @dataBanner('4238483832') }-->{.tag}<!--{ / }--></div>
+
+            <!-- 검색 폼 -->
+            {=includeWidget('proc/_header_search.html')}
+            <!-- 검색 폼 -->
+		
+			<div class="top_banner">
+				<!--{ @dataBanner('3064017699') }-->{.tag}<!--{ / }-->
+			</div>
+        </div>
+        <!-- //header_search_cont -->
+    </div>
+    <!-- //header_search -->
+	
+    <div class="header_gnb">
+        <div class="gnb">
+            <!-- 전체 카테고리 출력 레이어 시작 -->
+            {=includeWidget("proc/category_all.html")}
+            <!-- 전체 카테고리 출력 레이어 끝 -->
+
+            <!-- 상단 카테고리 출력 시작 -->
+            {=includeWidget('proc/category_side', 'type', 'top','cateType','cate','menuType','all')}
+            <!-- 상단 카테고리 출력 끝 -->
+
+			
+         
+        </div>
+        <!-- //gnb -->
+
+        <!-- //gnb_allmenu -->
+    </div>
+    <!-- //header_gnb -->
+	<script>
+		$(window).scroll(function(){
+			if($(window).scrollTop() >= 165){
+				$('#header_warp').addClass('headerFix');
+				$('#container').css({'padding-top':'165px'});
+			}else{
+				$('#header_warp').removeClass('headerFix');
+				$('#container').removeAttr('style');
+			}
+		});
+	</script>
+	<script>
+	$(document).ready(function(){
+		$($(".mainCate")[0]).attr("href","/board/list.php?bdId=notice");
+		$($(".mainCateDep1")[0]).attr("href", "/board/list.php?bdId=notice");
+		$($(".mainCateDep1")[1]).attr("href", "/board/list.php?bdId=startup");
+		$($(".mainCateDep1")[2]).attr("href", "/board/list.php?bdId=event");
+		$($(".mainCateDep1")[3]).attr("href", "/main/html.php?htmid=goods/commuity.html");
+		for (var i = 0; i < 10; ++i)
+			$($($($(".mainCate")[6]).parent()).find("a")[i]).attr("href", "/board/list.php?bdId=give");
+		$($($($(".mainCate")[7]).parent()).find("a")[0]).attr("href", "/board/list.php?bdId=employment");
+		$($($($(".mainCate")[7]).parent()).find("a")[1]).attr("href", "/board/list.php?bdId=employment");
+		$($($($(".mainCate")[7]).parent()).find("a")[2]).attr("href", "/board/list.php?bdId=employment");
+	});
+</script>
+</div>
+<!-- //header -->

@@ -1,0 +1,118 @@
+{*** 휴면회원 해제 인증 | member/wake_certification.php ***}
+{ # header }
+<div class="content_box">
+	<div class="member_wrap">
+		<div class="member_tit">
+			<h2>{=__('휴면 회원')}</h2>
+		</div>
+		<!-- //member_tit -->
+		<div class="member_cont">
+			<div class="wake_base_box">
+				<div class="wake_base_tit">
+					<p class="complete">{=__('장기 미 접속으로 인해
+						%s휴면회원%s
+						전환 상태입니다.', '<strong>', '</strong>')}</p>
+					<div class="wake_date">
+						<dl>
+							<dt>{=__('최초가입일')} :&nbsp;</dt>
+							<dd>{memberInfo['entryDt']}</dd>
+						</dl>
+						<dl>
+							<dt>{=__('최종접속일')} :&nbsp;</dt>
+							<dd>{memberInfo['lastLoginDt']}</dd>
+						</dl>
+						<dl>
+							<dt>{=__('휴면처리일')} :&nbsp;</dt>
+							<dd><strong>{memberInfo['sleepDt']}</strong></dd>
+						</dl>
+					</div>
+					<p class="wake_notice">
+						{=__('정보통신망법 이용촉진 및 정보보호 등에 관한 법률에 의거하여, 장기간 접속하지 않으신 회원님들의 개인정보가 휴면처리 상태입니다.')}<br>
+						<em>{=__('휴면 처리 해제를 원하실 경우 아래 방법에 따라 휴면상태를 해제하시기 바랍니다.')}</em>
+					</p>
+				</div>
+				<!-- //wake_base_tit -->
+				<div class="wake_certify_input">
+					<div class="member_warning">
+						<p class="wc_info_tip">{=__('수신된')} {? authType == 'authEmail'}{=__('이메일의')}{:}SMS{/} {=__('인증번호를 입력해 주세요.')}</p>
+						<div class="login_input">
+							<input type="text" id="inputCertify" placeholder="인증번호 입력">
+						</div>
+						<div class="text_warning" style="display:block;">
+							<p class="info_again">{? authType == 'authEmail'} {=__('인증메일이 도착하지 않았나요?')} {: authType == 'authSms'} {=__('인증번호가 도착하지 않았나요?')} {/}<a href="#" name="btnAgain">{=__('인증번호 다시받기')}</a></p>
+						</div>
+					</div>
+					<!-- //member_warning -->
+				</div>
+				<!-- //wake_certify_input -->
+				<div class="btn_center_box">
+					<button type="button" id="btnPrevStep" class="btn_member_cancel">이전</button>
+					<button type="button" id="btnNextStep" class="btn_comfirm">휴면 해제하기</button>
+				</div>
+				<!-- //btn_center_box -->
+			</div>
+			<!-- //wake_base_box -->
+		</div>
+		<!-- //member_cont -->
+	</div>
+	<!-- //member_wrap -->
+</div>
+<!-- //content_box -->
+<script type="text/javascript">
+	(function ($, window, document, undefined) {
+		var url = '../member/wake_ps.php';
+
+		function gd_cancel() {
+			window.location.href = '../member/wake.php';
+		}
+
+		function gd_again() {
+			var $ajax = $.ajax(url, {
+				method: "POST",
+				data: {
+					mode: "{memberInfo['authType']}"
+				}
+			});
+			$ajax.done(function (data, textStatus, jqXHR) {
+				console.log('gd_member ajax', data, textStatus, jqXHR);
+				var code = data.code;
+				var message = data.message;
+				if (_.isUndefined(code) && _.isUndefined(message)) {
+					alert("{=__('인증번호가 재발송 되었습니다.')}");
+				} else {
+					alert(message);
+				}
+			});
+		}
+
+		function gd_auth() {
+			var $ajax = $.ajax(url, {
+				method: "POST",
+				data: {
+					mode: "certificationAuthNumber",
+					number: $('#inputCertify').val()
+				}
+			});
+			$ajax.done(function (data, textStatus, jqXHR) {
+				console.log('gd_member ajax', data, textStatus, jqXHR);
+				var code = data.code;
+				var message = data.message;
+				if (_.isUndefined(code) && _.isUndefined(message)) {
+					window.location.href = data;
+				} else {
+					alert(message);
+				}
+			});
+		}
+
+		$(document).ready(function () {
+			$('#btnPrevStep').click(gd_cancel);
+			$('a[name="btnAgain"]').click(function (e) {
+				e.preventDefault();
+				gd_again();
+			});
+			$('#btnNextStep').click(gd_auth);
+		});
+	})($, window, document);
+</script>
+{ # footer }

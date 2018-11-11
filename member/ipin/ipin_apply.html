@@ -1,0 +1,90 @@
+<!-- { ? strResultCode == 1 && sCPRequest == strCPRequest } -->
+<script type="text/javascript">
+    var _joinGubun = "{=joinGubun}";
+    function loadAction() {
+        var strRetCd = "{=strResultCode}";		// '1' 이어야 한다.
+        var strMsg = "{=sRtnMsg}";
+
+        var strName = "{=strUserName}";					// 이름
+        var birthday = "{=strBirthDate}";				// 생년월일
+        var sex = "{=strGender}";			// 성별
+        var dupeInfo = "{=strDupInfo}";					// 아이핀 중복 조회 코드
+        var ageInfo = "{=strAgeInfo}";					// 아이핀 중복 조회 코드
+        var foreigner = "{=strNationalInfo}";			// 내국인/외국인 정보
+        var dupeCount = "{=chkCount}";					// 가입된 횟수
+        var nice_minoryn = "{=ipin['nice_minoryn']}";	// 성인인증
+        var year = "{=strBirthDate}";
+        var under14Code = "{=under14Code}";				// 만14세 미만 회원가입 허용상태코드
+
+        // 호출유형을 찾는다.
+        var callType = "{=ssCallType}";
+
+        // 아이디 찾기에서 호출한 경우, parent 에 act 엘레먼트가 있다.
+        if (callType == "findid" || callType == "findpwd") {
+            parent.document.fm.action = '';
+            parent.document.fm.target = '';
+            parent.document.fm.rncheck.value = 'ipin';
+            parent.document.fm.dupeinfo.value = dupeInfo;
+            parent.document.fm.submit();
+        }
+        else {
+            // default 회원가입
+            if (dupeCount > 0) {
+                alert("이미 가입이 되어 있습니다.");
+            }
+            else {
+                if (nice_minoryn == 'y' && ageInfo < "6") { // 실명인증성공 & 성인인증실패
+                    if (typeof(parent.document.formTerms['SOCIAL_CODE']) != 'undefined' && parent.document.formTerms['SOCIAL_CODE'].value != '');
+                    else parent.document.formTerms['name'].value = '';
+                    alert('성인인증 실패'); //결과 메시지 출력
+                }
+                else if (under14Code == 'rejectJoin') { // 만14세 미만 회원가입 거부
+                    if (typeof(parent.document.formTerms['SOCIAL_CODE']) != 'undefined' && parent.document.formTerms['SOCIAL_CODE'].value != '');
+                    else parent.document.formTerms['name'].value = '';
+                    alert('만 14세 미만의 경우 회원가입을 허용하지 않습니다.'); //결과 메시지 출력
+                }
+                else if (under14Code == 'adminStatus' && confirm('만14세 미만 회원의 경우 관리자 승인 후 가입이 완료됩니다.\n계속 진행하시겠습니까?') === false) {
+                    // 만14세 미만 회원가입 관리자 승인 후 가입
+                    if (typeof(parent.document.formTerms['SOCIAL_CODE']) != 'undefined' && parent.document.formTerms['SOCIAL_CODE'].value != '');
+                    else parent.document.formTerms['name'].value = '';
+                }
+                else if (strRetCd == "1") // 아이핀인증성공
+                {
+                    alert("아이핀인증이 정상처리 되었습니다."); //결과 메시지 출력
+                    // TODO: 아이핀 인증 성공 후 인증을 한 이유에 따라 동작을 다르게 해야함... 휴면해제의 경우 해제 로직을 다시 타야함
+                    //       parent.document.formTerms.action = 'join.php';
+                    parent.document.formTerms.target = '';
+                    parent.document.formTerms.rncheck.value = 'ipin';
+                    parent.document.formTerms.nice_nm.value = strName;
+                    parent.document.formTerms.birthday.value = birthday;
+                    parent.document.formTerms.sex.value = sex;
+                    parent.document.formTerms.dupeinfo.value = dupeInfo;
+                    parent.document.formTerms.foreigner.value = foreigner;
+                    parent.document.formTerms.submit();
+                }
+                else // 실명인증실패
+                {
+                    //	결과에 따라서 실명안심차단과 명의도용 차단을 처리한다.
+                    if (typeof(parent.document.formTerms['SOCIAL_CODE']) != 'undefined' && parent.document.formTerms['SOCIAL_CODE'].value != '');
+                    else parent.document.formTerms['name'].value = '';
+                    alert('아이핀인증이 실패했습니다.\n\n' + strMsg); //결과 메시지 출력
+                }
+            }
+        }
+        if (_joinGubun == 'mobile') {
+            if (typeof(parent.frmMaskRemove) != 'undefined') parent.frmMaskRemove('popupCertKey');
+            else self.close();
+        }
+        else self.close();
+    }
+
+    document.onload = loadAction();
+</script>
+<!-- { : } -->
+<script type="text/javascript">
+    //  alert('오류가 발생하였습니다.');
+    //  self.close();
+</script>
+{=strResultCode}<br>
+{=sCPRequest}
+<!-- { / } -->

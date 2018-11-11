@@ -1,0 +1,61 @@
+{*** 주문 선택 레이어 | share/layer_order_search.php ***}
+<div class="top_table_type">
+    <span class="pick_list_num">{=__('주문목록 %s 배송조회 내역 총 %s 건', '/', '<strong>' + total + '</strong>')}</span>
+    <form id="frmSelect">
+        <table>
+            <colgroup>
+                <col style="width:80px">
+                <col style="width:100px">
+                <col>
+                <col style="width:120px">
+                <col style="width:100px">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>{=__('선택')}</th>
+                <th>{=__('날짜/주문번호')}</th>
+                <th>{=__('상품명/옵션')}</th>
+                <th>{=__('상품금액/수량')}</th>
+                <th>{=__('주문상태')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--{ @ data}-->
+            <tr id="tbl_add_{.sno}">
+                <td>
+                    <div class="form_element">
+                        <input type="radio" id="orderGoodsNo{.sno}" name="orderGoodsNo[]" value="{.sno}">
+                        <label class="choice_s" for="orderGoodsNo{.sno}"></label>
+                    </div>
+                </td>
+                <td>
+                    <em style="display:block">{=gd_date_format('Y-m-d', .regDt)}</em>
+                    <a class="order_num_link"><span>{.orderNo}</span></a>
+                </td>
+                <td class="td_left">
+                    <div class="pick_add_cont">
+                        <!--{ ? .goodsType == 'addGoods'}-->
+                        <span class="pick_add_plus">{=__('추가')}</span>
+                        <!--{/}-->
+                        <span class="pick_add_img">
+                            <img src="{.goodsImageSrc}" alt="">
+                            <input type="hidden" name="goodsNo" value="{.goodsNo}">
+                        </span>
+                        <div class="pick_add_info">
+                            <em class="js_goods_name">{.goodsNm}</em>
+                            <div class="js_goods_option">{.optionName}</div>
+                        </div>
+                    </div>
+                    <!-- //pick_add_info -->
+                </td>
+                <td><strong class='js_goods_price'>{=gd_global_currency_symbol()}{=gd_global_money_format(.totalGoodsPrice)}</strong>{=gd_global_currency_string()} / {.goodsCnt}{=__('개')}</td>
+                <td>{.orderStatusText}</td>
+            </tr>
+            <!--{/}-->
+            </tbody>
+        </table>
+    </form>
+</div>
+
+{pagination}
+<!-- //pagination -->

@@ -1,0 +1,77 @@
+{*** [위젯] 인기상품 | proc/_populate.php ***}
+<!--{ ? data }-->
+<div class="popular-wrap popular-wrap-{config.sno}">
+    <div class="popular-line">
+        <strong>HOT</strong>
+        <div class="rank_top_box rank_top_box-{config.sno}">
+            <ul>
+                <!--{ @ data }-->
+                <li<!--{ ? .index_ <= 2 }--> class="top{=.index_ + 1}"<!--{ / }-->><em>{=.index_ + 1}</em><a href="../goods/goods_view.php?goodsNo={.goodsNo}">{.goodsNm}</a></li>
+                <!--{ / }-->
+            </ul>
+        </div>
+        <!--{ ? config.useFl == 'y' }--><span class="popular_more"><a href="../goods/populate.php?sno={config.sno}" target="_blank">더보기</a></span><!--{ / }-->
+    </div>
+    <div class="popular-box popular-box-{config.sno}"<!--{ ? config.template == 01 }--> style="display:block;"<!--{ / }-->>
+    <strong><span class="popular_color">HOT</span> ITEMS</strong>
+    <!--{ ? config.useFl == 'y' }--><span class="popular_more"><a href="../goods/populate.php?sno={config.sno}" target="_blank">더보기</a></span><!--{ / }-->
+    <div class="rank_item_box">
+        <ul>
+            <!--{ @ data }-->
+            <li<!--{ ? .index_ <= 2 }--> class="top{=.index_ + 1}"<!--{ / }-->><em>{=.index_ + 1}</em><a href="../goods/goods_view.php?goodsNo={.goodsNo}">{.goodsNm}</a></li>
+            <!--{ / }-->
+        </ul>
+    </div>
+</div>
+</div>
+
+<style>
+    .popular-wrap{position: absolute;left:-280px; top:0; width: 280px;}
+    .popular-line{overflow:hidden; height: 49px;line-height: 48px;vertical-align: middle;padding: 0 19px 0 19px;}
+    .popular-line strong{display:inline-block; float:left; font-size:15px; color:#fa2828;}
+    .popular-line .rank_top_box {display:inline-block; width:160px;}
+    .popular-line .rank_top_box li,
+    .popular-box .rank_item_box li {width:140px; text-overflow:ellipsis; white-space:nowrap; word-wrap:normal; overflow:hidden;}
+    .popular-line .rank_top_box li em{display:inline-block; background:url('../img/icon/bg_popular_rank.png') no-repeat 0 0; width:16px; height:16px; margin:0 7px 0 14px; line-height: 15px; font-size:10px; color:#fff; text-align:center;}
+    .popular-line .rank_top_box .top1 em,
+    .popular-line .rank_top_box .top2 em,
+    .popular-line .rank_top_box .top3 em{background:url('../img/icon/bg_popular_toprank.png')}
+    .popular-line .rank_top_box li a{color:#333333; font-size:13px; font-weight:bold;}
+    .popular-wrap .popular-box{position:absolute; top:-1px; width: 280px;background:#fff;}
+    .popular-wrap .popular-box strong{font-size: 15px; color: #333;}
+    .popular-wrap .popular-box{display:none; padding:14px 19px 27px 18px; width:242px; border:1px solid #444; z-index:100;}
+    .popular-wrap .popular-box.on{display:block;}
+    .popular-wrap .popular_more {float:right;}
+    .popular-wrap .popular_more a{display: inline-block;width: 48px;height: 22px;line-height: 20px;vertical-align: middle;font-size: 11px; color: #666;border: 1px solid #e0e0e0;text-align: center;}
+    .popular_color{color: #fa2828;}
+    .popular-box .rank_item_box {padding:11px 0 0 0;}
+    .popular-box .rank_item_box li {width:180px; padding:0 0 13px 0;}
+    .popular-box .rank_item_box li em{display:inline-block; background:url('../img/icon/bg_popular_rank.png') no-repeat 0 0; width:16px; height:16px; margin:0 8px 0 0; font-size:10px; color:#fff; text-align:center;}
+    .popular-box .rank_item_box .top1 em,
+    .popular-box .rank_item_box .top2 em,
+    .popular-box .rank_item_box .top3 em{background:url('../img/icon/bg_popular_toprank.png')}
+    .popular-box .rank_item_box li a:hover {text-decoration:underline;}
+</style>
+
+<script src="../js/jquery/vticker/jquery.vticker.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.popular-wrap-{config.sno}').mouseenter(
+            function() {
+                var pb_height = $('.popular-box-{config.sno}').innerHeight();
+                $('.side_cont').css('padding-bottom', pb_height + 50 + 'px');
+                $('.popular-box-{config.sno}').addClass('on');
+            }
+        );
+        $('.popular-wrap-{config.sno}').mouseleave(
+            function() {
+                $('.popular-box-{config.sno}').removeClass('on');
+                $('.side_cont').css('padding-bottom', '50px');
+            }
+        );
+
+        var $scroller = $('.rank_top_box-{config.sno}');
+        $scroller.vTicker();
+    });
+</script>
+<!--{ / }-->

@@ -1,0 +1,217 @@
+{*** 주문 선택 레이어 | share/layer_order_select.php ***}
+<script type="text/javascript" src="\{=c.PATH_SKIN}js/gd_multi_select_box.js" charset="utf-8"></script>
+<div id="lyCouponDown" class="layer_wrap add_goods_layer" style="height: 745px">
+    <div class="layer_wrap_cont">
+        <div class="ly_tit">
+            <h4>{=__('주문내역')}</h4>
+        </div>
+        <div class="ly_cont">
+            <form id="frmBoardSearch" name="frmBoardSearch">
+                <div class="ly_date_list_box">
+                    <div class="ly_date_check_list">
+                        <h5> {=__('조회기간')} </h5>
+                        <span class="js_check_option" data-target-name="treatDate[]">
+                            <button type="button" data-value="0">{=__('오늘')}</button>
+                            <button type="button" data-value="7">7{=__('일')}</button><!-- N : 클리시 on 클래스 추가 -->
+                            <button type="button" data-value="15">15{=__('일')}</button>
+                            <button type="button" data-value="30">1{=__('개월')}</button>
+                            <button type="button" data-value="90">3{=__('개월')}</button>
+                            <button type="button" data-value="365">1{=__('년')}</button>
+                            <input type="hidden" name="periodFl" value="7">
+                        </span>
+                        <div class="ly_date_check_calendar">
+                            <input type="text" id="picker2" name="treatDate[]" class="anniversary js_datepicker"> ~ <input type="text" name="treatDate[]" class="anniversary js_datepicker" >
+                        </div>
+                        <!-- //ly_date_check_calendar -->
+                    </div>
+                    <!-- //ly_date_check_list -->
+
+                    <div class="ly_date_search_list">
+                        <h5>{=__('검색어')}</h5>
+                        <select id="key" name="key" class="chosen-select">
+                            <option value="o.orderNo">{=__('주문번호')}</option>
+                            <option value="og.goodsNm">{=__('상품명')}</option>
+                        </select>
+                        <input type="text" name="keyword" maxlength="20" value="">
+                    </div>
+                    <!-- //ly_date_search_list -->
+
+                </div>
+                <!-- //ly_date_list_box -->
+
+                <div class="btn_center_box">
+                    <button type="button" class="btn_ly_date_check js_select_search"><em>{=__('조회')}</em></button>
+                </div>
+
+            </form>
+
+            <div class="scroll_box">
+            </div>
+            <!-- //scroll_box -->
+            <div class="btn_center_box">
+                <button type="button" class="btn_ly_cancel layer_close"><strong>{=__('취소')}</strong></button>
+                <button type="button" class="btn_ly_ok js_select_confirm"><strong>{=__('확인')}</strong></button>
+            </div>
+        </div>
+        <!-- //ly_cont -->
+        <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+    </div>
+    <!-- //layer_wrap_cont -->
+</div>
+<!-- //layer_wrap -->
+
+<script type="text/javascript" src="\{=c.PATH_SKIN}js/moment/moment.js"></script>
+<script type="text/javascript" src="\{=c.PATH_SKIN}js/moment/locale/{=locale}.js"></script>
+<script type="text/javascript" src="\{=c.PATH_SKIN}js/jquery/datetimepicker/bootstrap-datetimepicker.js"></script>
+<link type="text/css" rel="stylesheet" href="\{=c.PATH_SKIN}css/plugins/bootstrap-datetimepicker.min.css" />
+<link type="text/css" rel="stylesheet" href="\{=c.PATH_SKIN}css/plugins/bootstrap-datetimepicker-standalone.css" />
+<script>
+    $(document).ready(function () {
+        /**
+         * 주문조회클릭
+         */
+        $('input[name=keyword]').keyup(function(e){
+            if(e.keyCode == 13) {
+                $('.js_select_search').trigger('click');
+            }
+        })
+
+        $('.js_select_search').bind('click', function (e) {
+            params = $("#frmBoardSearch").serialize();
+            $.ajax({
+                method: "get",
+                url: "../share/layer_order_search.php",
+                data: params,
+                dataType: 'text'
+            }).success(function (data) {
+                $('.scroll_box').html(data);
+            }).error(function (e) {
+                console.log(e.responseText);
+            });
+        })
+        $('.js_select_search').trigger('click');
+        $('.js_check_option').find('button').bind('click',function(){
+            $('input[name=periodFl]').val($(this).data('value'));
+        })
+
+        if ($('.js_datepicker').length>0) {
+            $('.js_datepicker').datetimepicker({
+                locale: '{=gGlobal.locale}',
+                format: 'YYYY-MM-DD',
+                dayViewHeaderFormat: 'YYYY MM',
+                viewMode: 'days',
+                ignoreReadonly: true,
+                debug: false,
+
+            });
+
+            //$('.check-cal img').click(function (e) {
+            //    $(this).prev('.js-datepicker').data('DateTimePicker').show();
+            //});
+            //날짜 체크 정규식 /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
+        }
+        if ($('.js_check_option').length>0) {
+            $('.js_check_option button').click(function (e) {
+                $startDate = $endDate = '';
+                $period = $(this).data('value');
+                $elements = $('input[name="' + $(this).closest('.js_check_option').data('target-name') + '"]');
+                $format = $($elements[0]).data('DateTimePicker').format();
+                if ($period >= 0) {
+                    $startDate = moment().hours(0).minutes(0).seconds(0).subtract($period, 'days').format($format);
+                    $endDate = moment().hours(0).minutes(0).seconds(0).format($format);
+                }
+                $($elements[0]).val($startDate);
+                $($elements[1]).val($endDate);
+
+                $('.js_check_option button').removeClass('on');
+                $(this).addClass('on');
+            });
+            // 선택된 버튼에 따른 값 초기화
+            $elements = $('input[name*=\'' + $('.js_check_option').data('target-name') + '\']');
+            $('.js_check_option button .on').trigger('click');
+        }
+
+        /**
+         * 주문선택
+         */
+        $('.js_select_confirm').bind('click',function(){
+            if($('#frmSelect input[type=radio][name="orderGoodsNo[]"]:checked').length<1) {
+                alert("{=__('주문을 선택해주세요.')}");
+                return;
+            }
+            var orderDuplication = '{orderDuplication}';
+            var bdId ='{bdId}';
+            var bdSno ='{bdSno}';
+            var checkedOrderGoodsNo = $('#frmSelect input[name="orderGoodsNo[]"]:checked').val();
+            var canFlag = true;
+            var mode = null;
+
+            if(bdId == 'goodsreview') {
+                mode = 'validRegistOrderGoodsNo';
+            }
+            else if(orderDuplication == 'n'){
+                mode = 'duplicateOrderGoodsNo';
+            }
+
+            if(mode !== null) {
+                $.ajax({
+                    method: "post",
+                    async : false,
+                    url: "../board/board_ps.php",
+                    data: {mode : mode,bdId : bdId , orderGoodsNo : checkedOrderGoodsNo, bdSno : bdSno},
+                    dataType: 'text'
+                }).success(function (data) {
+                    if (data != 'n') {
+                        alert('선택하신 상품은 후기를 작성하실 수 없습니다.');
+                        canFlag = false;
+                    }
+                    console.log(data);
+                    return;
+                }).error(function (e) {
+                    alert(e.responseText);
+                });
+            }
+            if(canFlag == false) {
+                return false;
+            }
+
+            var resultJson = {
+                "info": []
+            };
+
+            var imgSrc = $('#tbl_add_'+checkedOrderGoodsNo).find('.pick_add_cont .pick_add_img img').attr('src');
+            var goodsName = $('#tbl_add_'+checkedOrderGoodsNo).find('.js_goods_name').text();
+            var optionName = $('#tbl_add_'+checkedOrderGoodsNo).find('.js_goods_option').text();
+            var price = $('#tbl_add_'+checkedOrderGoodsNo).find('.js_goods_price').text();
+            var orderNo = $('#tbl_add_'+checkedOrderGoodsNo).find('.order_num_link span').text();
+            var goodsNo = $('#tbl_add_'+checkedOrderGoodsNo).find('input[name=goodsNo]').val();
+
+            resultJson.info.push({
+                "orderNo" : orderNo,
+                "orderGoodsNo": checkedOrderGoodsNo,
+                "goodsImgageSrc": imgSrc,
+                "goodsName": goodsName,
+                "optionName": optionName,
+                "goodsPrice": price,
+                "goodsNo" :goodsNo ,
+            });
+
+            gd_set_add_order(resultJson);
+            gd_close_layer();
+        })
+    })
+
+    function goAjaxPaging(page){
+        $.ajax({
+            method: "get",
+            url: "../share/layer_order_search.php",
+            data: page,
+            dataType: 'text'
+        }).success(function (data) {
+            $('.scroll_box').html(data);
+            console.log(data);
+        }).error(function (e) {
+            alert(e.responseText);
+        });
+    }
+</script>

@@ -1,0 +1,148 @@
+{ # share_header }
+{=acecounterScript}
+
+<div class="adult_wrap">
+    <div class="adult_guest_cont">
+        <div class="guest_tit_box">
+            <em>{=__('본 정보 내용은 청소년에게 유해한 정보를 포함하고 있어 %s성인인증 절차%s를 거쳐야 합니다.', '<strong>', '</strong>')}</em>
+            <p>{=__('본 정보 내용은 청소년 유해매체물로서 정보통신망 이용촉진 및 정보보호등에 관한 법률 및 청소년 보호법의 규정에 의하여 %s19세 미만의 청소년%s이 이용할 수 없습니다.', '<strong>', '</strong>')}</p>
+            <button class="btn_exit">19세 미만 나가기</button>
+        </div>
+        <!-- //guest_tit_box -->
+        <div class="guest_login_wrap">
+            <div class="guest_login_box">
+                <div class="guest_certify">
+                    <h3>{=__('비회원 성인 인증')}</h3>
+                    <!--{ ? authCellphoneFl  }--><button class="js_auth_cellphone">{=__('휴대폰 인증 받기')}</button>
+                    <iframe id="ifrmHpauth" name="ifrmHpauth" style="width:500px;height:500px;display:none;"></iframe>
+                    <!--{ / }-->
+                    <!--{ ? ipinFl  }--><button class="js_auth_ipin">{=__('아이핀 인증 받기')}</button>
+                    <iframe id="ifrmRnCheck" name="ifrmRnCheck" style="width:500px;height:500px;display:none;"></iframe>
+                    <!--{ / }-->
+                </div>
+                <form id="formLogin" method="post" action="{loginActionUrl}">
+                <input type="hidden" name="returnUrl" value="{returnUrl}">
+                <div class="guest_login">
+                    <h3>{=__('회원 로그인')}</h3>
+                    <div class="login_input_sec">
+                    	<div>
+                            <input type="text" id="loginId" name="loginId" value="{data.loginId}" placeholder="{=__('아이디')}" required="true">
+                            <input type="password" id="loginPwd" name="loginPwd" value="" placeholder="{=__('비밀번호')}" required="true">
+                        </div>
+                        <button>{=__('로그인')}</button>
+                    </div>
+                    <!--{? usePaycoLogin || useFacebookLogin || useNaverLogin }-->
+                    <div class="login_sns_sec">
+                        <!--{? usePaycoLogin}-->
+                        <a class='js_btn_payco_login' href="#"><img src="../img/common/bg/img_login_payco.png" alt="페이코"/><span>{=__('아이디 로그인')}</span></a>
+                        <!--{/}-->
+                        <!--{? useFacebookLogin}-->
+                        <a class='js_btn_facebook_login' href="#" data-facebook-url="{=facebookUrl}"><img src="../img/common/bg/img_login_facebook.png" alt="페이스북"/><span>{=__('아이디 로그인')}</span></a>
+                        <!--{/}-->
+                        <!--{? useNaverLogin}-->
+                        <a class='js_btn_naver_login' href="#"><img src="../img/etc/login_naver.png" alt="{=__('네이버')}"> {=__('아이디 로그인')}</a>
+                        <!--{/}-->
+                    </div>
+                    <!--{/}-->
+                    <div class="btn">
+                        <button type="button" class="guest_btn base3" id="btnJoinMember"><em>{=__('회원가입')}</em></button>
+                        <button type="button" class="guest_btn default" id="btnFindId"><em>{=__('아이디 찾기')}</em></button>
+                        <button type="button" class="guest_btn default" id="btnFindPwd"><em>{=__('비밀번호 찾기')}</em></button>
+                    </div>
+                </div>
+                </form>
+            </div>
+
+            <!-- //guest_login_box -->
+            <p class="domain_url"><span>{=domainUrl}</span></p>
+        </div>
+        <!-- //guest_login_wrap -->
+    </div>
+    <!-- //adult_guest_cont -->
+</div>
+<!-- //adult_wrap -->
+
+<script type="text/javascript" src="../js/jquery/jquery.serialize.object.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#btnJoinMember').click(function (e) {
+            e.preventDefault();
+            location.href = '../member/join_method.php';
+        });
+        $('#btnFindId').click(function (e) {
+            e.preventDefault();
+            location.href = '../member/find_id.php';
+        });
+        $('#btnFindPwd').click(function (e) {
+            e.preventDefault();
+            location.href = '../member/find_password.php';
+        });
+
+        $('.btn_exit').click(function (e) {
+            history.back();
+        });
+
+        $('#formLogin').validate({
+            dialog: false,
+            rules: {
+                loginId: {
+                    required: true
+                },
+                loginPwd: {
+                    required: true
+                }
+            },
+            messages: {
+                loginId: {
+                    required: "{=__('아이디를 입력해주세요')}"
+                },
+                loginPwd: {
+                    required: "{=__('패스워드를 입력해주세요')}"
+                }
+            }, submitHandler: function (form) {
+                var params = $(form).serializeArray();
+                params.push({name: "mode", value: "login"});
+                $.post('../member/login_ps.php', params).done(function (data, textStatus, jqXHR) {
+                    console.log('gd_member ajax', data, textStatus, jqXHR);
+                    var code = data.code;
+                    var message = data.message;
+                    var url = data.url;
+                    var target = data.target;
+                    if (_.isUndefined(code) && _.isUndefined(message)) {
+                        var returnUrl = '{=returnUrl}';
+                        if (_.isEmpty(returnUrl)) {
+                            location.href = '/';
+                        } else {
+                            location.href = returnUrl;
+                        }
+                    } else {
+                        alert(message);
+                        if (_.isUndefined(url) === false) {
+                            location.href = url;
+                        }
+                    }
+                });
+            }
+        });
+
+        $(".js_auth_ipin").on('click', function(){
+
+            var popupWindow = window.open("", "popupCertKey", "top=100, left=200, status=0, width=417, height=490");
+            ifrmRnCheck.location.href = "/member/ipin/ipin_main.php?callType=certAdult&returnUrl={=urlencode(returnUrl)}";
+
+        });
+
+
+        $(".js_auth_cellphone").on('click', function(){
+
+            var protocol = location.protocol;
+            var callbackUrl = "{=domainUrl}/member/authcellphone/dreamsecurity_result.php";
+            ifrmHpauth.location.href = protocol + "//hpauthdream.godo.co.kr/module/NEW_hpauthDream_Main.php?callType=certAdult&returnUrl={=urlencode(returnUrl)}&shopUrl=" + callbackUrl + "&cpid={=authDataCpCode}";
+
+        });
+
+    });
+</script>
+
+{ # share_footer }

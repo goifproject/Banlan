@@ -1,0 +1,234 @@
+{*** 상품상세 - 플러스 리뷰 게시글 보기 | board/plus_review_lview.php ***}
+<script src="../js/slider/slick/slick.js" type="text/javascript" charset="utf-8"></script>
+<div class="layer_wrap_cont plusreview_view_layer js_pr_row" data-sno="{=data.sno}">
+    <div class="ly_cont">
+
+        <div class="plus_review_view_cont">
+            <div class="plus_review_top">
+                <style type="text/css">
+                    .plus_review_silde{width:100%; height:auto; background:#fcfcfc;}
+                    .plus_review_silde .slick-prev{padding:30px 20px; background-image:url("../img/common/btn/btn_slide_prev.png");
+                        background-color:#000000; filter:alpha(opacity=40); background-color:rgba(0, 0, 0, 0.4); background-position:center center;}
+                    .plus_review_silde .slick-next{padding:30px 20px; background-image:url("../img/common/btn/btn_slide_next.png");
+                        background-color:#000000; filter:alpha(opacity=40); background-color:rgba(0, 0, 0, 0.4); background-position:center center;}
+                    .plus_review_silde .slick-dots li button{width:8px; height:8px; border-radius:0%; background:#454d51;}
+                    .plus_review_silde .slick-dots li.slick-active button{background:#fa2828; }
+                </style>
+                <div class="slider_wrap plus_review_silde js_pr_slider">
+                    <!--{@ data.uploadedFile}-->
+                    <div>
+                        <img src="{.src}">
+                    </div>
+                    <!--{/}-->
+                </div>
+                <!-- //slider_wrap -->
+                <script type="text/javascript">
+                    $('.plus_review_silde').slick({
+                        autoplay: false,
+                        dots: true,
+                        arrows: true,
+                        infinite: true,
+                        speed: 10,
+                        fade: true,
+                        adaptiveHeight: false
+                    });
+                </script>
+            </div>
+            <!-- //plus_review_top -->
+
+            <div class="plus_review_look">
+                <div class="plus_review_look_list">
+                    <div class="star_photo_num">
+                        <span class="goods_photo"><img src="{=data.goodsImageSrc}"></span>
+                        <em>{=__('평가')} <strong>{=data.goodsInfo.goodsPt.avg}</strong> {=__('리뷰')} <strong>{=data.goodsInfo.reviewCount}</strong></em>
+                        <strong>
+                            <!--{  ? data.goodsPt > 0}-->
+                            <!--{ @range(1,data.goodsPt)}-->★<!--{/}-->
+                            <!--{/}-->
+                        </strong>
+                    </div>
+                    <!-- //star_day_name -->
+
+                    <div class="option_text_file_box">
+                        <strong class="goods_tit">{=data.goodsNm}</strong>
+                        <!--{ ? plusReviewConfig.addFormFl == 'y' || data.option}-->
+                        <div class="option_list_cont">
+                            <!--{ @ data.addFormData}-->
+                            <dl>
+                                <dt>{.key_}</dt>
+                                <dd>{.value_}</dd>
+                            </dl>
+                            <!--{/}-->
+                            <!--{ @ data.option}-->
+                            <dl>
+                                <dt>{.name}</dt>
+                                <dd>{.value}</dd>
+                            </dl>
+                            <!--{/}-->
+                        </div>
+                        <!-- //option_list_cont -->
+                        <!--{/}-->
+
+                        <div class="text_file_cont">
+                            <div class="review_text reviews_new"><!-- N : 신규 글일 때 클래스 reviews_new 추가 -->
+                                {=data.viewContents}
+                            </div>
+                        </div>
+                        <!-- //text_file_cont -->
+
+                        <div class="review_comment_box">
+                            <!--{ ? plusReviewConfig.recommendFl == 'y'}-->
+                            <div class="review_comment_top">
+                            <span class="comment_best_num">{=__('추천')} : <strong class="js_pr_recommend_cnt">{=data.recommend}</strong>
+                                <a href="#;" class="btn_comment_best js_pr_btn_recommend"><em>{=__('추천하기')}</em></a>
+                            </span>
+                            </div>
+                            <!--{/}-->
+                        </div>
+                        <!-- //comment_box -->
+
+                    </div>
+                    <!-- //option_text_file_box -->
+                </div>
+                <!-- //plus_review_look_list -->
+            </div>
+            <!-- //plus_review_look -->
+
+        </div>
+        <!-- //plus_review_view_cont -->
+
+    </div>
+    <!-- //ly_cont -->
+    <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_plus_review_close.png" alt="닫기"></a>
+</div>
+<!-- //layer_wrap_cont -->
+
+<script>
+    $(document).ready(function () {
+        var goodsNo = '{=data.goodsNo}';
+        $(document).mousedown(function(e){
+            $('.plusreview_view_layer').each(function(){
+                if( $(this).css('display') == 'block' )
+                {
+                    var l_position = $(this).offset();
+                    l_position.right = parseInt(l_position.left) + ($(this).width());
+                    l_position.bottom = parseInt(l_position.top) + parseInt($(this).height());
+
+                    if( ( l_position.left <= e.pageX && e.pageX <= l_position.right )
+                        && ( l_position.top <= e.pageY && e.pageY <= l_position.bottom ) )
+                    {
+                    }
+                    else
+                    {
+                        $(this).find('.layer_close').trigger('click');
+                    }
+                }
+            });
+        });
+        $('.plusreview_view_layer .goods_photo img').bind('click', function () {
+            window.open('../goods/goods_view.php?goodsNo=' + goodsNo);
+        }).css('cursor', 'pointer');
+
+        $('.plusreview_view_layer .js_pr_btn_recommend').unbind('click').bind('click', function () {
+            var row = $(this).closest('.js_pr_row');
+            var sno = row.data('sno');
+            $.ajax({
+                method: "POST",
+                data: {mode: 'recommend', sno: sno},
+                cache: false,
+                url: "../board/plus_review_ps.php",
+                success: function (data) {
+                    alert(data.msg);
+                    if (data.result == 'ok') {
+                        row.find('.js_pr_recommend_cnt').text(data.cnt);
+                    }
+                },
+                error: function (data) {
+                    alert(data.message);
+                }
+            })
+        })
+
+        $('.plusreview_view_layer .slick-slide img').load(function () {
+            sliderResize(0);
+        })
+
+        $('.js_pr_slider').on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+            $('.plusreview_view_layer').hide();
+            sliderResize(nextSlide)
+            $('.plusreview_view_layer').show();
+        })
+
+    });
+
+    function sliderResize(nextSlide) {
+        var activeSlide = $('.plusreview_view_layer .slick-slide[data-slick-index="' + nextSlide + '"]');
+
+        var activeImg = activeSlide.find('img');
+        var naturalWidth = activeImg.get(0).naturalWidth;
+        var naturalHeight = activeImg.get(0).naturalHeight;
+//        var minWidth = 500;
+        var minWidth = 700;
+        var maxWidth = 1000;
+//        var maxHeight = 750;
+        var maxHeight = 700;
+        var defaultWidth = 700; //css 초기화 사이즈
+        var defaultHeight = 470; //css 초기화 사이즈
+
+        var viewImageWidth = defaultWidth;
+        var viewImageHeight = defaultHeight;
+        var radio = 1;
+        if (naturalHeight < naturalWidth) {  //가로가 더 길면
+            if (naturalWidth > maxWidth) {   //가로가 최대가로보다 크면
+                viewImageWidth = maxWidth; //가로는 최대가로
+            }
+            else {
+                viewImageWidth = naturalWidth;
+            }
+
+            if (viewImageWidth != naturalWidth) {
+                radio = (naturalHeight / naturalWidth).toFixed(2);
+                viewImageHeight = viewImageWidth * radio;
+            }
+            else {
+                viewImageHeight = naturalHeight;
+            }
+        }
+        else {
+            if (naturalHeight > maxHeight) {   //가로가 최대가로보다 크면
+                viewImageHeight = maxHeight; //가로는 최대가로
+            }
+            else {
+                viewImageHeight = naturalHeight;
+            }
+
+            if (viewImageHeight != naturalHeight) {
+                var radio = (naturalWidth / naturalHeight).toFixed(2);
+                viewImageWidth = viewImageHeight * radio;
+            }
+            else {
+                viewImageWidth = naturalWidth;
+            }
+        }
+        activeImg.width(viewImageWidth).height(viewImageHeight); //이미지 사이즈 변경
+        var layerWidth = 0;
+        if (viewImageWidth > minWidth) {  //이미지가로가 최소 가로 보다 크고
+            if (viewImageWidth < maxWidth) {    //최대가로보다 작으면
+                layerWidth = viewImageWidth;
+            }
+            else {  //최대가로보다 크면
+                layerWidth = maxWidth;
+            }
+        }
+        else {  //이미지가로가 최소가로보다 작으면
+            layerWidth = minWidth;
+        }
+        $('.plusreview_view_layer .plus_review_silde').css('width', layerWidth).css('height', viewImageHeight);
+        $('.plusreview_view_layer').width(layerWidth);
+        $('.plusreview_view_layer .option_text_file_box').width(layerWidth - 181);
+        activeSlide.css('width', layerWidth + 'px');
+
+        $('.plusreview_view_layer').center();
+        $('.plusreview_view_layer').css('top', '5%');
+    }
+</script>

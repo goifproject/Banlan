@@ -1,0 +1,40 @@
+{*** 휴면회원 해제 완료 | member/wake_complete.php ***}
+{ # header }
+<div class="content_box">
+	<div class="member_wrap">
+		<div class="member_tit">
+			<h2>{=__('휴면 회원')}</h2>
+		</div>
+		<!-- //member_tit -->
+		<div class="member_cont">
+			<div class="wake_complete_box">
+				<div class="wake_complete_tit">
+					<p class="complete">{=__('정상적으로
+						%s휴면해제%s
+						처리되었습니다.', '<strong>', '</strong>')}</p>
+				</div>
+				<!-- //wake_complete_tit -->
+				<div class="btn_member_sec">
+					<ul>
+						<li><button type="button" id="btnConfirm">{=__('확인')}</button></li>
+					</ul>
+				</div>
+				<!-- //btn_member_sec -->
+			</div>
+			<!-- //wake_complete_box -->
+		</div>
+		<!-- //member_cont -->
+	</div>
+	<!-- //member_wrap -->
+</div>
+<!-- //content_box -->
+<script type="text/javascript">
+	(function ($, window, document, undefined) {
+		$(document).ready(function () {
+			$('#btnConfirm').click(function () {
+				window.location.href = '/';
+			});
+		});
+	})($, window, document);
+</script>
+{ # footer }

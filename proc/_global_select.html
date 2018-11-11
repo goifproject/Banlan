@@ -1,0 +1,46 @@
+{*** [위젯] 해외몰 상점 설정 | proc/_global_select.html ***}
+<!--{ ? mallCnt > 1}-->
+<!--{ ? iconType == 'check' }-->
+<div class="top_country_list0">
+    <ul>
+        <!--{ @ mallList }-->
+        <li><a href="#" class="js_mall" data-domain-fl="{.value_.domainFl}"><img src="{=uriCommon}/{=mallIcon[.key_]}"></a></li>
+        <!--{ / }-->
+    </ul>
+</div>
+<!--{ : iconType == 'select_flag' }-->
+<div class="top_country_list1">
+    <div class="country_tit"><a href="#"><img src="{=uriCommon}/{=mallIcon[nowMall]}"></a></div>
+    <ul style="display:none;">
+        <!--{ @ mallList }-->
+        <li><a href="#" class="js_mall" data-domain-fl="{.value_.domainFl}"><img src="{=uriCommon}/{=mallIcon[.key_]}"></a></li>
+        <!--{ / }-->
+    </ul>
+</div>
+<!--{ : iconType == 'select_language' }-->
+<div class="top_country_list2">
+    <div class="country_tit"><a href="#"><img src="{=uriCommon}/{=mallIcon[nowMall]}"><span>{=mallList[nowMall].languageFl}</span></a></div>
+    <ul style="display:none;">
+        <!--{ @ mallList }-->
+        <li><a href="#" class="js_mall" data-domain-fl="{.value_.domainFl}"><img src="{=uriCommon}/{=mallIcon[.key_]}"><span>{=.value_.languageFl}</span></a></li>
+        <!--{ / }-->
+    </ul>
+</div>
+<!--{ / }-->
+<!-- //top_country_list -->
+
+<script type="text/javascript">
+    $(function(){
+        $('.js_mall').click(function(){
+            switch($(this).data('domain-fl')) {
+                case 'kr':
+                    location.href = '{=uriHome}main/index.php';
+                    break;
+                default:
+                    location.href = '{=uriHome}' + $(this).data('domain-fl');
+                    break;
+            }
+        });
+    })
+</script>
+<!--{ / }-->

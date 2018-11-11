@@ -1,0 +1,84 @@
+{*** 밴드웨건 푸시 | goods/bandwagon_push.php ***}
+<!--{ ? data }-->
+<input type="hidden" name="bandwagon_push_page" value="{data.page}">
+<!--{ ? in_array('goodsImg', cfg.displayField) && data.goodsImg }-->
+<div class="bandpush_img">
+    <img src="{data.goodsImg}" alt="{data.goodsNm}" width="100%" height="100%">
+</div>
+<!--{ / }-->
+<div class="bandpush_text">
+    <div class="bandpush_title">
+        <!--{ ? in_array('area', cfg.displayField) && data.area }-->
+        {=__('%1$s 지역의 %2$s 님이 구입했습니다.', '<strong>' + data.area + '</strong>', data.name)}
+        <!--{ : }-->
+        {=__('%s 님이 구입했습니다.', data.name)}
+        <!--{ / }-->
+    </div>
+    <p>
+        <!--{ ? in_array('goodsNm', cfg.displayField) && data.goodsNm }-->
+        <a href="../goods/goods_view.php?goodsNo={data.goodsNo}">{data.goodsNm}</a>
+        <!--{ / }-->
+        <!--{ ? in_array('goodsOpt', cfg.displayField) && data.goodsOpt }-->
+        {data.goodsOpt} :
+        <!--{ / }-->
+        <!--{ ? in_array('goodsPrice', cfg.displayField) && data.goodsPrice }-->
+        <strong>
+            <!--{ ? data.goodsPriceString }-->
+            {=data.goodsPriceString}
+            <!--{ : }-->
+            {=gd_global_currency_symbol()}{=gd_global_money_format(data.goodsPrice)}{=gd_global_currency_string()}
+            <!--{ / }-->
+        </strong>
+        <!--{ / }-->
+    </p>
+    <div class="bandpush_count">
+        <!--{ ? data.stock || data.orderCnt }-->
+        <span>(
+        <!--{ ? data.stock }-->
+        {=__('재고수량')} : <!--{ ? data.stock == '∞' }-->∞<!--{ : }--><em>{data.stock}</em>{=__('개')}<!--{ / }-->
+        <!--{ / }-->
+        <!--{ ? data.stock && data.orderCnt }--> / <!--{ / }-->
+        <!--{ ? data.orderCnt }-->
+        {=__('판매수량')} : <em>{=data.orderCnt}</em>{=__('개')}
+        <!--{ / }-->
+        )</span>
+        <!--{ / }-->
+        <!--{ ? data.soldOut == 'y' }-->
+            <!--{ ? soldoutDisplay.soldout_icon != 'disable' }-->
+            <img src="{soldoutDisplay.soldout_icon_img}">
+            <!--{ / }-->
+        <!--{ : }-->
+            <!--{ ? cfg.stockFl == 'y' && data.stockFl == 'y' }-->
+                <!--{ ? cfg.iconFl == 'd' }-->
+                <span class="bandpush_point">{=__('품절임박')}</span>
+                <!--{ : }-->
+                <img src="{imagePath}/{cfg.iconFile}" />
+                <!--{ / }-->
+            <!--{ / }-->
+        <!--{ / }-->
+    </div>
+</div>
+
+<style media="screen">
+    .app_bandpush{position: fixed;bottom: -157px;left: 50%;margin: 0 0 0 -210px; width: 378px;padding: 20px 20px 20px 20px; border: 1px solid #c5c5c5;background-color: {cfg.background}; color:{cfg.color} !important;z-index: 160;-webkit-box-shadow: 4px 4px 10px 1px rgba(0,0,0,0.2);-moz-box-shadow: 4px 4px 10px 1px rgba(0,0,0,0.2);box-shadow: 4px 4px 10px 1px rgba(0,0,0,0.2);-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
+    .app_bandpush.left{left: 30px;margin: 0;}
+    .app_bandpush.right{left: inherit;right: 30px;margin: 0;}
+    .app_bandpush .bandpush_img{position: absolute;left: 20px; top: 20px;width: 62px;height: 62px;border: 1px solid #ccc;}
+    .app_bandpush .bandpush_text{margin: 0 0 0 78px;}
+    .app_bandpush .bandpush_text a {color:{cfg.color};}
+    .app_bandpush .bandpush_text .bandpush_title{font-size: 12px;opacity:0.7;-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; }
+    .app_bandpush .bandpush_text p{font-size: 14px;opacity:0.9;-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";font-weight: bold;margin: 5px 0 0 0;line-height: 1.4em;}
+    .app_bandpush .bandpush_text .bandpush_option{display: inline-block;font-size: 12px;opacity:0.6;-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";margin: 2px 0 0 0;}    .app_bandpush .bandpush_text .bandpush_count{font-size: 12px;color: #222;font-weight: bold;margin: 7px 0 0 0;}
+    .app_bandpush .bandpush_text .bandpush_count span{display: inline-block;opacity:0.7;-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";}
+    .app_bandpush .bandpush_text .bandpush_count em{padding: 0 2px 0 0;}
+    .app_bandpush .bandpush_text .bandpush_count .bandpush_point{display: inline-block;height: 18px;line-height: 16px;font-size: 11px; color: #fff;opacity: 1;-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";text-align: center;background-color: #fa2828;font-weight: normal;margin: 0 0 0 5px;padding: 0 3px;}
+    .app_bandpush .bandpush_text .bandpush_count .bandpush_point.on{background-color: #D53430;}
+</style>
+<script type="text/javascript">
+    $(function(){
+        if (!$('.app_bandpush').hasClass('{cfg.position}')) {
+            $('.app_bandpush').addClass('{cfg.position}');
+        }
+    });
+</script>
+<!--{ / }-->

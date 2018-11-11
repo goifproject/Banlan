@@ -1,0 +1,31 @@
+{*** 예치금 사유 레이어 | mypage/layer_deposit_reason.php ***}
+<div class="layer_wrap_cont">
+    <div class="ly_tit">
+        <h4>
+            {=__('환불 상세 정보')}
+        </h4>
+    </div>
+    <div class="ly_cont">
+        <div class="scroll_box refund_cause_layer">
+            <div class="refund_cause_type">
+                <div class="refund_cause_infor">
+                    <ul>
+                        <li>{=__('주문일')} : {=data['regDt']}</li>
+                        <li>{=__('환불사유')} : {=data['handleReason']}</li>
+                        <li>{=__('환불상품')} : {=data['goodsNm']}</li>
+                    </ul>
+                </div>
+                <div class="scroll_box refund_cause_txt">
+                    {=nl2br(data['handleDetailReason'])}
+                </div>
+            </div>
+        </div>
+
+        <div class="btn_center_box">
+            <button type="button" class="btn_ly_ok layer_close"><strong>{=__('확인')}</strong></button>
+        </div>
+    </div>
+    <!-- //ly_cont -->
+    <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+</div>
+<!-- //layer_wrap_cont -->

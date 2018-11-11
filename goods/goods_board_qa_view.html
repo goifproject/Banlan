@@ -1,0 +1,41 @@
+{*** 상품상세 - 상품 문의 상세보기 | goods/goods_board_qa_view.php ***}
+<td colspan="5" class="qna_new_box">
+    <div class="board_cont">
+        <div class="board_view">
+            <dl class="qna_box">
+                <dt>
+                    <span class="icon_qna"><img src="../img/icon/board/icon_qna_q.png" alt="{=__('질문제목')}"></span>
+                    <strong>{bdView.data.subject}</strong>
+                    <p>{bdView.data.workedContents}</p>
+                    <!--{ ? bdView.data.isFile == 'y' }-->
+                    <div class="board_view_attach">
+                        <strong>{=__('첨부파일')}</strong>
+                        <span class="attach_list">
+                            <!--{ @ bdView.data.uploadedFile }-->
+                            <a href="../board/download.php?bdId={=bdView.cfg.bdId}&sno={req.sno}&fid={=.fid}">{.name}</a>
+                            <!--{ / }-->
+                        </span>
+                    </div>
+                    <!-- //board_view_attach -->
+                    <!--{ / }-->
+                    <div class="btn_view_qna_box">
+                        <!--{ ? bdView.data.auth.modify : 'y' : 'c' }-->
+                        <span class="btn_gray_list"><button type="button" class="btn_gray_mid js_btn_modify" data-auth="{bdView.data.auth.modify}"><span>{=__('수정')}</span></button></span>
+                        <!--{ / }-->
+                        <!--{ ? bdView.data.auth.delete : 'y' : 'c' }-->
+                        <span class="btn_gray_list"><button type="button" class="btn_gray_mid js_btn_delete" data-auth="{bdView.data.auth.delete}"><span>{=__('삭제')}</span></button></span>
+                        <!--{ / }-->
+                    </div>
+                    <!-- //btn_view_qna_box -->
+                </dt>
+                <!--{ ? bdView.data.workedAnswerContents && bdView.data.replyComplete }-->
+                <dd>
+                    <span class="icon_qna"><img src="../img/icon/board/icon_qna_a.png" alt="{=__('답변')}"></span>
+                    <strong>{bdView.data.answerSubject}</strong>
+                    <p>{bdView.data.workedAnswerContents}</p>
+                </dd>
+                <!--{ / }-->
+            </dl>
+        </div>
+    </div>
+</td>

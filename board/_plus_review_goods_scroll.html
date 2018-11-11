@@ -1,0 +1,54 @@
+{*** 플러스리뷰 상품기준 리뷰 게시판 | board/plus_review_goods.php ***}
+<style>
+    .plusreview_goods_review.board_list_plus_review {
+        border-top : none;
+    }
+</style>
+<div class="board_list_plus_review plusreview_goods_review" style="display:none">
+    <div class="plus_review_goods_list">
+        <!--{@data.list}-->
+        <li class="item" data-goodsno="{.goodsNo}">
+            <div class="plus_review_cont">
+                <div class="board_img">
+                    <img src="{=.goodsImageSrc}" class="js_pr_btn_link_goods">
+                </div>
+                <div class="plus_review_info_cont">
+                    <div class="board_tit">
+                        <a href="javascript:void(0);" class="js_pr_btn_link_goods">
+                            <strong>{=.goodsNm}</strong>
+                        </a>
+                    </div>
+                    <div class="board_review_list">
+                        <ul>
+                            <!--{ @ .article}-->
+                            <li><span <!--{ ? ..isNew == 'y' }-->class="new"<!--{/}-->>{..contents}</span></li>
+                            <!--{/}-->
+                        </ul>
+                    </div>
+                    <div class="board_review_num">
+                        <em>{=__('평가')} <strong>{.avgGoodsPt}</strong> {=__('리뷰')} <strong>{.countArticle}</strong></em>
+                    </div>
+                </div>
+                <!-- //plus_review_info_cont -->
+            </div>
+            <!-- //plus_review_cont -->
+        </li>
+        <!--{/}-->
+        </ul>
+    </div>
+    <div class="jscroll_next_parent" style="display: none;">
+        <a href="plus_review_goods.php?page={=req.page+1}&type=scroll">next page</a>
+    </div>
+</div>
+<script>
+    $(document).ready(new function () {
+        var totalCnt = {=data.cnt.search};
+        if(totalCnt <= $('.plus_review_goods_list .item').length) {
+            $('.jscroll_next_parent').remove();
+        }
+
+        var pureDomain = window.location.href.split('?')[0];
+        window.history.pushState("object or string", "Title", pureDomain+'?page={req.page}&pageMode=auto');
+    });
+</script>
+

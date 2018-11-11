@@ -1,0 +1,117 @@
+{*** 하단 기본타입 | main/index.php ***}
+
+
+<div id="footer">
+    <div class="foot_list">
+		<div class="foot_info">
+			<ul>
+				<li><a href="../service/company.php">{=__('회사소개')}</a></li>
+				<li><a href="../service/agreement.php">{=__('이용약관')}</a></li>
+				<li><a href="../service/private.php"><strong>{=__('개인정보처리방침')}</strong></a></li>
+				<li><a href="../service/guide.php">{=__('이용안내')}</a></li>
+				<li><a href="../service/cooperation.php">{=__('광고/제휴 문의')}</a></li>
+			</ul>
+		</div>
+		<div class="foot_sns">
+			<div class="foot_sns_list">
+				<span><img src="../../img/icon/etc/txt_footer_sns.png" alt="follow us on"/></span>
+				<ul>
+					<li><a href="#;" target="_blank"><img src="../../img/icon/etc/icon_footer_insta.png" alt="인스타그램"/></a></li>
+					<li><a href="#;" target="_blank"><img src="../../img/icon/etc/icon_footer_blog.png" alt="블로그"/></a></li>
+					<li><a href="#;" target="_blank"><img src="../../img/icon/etc/icon_footer_facebook.png" alt="페이스북"/></a></li>
+				</ul>
+			</div>
+		</div>
+    </div>
+    <!-- //foot_list -->
+    <div class="foot_cont">
+		<div class="foot_cont_box">
+			<div class="foot_logo">
+				<!--{ @dataBanner('2838517793') }-->{.tag}<!--{ / }-->
+			</div>
+			<!-- //foot_logo -->
+			<div class="foot_info">
+				<address>
+					<strong>{=gMall.companyNm}</strong>
+					<span>{=gMall.address} {=gMall.addressSub}</span>
+				</address>
+				<div class="foot_info_list">
+					<dl>
+						<dt>{=__('대표')} :</dt>
+						<dd>{=gMall.ceoNm}</dd>
+					</dl>
+					<dl>
+						<dt>{=__('사업자등록번호')} :</dt>
+						<dd>{=gMall.businessNo} <a href="#" class="btn_licensee_info" onclick="gd_popup_bizInfo('{=str_replace('-', '', gMall.businessNo)}'); return false;">{=__('사업자정보확인')} ></a></dd>
+					</dl>
+					<dl>
+						<dt>{=__('통신판매업신고번호')} :</dt>
+						<dd>{=gMall.onlineOrderSerial}</dd>
+					</dl>
+					<dl>
+						<dt>{=__('개인정보관리자')} :</dt>
+						<dd>{=gMall.privateNm}</dd>
+					</dl>
+				</div>
+				<div class="foot_info_list">
+					<dl>
+						<dt>{=__('대표번호')} :</dt>
+						<dd><strong>{=gMall.phone}</strong></dd>
+					</dl>
+					<dl>
+						<dt>{=__('팩스번호')} :</dt>
+						<dd>{=gMall.fax}</dd>
+					</dl>
+					<dl>
+						<dt>{=__('메일')} :</dt>
+						<dd><a href="mailto:godo@godo.co.kr" class="btn_email">{=gMall.email}</a></dd>
+					</dl>
+					<dl>
+						<dt></dt>
+						<dd>{=__('호스팅제공 : 엔에이치엔고도(주)')}</dd>
+					</dl>
+				</div>
+				<!-- // -->
+				<p class="copyright">copyright (c) <strong>{=gMall.mallDomain}</strong> all rights reserved.</p>
+			</div>
+			<!-- //foot_info -->
+		</div>
+		<div class="content_info_wrap">
+
+				<div class="cs_center">
+					<h3>{=__('고객센터')}</h3>
+					<strong>{gMall.centerPhone}</strong>
+					<p>{=nl2br(gMall.centerHours)}</p>
+				</div>
+				<!-- //cs_center -->
+				<!--{ ? !gGlobal.isFront }-->
+				<div class="bank_info">
+					<h3>{=__('입금 계좌정보')}</h3>
+					<strong>{gBank.accountNumber}</strong>
+					<p><em>{gBank.bankName}</em> <br>{=__('예금주')} : {gBank.depositor}</p>
+				</div>
+				<!--{/}-->
+				<!-- //bank_info -->
+
+
+		</div>
+		<!-- //content_info_wrap -->
+    </div>
+    <!-- //foot_cont -->
+    <div class="foot_certify">
+        <!--{? gFairTrade['logoFl'] == 'default'}-->
+		<span><a href="https://www.ftc.go.kr/www/cop/bbs/selectBoardList.do?key=201&bbsId=BBSMSTR_000000002320&bbsTyCode=BBST01" target="_blank"><img alt="{=__('공정거래위원회')}" src="../../img/certify/logo_kftc.png"></a></span>
+        <!--{: gFairTrade['logoFl'] == 'upload'}-->
+        <span><img alt="{=__('공정거래위원회')}" src="{=gFairTrade['uploadLogoPath']}"></span>
+        <!--{/}-->
+        <span>{=displaySSLSeal}</span>
+        <span>{=dataEggBanner()}</span>
+    </div>
+    <!-- //foot_certify -->
+    <!--{ ? isMobileDevice == true }-->
+    <div class="foot_certify" style="text-align: center;">
+        <a href="{=currentPageMobileUri}"><img src="../../img/etc/btn_go_mobile.png"></a>
+    </div>
+    <!--{ / }-->
+</div>
+<!-- //footer -->

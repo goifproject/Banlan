@@ -1,0 +1,44 @@
+{*** 기본 이동 레이어 팝업창 | main/html.php?htmid=popup/move.htm ***}
+<style type="text/css">
+    #{=popupCode}_form {cursor: move; background: {=data.popupBgColor};}
+    #{=popupCode}_form .box .view {width:{=(popupWidth)}{=data.sizeTypeW}; height:{=(popupHeight)}{=data.sizeTypeH}; overflow: hidden;}
+    #{=popupCode}_form .check {background-color:{=todayUnSee.todayUnSeeBgColor}; color:{=todayUnSee.todayUnSeeFontColor}; text-align:{=todayUnSee.todayUnSeeAlign};}
+    #{=popupCode}_form .check .form_element .check_s {background-color:{=todayUnSee.todayUnSeeBgColor};}
+    <!--{ ? data.contentImgFl == 'y' }-->
+    #{=popupCode}_form .box .view img {max-width:{=data.popupSizeW}{=data.sizeTypeW};}
+    <!--{ / }-->
+</style>
+
+<div id="{=popupCode}_form" class="sys_pop">
+	<div class="box">
+		<div class="view">
+			{=viewPopupContent}
+		</div>
+		<!--{ ? todayUnSee.todayUnSeeFl == 'y' }-->
+		<!-- 오늘 하루 보이지 않음 : start -->
+		<div class="check">
+            <span class="form_element">
+                <label for="todayUnSee_{=popupCode}" class="check_s">{=__('오늘 하루 보이지 않음')}</label>
+                <input type="checkbox" id="todayUnSee_{=popupCode}" class="checkbox" onClick="gd_popup_cookie('{=popupCode}', this);" />
+            </span>
+		</div>
+		<!-- 오늘 하루 보이지 않음 : end -->
+		<!--{ / }-->
+		<button type="button" class="close" title="{=__('닫기')}" onclick="$('#{=popupCode}').hide();">{=__('닫기')}</button>
+	</div>
+</div>
+
+<script type="text/javascript">
+    <!--
+    $(function(){
+        <!--{ ? data.sizeTypeW == '%' }-->
+        var percentWidth = ($(window).width() * (Number('{=popupWidth}') / 100)) - 36;
+        $('#{=popupCode}_form .box .view').css('width', percentWidth + 'px');
+        <!--{ / }-->
+        <!--{ ? data.sizeTypeH == '%' }-->
+        var percentHeight = $(window).height() * (Number('{=popupHeight}') / 100) - 102;
+        $('#{=popupCode}_form .box .view').css('height', percentHeight + 'px');
+        <!--{ / }-->
+    });
+    //-->
+</script>

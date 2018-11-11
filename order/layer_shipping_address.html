@@ -1,0 +1,173 @@
+{*** 배송지관리 리스트 | order/layer_shipping_address.php ***}
+
+<div class="layer_wrap_cont">
+    <div class="ly_tit">
+        <h4>{=__('나의 배송지 관리')}</h4>
+    </div>
+    <div class="ly_cont">
+        <div class="scroll_box">
+            <h5>{=__('배송지 목록')}</h5>
+            <div class="delivery_add_list">
+                <div class="top_table_type">
+                    <table>
+                        <colgroup>
+                            <col style="width:10%"> <!-- 선택 -->
+                            <col style="width:13%"> <!-- 배송지이름 -->
+                            <col style="width:12%">	<!-- 받으실 분 -->
+                            <col>					<!-- 주소 -->
+                            <col style="width:20%"> <!-- 연락처 -->
+                            <col style="width:12%"> <!-- 수정/삭제 -->
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>{=__('선택')}</th>
+                            <th>{=__('배송지이름')}</th>
+                            <th>{=__('받으실분')}</th>
+                            <th>{=__('주 소')}</th>
+                            <th>{=__('연락처')}</th>
+                            <th>{=__('수정/삭제')}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--{ ? deliveryAddress }-->
+                        <!--{ @ deliveryAddress }-->
+                        <tr data-shipping-name="{.shippingTitle}">
+                            <input type="hidden" name="shippingName" value="{.shippingName}">
+                            <input type="hidden" name="shippingCountryCode" value="{.shippingCountryCode}">
+                            <input type="hidden" name="shippingZonecode" value="{.shippingZonecode}">
+                            <input type="hidden" name="shippingZipcode" value="{.shippingZipcode}">
+                            <input type="hidden" name="shippingCity" value="{.shippingCity}">
+                            <input type="hidden" name="shippingState" value="{.shippingState}">
+                            <input type="hidden" name="shippingAddress" value="{.shippingAddress}">
+                            <input type="hidden" name="shippingAddressSub" value="{.shippingAddressSub}">
+                            <input type="hidden" name="shippingPhonePrefixCode" value="{.shippingPhonePrefixCode}">
+                            <input type="hidden" name="shippingPhonePrefix" value="{.shippingPhonePrefix}">
+                            <input type="hidden" name="shippingPhone" value="{.shippingPhone}">
+                            <input type="hidden" name="shippingCellPhonePrefixCode" value="{.shippingCellPhonePrefixCode}">
+                            <input type="hidden" name="shippingCellPhonePrefix" value="{.shippingCellPhonePrefix}">
+                            <input type="hidden" name="shippingCellPhone" value="{.shippingCellPhone}">
+                            <td><span class="btn_gray_list"><a href="#" class="btn_gray_small js_shipping_address"><span>{=__('선택')}</span></a></span></td>
+                            <td><span><!--{ ? .defaultFl == 'y' }-->({=__('기본배송지')})<!--{ / }--></span><strong>{.shippingTitle}</strong></td>
+                            <td>{.shippingName}</td>
+                            <td class="td_left">
+                                <!--{ ? gGlobal.isFront }-->
+                                <span>({.shippingZonecode})</span> {.shippingAddressSub}, {.shippingAddress}, {.shippingState}, {.shippingCity}, {.shippingCountry}
+                                <!--{ : }-->
+                                <span>({.shippingZipcode})</span> {.shippingZonecode} {.shippingAddress} {.shippingAddressSub}
+                                <!--{ / }-->
+                            </td>
+                            <td class="td_phone"><span>{=__('전화번호')} : <!--{ ? gGlobal.isFront }-->(+{.shippingPhonePrefix}) <!--{ / }-->{.shippingPhone}</span><span>{=__('휴대폰')} : <!--{ ? gGlobal.isFront }-->(+{.shippingCellPhonePrefix}) <!--{ / }-->{.shippingCellPhone}</span></td>
+                            <td>
+                                <span class="btn_gray_list"><a href="#deliveryAddLayer" class="btn_gray_small btn_open_layer" data-sno="{.sno}"><span>{=__('수정')}</span></a></span>
+                                <span class="btn_gray_list"><a href="#" class="btn_gray_small js_delete" data-sno="{.sno}" data-default-fl="{=.defaultFl}"><span>{=__('삭제')}</span></a></span>
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ : }-->
+                        <tr>
+                            <td colspan="6"><p class="no_data">{=__('배송지 리스트가 없습니다.')}</p></td>
+                        </tr>
+                        <!--{ / }-->
+                        </tbody>
+                    </table>
+
+                </div>
+                <a href="#deliveryAddLayer" class="btn_ly_add_shipping btn_open_layer">+ {=__('새 배송지 추가')}</a>
+            </div>
+            <!-- //delivery_add_list -->
+            {pagination}
+        </div>
+        <!-- //scroll_box -->
+
+    </div>
+    <!-- //ly_cont -->
+    <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+</div>
+<!-- //layer_wrap_cont -->
+
+
+<!-- 새 배송지 추가 레이어 -->
+<div id="deliveryAddLayer" class="layer_wrap dn"></div>
+<!--//새 배송지 추가 레이어 -->
+
+<script type="text/javascript">
+    // DOM 로드
+    $(function(){
+        // 등록/수정 레이어 바인딩
+        $('.delivery_add_list .btn_open_layer').bind('click', function(e){
+            var target = $(this).attr('href');
+            if (target == '#deliveryAddLayer') {
+                // 배송지 등록/수정 모드에 따른 파라미터 설정
+                var param = '?';
+                param += !_.isUndefined($(this).data('sno')) && $(this).data('sno') > 0 ? 'sno=' + $(this).data('sno') : '';
+                param += '&shippingNo={=shippingNo}';
+
+                // AJAX 호출
+                $.get('../order/layer_shipping_address_regist.php' + param, function(data){
+                    $('#myShippingListLayer').empty().append(data).find('>div').center();
+                });
+            }
+        });
+
+        // 배송지 클릭
+        $('.js_shipping_address').click(function(e){
+            gd_insert_shipping_address($(this).closest('tr'));
+            gd_close_layer();
+            return false;
+        });
+
+        // 삭제하기
+        $('.js_delete').click(function(e){
+            if ($(this).data('default-fl') == 'y') {
+                alert(__('기본 배송지는 삭제할 수 없습니다. 변경 후 삭제해주세요.'));
+            } else {
+                if (confirm('나의 배송지 [' + $(this).closest('tr').data('shipping-name') + ']을(를) 정말로 삭제하시겠습니까?')) {
+                    var currentPage = $('.delivery_add_list .pagination > li.active').text();
+                    var params = {
+                        sno: $(this).data('sno'),
+                        mode: 'shipping_delete'
+                    };
+                    $.post('../order/layer_shipping_ps.php', params, function(data){
+                        if(data.code == 200) {
+                            goPageOnDeliveryAddress('page=' + currentPage + '&shippingNo={shippingNo}');
+                        } else {
+                            alert(data.message);
+                            gd_close_layer();
+                        }
+                    });
+                    return false;
+                }
+            }
+        });
+    });
+
+    // 배송지관리 이벤트
+    function goPageOnDeliveryAddress(page) {
+        $.get('../order/layer_shipping_address.php?' + page + '&shippingNo={shippingNo}', function(data){
+            $('#myShippingListLayer').empty().append(data);
+            $('#myShippingListLayer').find('>div').center();
+        });
+    }
+
+    // 배송지 클릭
+    function gd_insert_shipping_address(obj)
+    {
+        var params = {
+            shippingName: obj.find('input[name=shippingName]:eq(0)').val(),
+            shippingCountryCode: obj.find('input[name=shippingCountryCode]:eq(0)').val(),
+            shippingZonecode: obj.find('input[name=shippingZonecode]:eq(0)').val(),
+            shippingZipcode: obj.find('input[name=shippingZipcode]:eq(0)').val(),
+            shippingCity: obj.find('input[name=shippingCity]:eq(0)').val(),
+            shippingState: obj.find('input[name=shippingState]:eq(0)').val(),
+            shippingAddress: obj.find('input[name=shippingAddress]:eq(0)').val(),
+            shippingAddressSub: obj.find('input[name=shippingAddressSub]:eq(0)').val(),
+            shippingPhonePrefixCode: obj.find('input[name=shippingPhonePrefixCode]:eq(0)').val(),
+            shippingPhonePrefix: obj.find('input[name=shippingPhonePrefix]:eq(0)').val(),
+            shippingPhone: obj.find('input[name=shippingPhone]:eq(0)').val(),
+            shippingCellPhonePrefixCode: obj.find('input[name=shippingCellPhonePrefixCode]:eq(0)').val(),
+            shippingCellPhonePrefix: obj.find('input[name=shippingCellPhonePrefix]:eq(0)').val(),
+            shippingCellPhone: obj.find('input[name=shippingCellPhone]:eq(0)').val(),
+        };
+        gd_set_delivery_shipping_address(params, '{=shippingNo}');
+    }
+</script>

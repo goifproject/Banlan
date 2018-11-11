@@ -1,0 +1,180 @@
+{*** 로그인 | member/login.php ***}
+{ # header }
+<div class="content_box">
+	<div class="member_wrap">
+		<div class="member_tit">
+			<h2>{=__('로그인')}</h2>
+		</div>
+		<!-- //member_tit -->
+		<div class="member_cont">
+
+			<form id="formLogin" method="post" action="{loginActionUrl}">
+				<input type="hidden" id="mode" name="mode" value="{modeLogin}"/>
+				<input type="hidden" id="returnUrl" name="returnUrl" value="{returnUrl}"/>
+				<div class="member_login_box">
+					<h3>{=__('회원 로그인')}</h3>
+					<div class="login_input_sec">
+						<div>
+							<input type="text" id="loginId" name="loginId" value="{data.loginId}" placeholder="{=__('아이디')}" required="true">
+							<input type="password" id="loginPwd" name="loginPwd" value="" placeholder="{=__('비밀번호')}" required="true">
+						</div>
+						<button type="submit">{=__('로그인')}</button>
+					</div>
+					<div class="id_chk">
+						<span class="form_element">
+							<input type="checkbox" id="saveId" name="saveId" value="y" checked="{?!empty(data.loginId)}true{/}"/>
+			                <label for="saveId" class="{?!empty(data.loginId)}on{/}">{=__('아이디 저장')}</label>
+						</span>
+						<p class="dn js_caution_msg1">{=__('아이디, 비밀번호가 일치하지 않습니다. 다시 입력해 주세요.')}</p>
+					</div>
+				</div>
+				<!-- //login_box -->
+				<div class="member_sns_login">
+					<!--{? usePaycoLogin}-->
+					<a class="btn_payco_login js_btn_payco_login" href="#"><img src="../img/etc/login_payco.png" alt="PAYCO"> <span>{=__('아이디 로그인')}</span></a>
+					<!--{/}-->
+					<!--{? useFacebookLogin}-->
+					<a href="#" class="btn_facebook_login js_btn_facebook_login" href="#" data-facebook-url="{=facebookUrl}"><img src="../img/etc/login_facebook.png" alt="Facebook"> <span>{=__('아이디 로그인')}</span></a>
+					<!--{/}-->
+					<!--{? useNaverLogin}-->
+					<a href="#" class="btn_naver_login js_btn_naver_login" href="#" data-naver-url="{=naverUrl}"><img src="../img/etc/login_naver.png" alt="{=__('네이버')}"> <span>{=__('아이디 로그인')}</span></a>
+					<!--{/}-->
+				</div>
+				<div class="btn_login_box">
+					<ul>
+						<li><button id="btnJoinMember" class="btn_member_join">{=__('회원가입')}</button></li>
+						<li><button id="btnFindId" class="btn_member_white">{=__('아이디 찾기')}</button></li>
+						<li><button id="btnFindPwd" class="btn_member_white">{=__('비밀번호 찾기')}</button></li>
+					</ul>
+				</div>
+				<!-- //btn_login_box -->
+			</form>
+
+			<!--{ ? isMemberOrder == false }-->
+			<form action="../member/member_ps.php" method="post">
+				<input type="hidden" name="mode" value="guest">
+				<input type="hidden" name="returnUrl" value="{returnUrl}">
+				<div class="nonmember_join_box">
+					<h3>{=__('비회원 주문하기')}</h3>
+					<div class="btn_center_box">
+						<button type="submit" class="btn_member_black">{=__('비회원 주문하기')}</button>
+					</div>
+				</div>
+			</form>
+			<!--{ / }-->
+
+			<!-- //nonmember_join_box -->
+			<!--{ ? hasGuestOrder == false }-->
+			<form id="formOrderLogin" action="../member/member_ps.php" method="post">
+				<input type="hidden" name="mode" value="guestOrder">
+				<input type="hidden" name="returnUrl" value="../mypage/order_view.php">
+				<div class="nonmember_order_box">
+					<h3>{=__('비회원 주문조회 하기')}</h3>
+					<div class="order_input_sec">
+						<div>
+							<input type="text" name="orderNm" placeholder="{=__('주문자명')}">
+							<input type="text" name="orderNo" placeholder="{=__('주문번호')}" data-max-length="{=orderNoMaxLength}" >
+						</div>
+						<button type="submit">{=__('확인')}</button>
+					</div>
+					<p class="js_caution_msg2">{=__('주문번호와 비밀번호를 잊으신 경우, 고객센터로 문의하여 주시기 바랍니다.')}</p>
+				</div>
+			</form>
+			<!--{ / }-->
+		</div>
+		<!-- //member_cont -->
+	</div>
+	<!-- //member_wrap -->
+</div>
+<!-- //content_box -->
+
+<script type="text/javascript" src="../js/jquery/jquery.serialize.object.js"></script>
+<script type="text/javascript">
+	var $formLogin;
+	$(document).ready(function () {
+	    var order_no_max_length = $('input[name=orderNo]').data('max-length');
+		$('#btnJoinMember').click(function (e) {
+			e.preventDefault();
+			location.href = '../member/join_method.php';
+		});
+		$('#btnFindId').click(function (e) {
+			e.preventDefault();
+			location.href = '../member/find_id.php';
+		});
+		$('#btnFindPwd').click(function (e) {
+			e.preventDefault();
+			location.href = '../member/find_password.php';
+		});
+
+		$('#loginId, #loginPwd').focusin(function () {
+			$('.js_caution_msg1', '#formLogin').addClass('dn');
+		});
+
+		$formLogin = $('#formLogin');
+		$formLogin.validate({
+			dialog: false,
+			rules: {
+				loginId: {
+					required: true
+				},
+				loginPwd: {
+					required: true
+				}
+			},
+			messages: {
+				loginId: {
+					required: "{=__('아이디를 입력해주세요')}"
+				},
+				loginPwd: {
+					required: "{=__('패스워드를 입력해주세요')}"
+				}
+			}, submitHandler: function (form) {
+			    if (window.location.search) {
+                    var _tempUrl = window.location.search.substring(1);
+                    var _tempVal = _tempUrl.split('=');
+
+                    if (_tempVal[1] == 'lnCouponDown') {
+                        $('#returnUrl').val(document.referrer);
+                    }
+                }
+				form.target = 'ifrmProcess';
+				form.submit();
+			}
+		});
+
+		// 비회원 주문조회 폼 체크
+		$('#formOrderLogin').validate({
+			rules: {
+				orderNm: 'required',
+				orderNo: {
+					required: true,
+					number: true,
+					maxlength: order_no_max_length
+				}
+			},
+			messages: {
+				orderNm: {
+					required: "{=__('주문자명을 입력해주세요.')}"
+				},
+				orderNo: {
+					required: "{=__('주문번호를 입력해주세요.')}",
+					number: "{=__('숫자로만 입력해주세요.')}",
+					maxlength: "{=__('주문번호는 " + order_no_max_length + "자리입니다.')}"
+				}
+			},
+			submitHandler: function (form) {
+				$.post(form.action, $(form).serializeObject()).done(function (data, textStatus, jqXhr) {
+					console.log(data);
+					if (data.result == 0) {
+						location.replace('../mypage/order_view.php?orderNo=' + data.orderNo);
+					} else {
+						$('.js_caution_msg2').empty().html("{=__('주문자명과 주문번호가 일치하는 주문이 존재하지 않습니다. 다시 입력해 주세요.')}<br><span>{=__('주문번호와 비밀번호를 잊으신 경우, 고객센터로 문의하여 주시기 바랍니다.')}</span>");
+					}
+				});
+				return false;
+			}
+		});
+	});
+</script>
+{ # footer }
+

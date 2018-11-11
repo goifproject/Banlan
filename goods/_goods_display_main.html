@@ -1,0 +1,79 @@
+{*** [위젯] 메인 상품 출력 | goods/_goods_display_main.php ***}
+<!--{ ? mainData.displayFl == 'y' }-->
+<!--{ ? (mainData.kind == 'event' && mainData.displayCategory == 'g' && firstGroup == 'y')}-->
+<div class="item-display-wrap">
+
+    <!--{ ? mainData.eventThemeName }-->
+    <h2>{=mainData.eventThemeName}</h2>
+    <!--{ / }-->
+
+    <!--{ ? mainData.eventThemePcContents}-->
+    <div class="contents">
+        {=mainData.eventThemePcContents}
+    </div>
+    <!--{/}-->
+
+    <!--{ ? mainData.otherEventData }-->
+    <div style="text-align: right; width: 100%; margin: 10px 0 10px 0;">
+        <select name="otherEventData" onchange="javascript:location.href='/goods/event_sale.php?sno=' + this.value;">
+            <!--{ @ mainData.otherEventData }-->
+            <option value="{.value_['sno']}">{.value_['themeNm']}</option>
+            <!--{/}-->
+        </select>
+    </div>
+    <!--{/}-->
+</div>
+<!--{/}-->
+
+<div class="goods_list main_wrap_{mainData.sno}{mainData.groupSno}">
+    <!--{ ? mainData.themeNm }-->
+    <div class="goods_list_tit">
+		<!--{ ? mainData.moreTopFl == 'y' }-->
+        <div class="btn_goods_more">
+            <!--{ ? mainData.displayCategory == 'g'}-->
+            <a href="/goods/goods_main.php?sno={mainData.sno}&groupSno={mainData.groupSno}" class="btn_goods_view_more">+ {=__('더보기')}</a>
+            <!--{ : }-->
+            <a href="../goods/goods_main.php?sno={mainData.sno}" class="btn_goods_view_more">+ {=__('더보기')}</a>
+            <!--{ / }-->
+        </div>
+        <!--{ / }-->
+    </div>
+    <!--{ / }-->
+    <!--{ ? mainData.pcContents }-->
+    <div>
+        {=mainData.pcContents}
+    </div>
+    <!--{ / }-->
+    <div class="goods_list_cont goods_content_{mainData.sno}{mainData.groupSno}">
+        { #goodsTemplate }
+    </div>
+    <!--{ ? totalPage > 1 && mainData.moreBottomFl == 'y' && themeInfo.displayType != '04' && themeInfo.displayType != '05' && themeInfo.displayType != '06' && themeInfo.displayType != '07' }-->
+    <div class="btn_goods_down_more">
+        <button class="btn_goods_view_down_more" data-page="2">{=__('더보기')}</button>
+    </div>
+    <!--{ / }-->
+</div>
+
+
+<script type="text/javascript">
+    <!--
+    $(document).ready(function() {
+        $('.main_wrap_{mainData.sno}{mainData.groupSno} .btn_goods_view_down_more').on('click', function(e){
+            gd_get_list_{mainData.sno}{mainData.groupSno}($(this).data('page'));
+        });
+    });
+
+    function gd_get_list_{mainData.sno}{mainData.groupSno}(page) {
+
+        $.get('../goods/goods_main.php', {'mode' : 'get_main', 'more' : page, 'sno' : '{mainData.sno}', 'groupSno' : '{mainData.groupSno}'}, function (data) {
+            $(".goods_content_{mainData.sno}{mainData.groupSno}").html(data);
+            if (parseInt(page) + 1 > {totalPage}) {
+                $('.main_wrap_{mainData.sno}{mainData.groupSno} .btn_goods_view_down_more').hide();
+            } else {
+                $('.main_wrap_{mainData.sno}{mainData.groupSno} .btn_goods_view_down_more').data('page', parseInt(page) + 1);
+            }
+        });
+    }
+    //-->
+</script>
+<!--{ / }-->

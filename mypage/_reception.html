@@ -1,0 +1,122 @@
+{*** 마이페이지 > 간이영수증 | mypage/_reception.html ***}
+<style>
+    .order_print #cssblue { width: 306px; border: solid 2px #364f9e; margin-right:5px; }
+    .order_print #cssblue table { border-collapse: collapse; }
+    .order_print #cssblue td { border-color:#364f9e; border-width:2px; border-style:solid; }
+    .order_print #cssblue #head { border-color:#364f9e; border-width:2px 2px 0px 2px; border-style:solid; }
+    .order_print #cssblue #head td { border-width:0px; border-style:solid; }
+</style>
+<table cellspacing="10" cellpadding="0" border="0" align="center">
+    <tr valign="top">
+        <td>
+            <div id="cssblue">
+
+                <table id="head" cellspacing="0" cellpadding="0" width="100%" border="0">
+                    <tr>
+                        <td width="23%" height="40">&nbsp;</td>
+                        <td align="center" width="44%">&nbsp;<font size="4">{=__('영 수 증')}</font></td>
+                        <td width="33%"><font style="font-weight: normal" size="1">( {=__('공급받는자용')} )</font></td>
+                    </tr>
+                </table>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td height="100%" valign="top" style="border-width: 3px 1px 0px 0px; background: url({sealPath}) no-repeat; background-position: 240px 35px;">
+                            <table cellspacing="0" cellpadding="2" width="100%" border="0">
+                                <col width="8%" /><col width="20%" /><col width="30%" /><col width="12%" />
+                                <tr>
+                                    <td valign="bottom" colspan="2" height="22">no.</td>
+                                    <td style="border-top-width: 0px;" align="right" colspan="3">&nbsp;<font style="font-weight: normal; font-size: 16px" color="black">{orderData.orderName}&nbsp;&nbsp;</font><font size=3>{=__('귀하')}</font>&nbsp;</td>
+                                </tr>
+                                <tr align="center">
+                                    <td rowspan="4" height="35">{=__('공%s급%s자', '<br><br>', '<br><br>')}</td>
+                                    <td>{=__('사 업 자%s등록번호', '<br>')}</td>
+                                    <td colspan="3" align="left" style="padding-left:10px">&nbsp;<font size="3">{gMall.businessNo}</font></td>
+                                </tr>
+                                <tr align="center" height="35">
+                                    <td>{=__('상 호')}</td>
+                                    <td>&nbsp;{gMall.companyNm}</td>
+                                    <td>{=__('성명')}</td>
+                                    <td align="left">&nbsp;{gMall.ceoNm}</td>
+                                </tr>
+                                <tr align="center" height="35">
+                                    <td>{=__('사 업 장%s소 재 지', '<br>')}</td>
+                                    <td colspan=3>&nbsp;{gMall.address} {gMall.addressSub}</td>
+                                </tr>
+                                <tr align="center" height="35">
+                                    <td>{=__('업태')}</td>
+                                    <td>&nbsp;{gMall.service}</td>
+                                    <td>{=__('종목')}</td>
+                                    <td>&nbsp;{gMall.item}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%" border="0" cellspacing="0" cellpadding="2">
+                    <tr align="center" height="22">
+                        <td style="border-top-width: 0px;">{=__('작성년월일')}</td>
+                        <td style="border-left-width: 3px; border-right-width: 3px;">{=__('공급대가총액')}</td>
+                        <td style="border-top-width: 0px;">{=__('비 고')}</td>
+                    </tr>
+                    <tr align="center" height="22">
+                        <td>&nbsp; {= gd_date_format('Y. m. d.', orderData.regDt)}</td>
+                        <td style="border-left-width: 3px; border-right-width: 3px; border-bottom-width: 4px;">&nbsp;￦<!--{ ? empty(orderData.refund) == false && orderData.refund.refundFl == 'y' }-->{= number_format(orderData.settlePrice - orderData.refund.refundPrice)}<!--{ : }-->{= number_format(orderData.settlePrice)}<!--{ / }--></td>
+                        <td align="right"></td>
+                    </tr>
+                </table>
+                <table width="100%" border="0" cellspacing="0" cellpadding="4">
+                    <tr align="center" height="22">
+                        <td style="border-top-width: 0px; border-bottom-width: 0px;">{=__('위 금액을 정히 영수( 청구 )함')}</td>
+                    </tr>
+                </table>
+                <table width="100%" border="0" cellspacing="0" cellpadding="2">
+                    <col width="5%" /><col width="5%" /><col /><col width="10%" /><col width="15%" /><col width="15%" />
+                    <tr align="center" height="22">
+                        <td>{=__('월')}</td>
+                        <td>{=__('일')}</td>
+                        <td>{=__('품 목')}</td>
+                        <td>{=__('수량')}</td>
+                        <td>{=__('단가')}</td>
+                        <td>{=__('금액')}</td>
+                    </tr>
+                    <tr height="22">
+                        <td align="center">{= gd_date_format('m', orderData.regDt)}</td>
+                        <td align="center">{= gd_date_format('d', orderData.regDt)}</td>
+                        <td>&nbsp;{= orderData.orderGoodsNm}</td>
+                        <td align="center">{= orderData.orderGoodsCnt}</td>
+                        <td align="right">{= number_format(orderData.settlePrice)}&nbsp;</td>
+                        <td align="right">{= number_format(orderData.settlePrice)}&nbsp;</td>
+                    </tr>
+                    <!--{ ? empty(orderData.refund) == false && orderData.refund.refundFl == 'y' }-->
+                    <tr height="22">
+                        <td align="center">{= gd_date_format('m', orderData.regDt)}</td>
+                        <td align="center">{= gd_date_format('d', orderData.regDt)}</td>
+                        <td>&nbsp;{= orderData.refund.refundGoodsNm}</td>
+                        <td align="center">{= orderData.refund.refundCnt}</td>
+                        <td align="right">-{= number_format(orderData.refund.refundPrice)}&nbsp;</td>
+                        <td align="right">-{= number_format(orderData.refund.refundPrice)}&nbsp;</td>
+                    </tr>
+                    <!--{ / }-->
+                    <tr>
+                        <td align="center" colspan=6>*** {=__('이 하 여 백')} *** </td>
+                    </tr>
+                    <!--{@ fillSpace}-->
+                    <tr height="22">
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <!--{/}-->
+                </table>
+                <table width="100%" border="0" cellspacing="0" cellpadding="4">
+                    <tr align="center">
+                        <td style="border-top-width: 0px;" height="25"><font style="font-weight: normal" size="1">{=__('부가가치세법시행규칙 제25조 규정에 의한 ( 영수증 )으로 개정')}.</font></td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+    </tr>
+</table>

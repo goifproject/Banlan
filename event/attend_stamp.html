@@ -1,0 +1,132 @@
+{*** 출석체크 > 스탬프 | event/attend_stamp.php ***}
+{ # header }
+<div class="content_box">
+
+    <div class="attend_stamp_wrap">
+        <div class="attend_top_banner">
+            <!--{? attendData['designHeadFl'] == 'default'}-->
+            <img src="../img/event/img_attendance_check.png" alt=""/>
+            <!--{:}-->
+            {=gd_htmlspecialchars_stripslashes(attendData['designHead'])}
+            <!--{/}-->
+        </div>
+        <!-- //attend_top_banner -->
+        <form id="formStamp" name="formStamp" method="post" action="../event/attendance_ps.php">
+            <input type="hidden" id="sno" name="sno" value="{attendData['sno']}"/>
+            <input type="hidden" id="checkSno" name="checkSno" value="{checkSno}"/>
+            <input type="hidden" id="currentDate" name="currentDate" value="{currentDate}"/>
+            <input type="hidden" id="mode" name="mode" value="{mode}"/>
+            <input type="hidden" id="startDt" name="startDt" value="{attendData['startDt']}"/>
+            <input type="hidden" id="endDt" name="endDt" value="{attendData['endDt']}"/>
+
+            <div class="stamp_calendar_box">
+                <div class="stamp_calendar {? attendData['designBodyFl'] == 'stamp2'}stamp_calendar_type2{/}"><!-- N: stamp_calendar_type2 클래스 삽입시 캘린더 색상 반전 -->
+                    <div class="attend_states">
+                        <p>{=gd_get_login_name()}{=__('회원님께서는 총')} {?attendData['conditionFl'] == 'sum'}
+                            <strong>{=gd_isset(checkData['attendanceCount'],0)}/{=gd_isset(attendData['conditionCount'],0)}</strong>
+                            {:attendData['conditionFl'] == 'continue'}
+                            <strong>{=gd_isset(attendData['conditionCount'],0)} {=__('회 중 연속')} {=gd_isset(checkData['attendanceCount'],0)}</strong>
+                            {:}
+                            <strong>{=gd_isset(checkData['attendanceCount'],0)}</strong>
+                            {/} {=__('회 출석하셨습니다.')}
+                        </p>
+                        <span>{attendData['startDt']}~{attendData['endDt']}</span>
+                    </div>
+                    <div class="calendar_month">
+                        <button type="button" class="prev_month">{=__('이전달')}</button>
+                        <strong>{currentDate}</strong>
+                        <button type="button" class="next_month">{=__('다음달')}</button>
+                    </div>
+                    <div class="calendar_sec">
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <colgroup>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>{=__('일')}</th>
+                                <th>{=__('월')}</th>
+                                <th>{=__('화')}</th>
+                                <th>{=__('수')}</th>
+                                <th>{=__('목')}</th>
+                                <th>{=__('금')}</th>
+                                <th>{=__('토')}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <!--{@ arrStamp}-->
+                                <!--{? attendData['stampFl'] == 'upload'}-->
+                                <td style="<!--{? .class == 'attend'}-->background:url({uploadPath}/{attendData['stampPath']}) no-repeat center ; <!--{/}-->">
+                                    {.day}
+                                </td>
+                                <!--{:}-->
+                                <td class="{.class}">
+                                    {.day}
+                                </td>
+                                <!--{/}-->
+
+                                {? .key_ %7 == 0 || .key_ == 0}
+                            </tr>
+                            <tr> {/}
+                                <!--{/ // arrStamp End}-->
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- //stamp_calendar -->
+                <button type="button" id="attendanceCheck" class="btn_attend_check">출석체크</button>
+            </div>
+            <!-- //stamp_calendar_box -->
+        </form>
+    </div>
+    <!-- //attend_stamp_wrap -->
+    <div class="addition_zone">
+        <p>{=gd_htmlspecialchars_stripslashes(attendData['designFooter'])}</p>
+    </div>
+</div>
+<!-- //content_box -->
+
+<script type="text/javascript">
+    (function ($, window, document, undefined) {
+        var $btnCheck, $btnPrev, $btnNext;
+
+        var attendance_check = function () {
+            var params = $('#formStamp').serializeArray();
+            $.post('./attendance_ps.php', params, function (data) {
+                if (data.code === undefined && data.message === undefined) {
+                    alert(data);
+                    window.location.href = window.location.pathname + '?sno=' + $('#sno').val();
+                } else {
+                    alert(data.message);
+                }
+            });
+        };
+
+        var init = function () {
+            $btnCheck = $('#attendanceCheck');
+            $btnPrev = $('button.prev_month');
+            $btnNext = $('button.next_month');
+
+            $btnPrev.click(function () {
+                window.location.href = window.location.pathname + '?sno=' + $('#sno').val() + '&currentDate=' + $('#currentDate').val() + '&move=prev';
+            });
+            $btnNext.click(function () {
+                window.location.href = window.location.pathname + '?sno=' + $('#sno').val() + '&currentDate=' + $('#currentDate').val() + '&move=next';
+            });
+
+            $btnCheck.click(attendance_check);
+        };
+        $(document).ready(function () {
+            init();
+        });
+    })($, window, document);
+</script>
+{ # footer }

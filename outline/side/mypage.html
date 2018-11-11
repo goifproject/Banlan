@@ -1,0 +1,69 @@
+{*** 측면 마이페이지 | mypage/index.php ***}
+<div class="sub_menu_box">
+    <h2>{=__('마이페이지')}</h2>
+    <ul class="sub_menu_mypage">
+        <li>{=__('쇼핑정보')}
+            <ul class="sub_depth1">
+                <li><a href="../mypage/order_list.php">- {=__('주문목록')}/{=__('배송조회')}</a></li>
+                <li><a href="../mypage/cancel_list.php">- {=__('취소')}/{=__('반품')}/{=__('교환 내역')}</a></li>
+                <li><a href="../mypage/refund_list.php">- {=__('환불')}/{=__('입금 내역')}</a></li>
+                <li><a href="../mypage/wish_list.php">- {=__('찜리스트')}</a></li>
+            </ul>
+        </li>
+        <!--{? gd_use_coupon() || gd_use_deposit() || gd_use_mileage()}-->
+        <li>{=__('혜택관리')}
+            <ul class="sub_depth1">
+                <!--{? gd_use_coupon()}-->
+                <li><a href="../mypage/coupon.php">- {=__('쿠폰')}</a></li>
+                <!--{/}-->
+                <!--{? gd_use_deposit()}-->
+                <li><a href="../mypage/deposit.php">- {=gd_display_deposit('name')}</a></li>
+                <!--{/}-->
+                <!--{? gd_use_mileage()}-->
+                <li><a href="../mypage/mileage.php">- {=gd_display_mileage_name()}</a></li>
+                <!--{/}-->
+            </ul>
+        </li>
+        <!--{/}-->
+        <!--{ ? canQa }-->
+        <li>{=__('고객센터')}
+            <ul class="sub_depth1">
+                <li><a href="../mypage/mypage_qa.php">- 1:1 {=__('문의')}</a></li>
+            </ul>
+        </li>
+        <!--{/}-->
+        <li>{=__('회원정보')}
+            <ul class="sub_depth1">
+                <li><a href="../mypage/my_page_password.php">- {=__('회원정보 변경')}</a></li>
+                <li><a href="../mypage/hack_out.php">- {=__('회원 탈퇴')}</a></li>
+                <li><a href="../mypage/shipping.php">- {=__('배송지 관리')}</a></li>
+            </ul>
+        </li>
+        <!--{ ? canGoodsQa }-->
+        <li>{=__('나의 상품문의')}
+            <ul class="sub_depth1">
+                <li><a href="../mypage/mypage_goods_qa.php">- {=__('나의 상품문의')}</a></li>
+            </ul>
+        </li>
+        <!--{/}-->
+        <!--{ ? canGoodsReview }-->
+        <li>{=__('나의 상품후기')}
+            <ul class="sub_depth1">
+                <li><a href="../mypage/mypage_goods_review.php">- {=__('나의 상품후기')}</a></li>
+            </ul>
+        </li>
+        <!--{/}-->
+        <!--{ ? plusReviewConfig.useFl == 'y' }-->
+        <li>{=__('나의 플러스리뷰')}
+            <ul class="sub_depth1">
+                <li><a href="../mypage/mypage_plus_review_article.php">- {=__('나의 플러스리뷰')}</a></li>
+            </ul>
+        </li>
+        <!--{/}-->
+    </ul>
+</div>
+<!-- //sub_menu_box -->
+<script type="text/javascript">
+    // 메뉴 선택
+    $('.sub_menu_mypage li > a[href*="' + document.location.pathname + '"]').addClass('active');
+</script>

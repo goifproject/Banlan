@@ -1,0 +1,35 @@
+{*** [위젯] 게시글 스크롤 | board/_board_article_scrolling.php ***}
+<!--{?canList}-->
+<div id="js_notice_list" class="notice_rolling">
+    <ul>
+        <!--{ @ list}-->
+        <li><a href="../board/view.php?bdId={bdId}&sno={.sno}">[{bdName}]&nbsp;{.subject}</a></li>
+        <!--{/}-->
+    </ul>
+    <div class="btn_notice_rolling">
+        <a href="#" class="next"><img src="../img/common/btn/btn_top_notice_prev.png" alt="{=__('이전')}" /></a>
+        <a href="#" class="prev"><img src="../img/common/btn/btn_top_notice_next.png" alt="{=__('다음')}" /></a>
+    </div>
+</div>
+<!-- //notice_rolling -->
+<script>
+    $(function () {
+        var $scroller = $('#js_notice_list');
+        $scroller.vTicker();
+
+        $(".btn_notice_rolling .next").click(function(event){
+            event.preventDefault();
+            $scroller.vTicker('next', true);
+        });
+        $(".btn_notice_rolling .prev,.btn_notice_rolling .next").hover(function(){
+            $scroller.vTicker('pause', true);
+        }, function(){
+            $scroller.vTicker('pause', false);
+        });
+        $(".btn_notice_rolling .prev").click(function(event){
+            event.preventDefault();
+            $scroller.vTicker('prev',true);
+        });
+    });
+</script>
+<!--{/}-->

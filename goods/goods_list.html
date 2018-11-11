@@ -1,0 +1,218 @@
+{*** 상품 리스트 | goods/goods_list.php ***}
+{ # header }
+<script>
+	$(document).ready(function(){
+		var gd_list = location.href.split('/')[4];
+		if (gd_list == "goods_list.php?cateCd=006003"){
+			var html = '<div class="work" id="schWork">'+
+							'<div class="goods_list_item_tit">' +
+    	        				'<h2>분류</h2>' +
+					        '</div>' +
+						'<dl class="term" id="schWorkPeriod">' +
+						'<div class="_cont">' +
+							'<ul style ="width:100%">' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd1" value="H01"><div class ="state"><label for="workperiodcd1">생산자</label></div></div></span></li>' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd3" value="H03"><div class ="state"><label for="workperiodcd3">제조사</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd4" value="H04"><div class ="state"><label for="workperiodcd4">총판</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd5" value="H05"><div class ="state"><label for="workperiodcd5">온라인</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd6" value="H06"><div class ="state"><label for="workperiodcd6">오프라인</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd9" value="H09"><div class ="state"><label for="workperiodcd9">국내</label></div></div></span></li>' +			
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd9" value="H09"><div class ="state"><label for="workperiodcd9">해외</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd9" value="H09"><div class ="state"><label for="workperiodcd9">밴더</label></div></div></span></li>' +							
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd10" value="H10"><div class ="state"><label for="workperiodcd10">온라인</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd11" value="H11"><div class ="state"><label for="workperiodcd11">오프라인</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd12" value="H12"><div class ="state"><label for="workperiodcd12">국내</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd13" value="H13"><div class ="state"><label for="workperiodcd13">해외</label></div></div></span></li>' +							
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd14" value="H14"><div class ="state"><label for="workperiodcd14">특판</label></div></div></span></li>' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd15" value="H15"><div class ="state"><label for="workperiodcd15">재고덤핑</label></div></div></span></li>' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd16" value="H16"><div class ="state"><label for="workperiodcd16">중고물품</label></div></div></span></li>' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd17" value="H17"><div class ="state"><label for="workperiodcd17">해외직구</label></div></div></span></li>' +
+								'<!--li><span class="input"><input type="checkbox" name="workperiodcd" id="workperiodcd7"  value="H07" /><label for="workperiodcd7">기간협의</label></span></li-->' +
+							'</ul>' +
+							'</div>' +
+					'</dl>' +
+			'</div>';
+			$(".cate_wrap").append(html);
+		}else if (gd_list == "goods_list.php?cateCd=006004"){			
+			var html = '<div class="work" id="schWork">'+
+							'<div class="goods_list_item_tit">' +
+    	        				'<h2>분류</h2>' +
+					        '</div>' +
+						'<dl class="term" id="schWorkPeriod">' +
+						'<div class="_cont">' +
+							'<ul style ="width:100%">' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd1" value="H01"><div class ="state"><label for="workperiodcd1">배송대행가능</label></div></div></span></li>' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd3" value="H03"><div class ="state"><label for="workperiodcd3">국내</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd4" value="H04"><div class ="state"><label for="workperiodcd4">해외</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd5" value="H05"><div class ="state"><label for="workperiodcd5">상품 이미지 정보 제공</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd6" value="H06"><div class ="state"><label for="workperiodcd6">세금 계산서 발급</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd9" value="H09"><div class ="state"><label for="workperiodcd9">소규모 주문 가능</label></div></div></span></li>' +			
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd9" value="H09"><div class ="state"><label for="workperiodcd9">대금 결제 기간</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd9" value="H09"><div class ="state"><label for="workperiodcd9">일</label></div></div></span></li>' +							
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd10" value="H10"><div class ="state"><label for="workperiodcd10">주</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd11" value="H11"><div class ="state"><label for="workperiodcd11">월</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd12" value="H12"><div class ="state"><label for="workperiodcd12">반품</label></div></div></span></li>' +
+								'<li style ="width:20%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd13" value="H13"><div class ="state"><label for="workperiodcd13">가능</label></div></div></span></li>' +							
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd14" value="H14"><div class ="state"><label for="workperiodcd14">불가</label></div></div></span></li>' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd15" value="H15"><div class ="state"><label for="workperiodcd15">배송기간</label></div></div></span></li>' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd16" value="H16"><div class ="state"><label for="workperiodcd16">당일</label></div></div></span></li>' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd17" value="H17"><div class ="state"><label for="workperiodcd17">1~2일</label></div></div></span></li>' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd18" value="H18"><div class ="state"><label for="workperiodcd18">2~3일</label></div></div></span></li>' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd19" value="H19"><div class ="state"><label for="workperiodcd19">3일 이상</label></div></div></span></li>' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd20" value="H20"><div class ="state"><label for="workperiodcd20">B2B 배행대송 업체</label></div></div></span></li>' +
+								'<li style ="width:100%"><span class="input"><div class="pretty p-default"><input type="checkbox" name="workperiodcd" id="workperiodcd21" value="H21"><div class ="state"><label for="workperiodcd21">등록된 업체</label></div></div></span></li>' +
+								'<!--li><span class="input"><input type="checkbox" name="workperiodcd" id="workperiodcd7"  value="H07" /><label for="workperiodcd7">기간협의</label></span></li-->' +
+							'</ul>' +
+							'</div>' +
+					'</dl>' +
+			'</div>';
+			$(".cate_wrap").append(html);		
+		}
+	});
+</script>
+<div class="content">
+    <div class="location_wrap">
+        <div class="location_cont">
+            <em><a href="#" class="local_home">HOME</a> &nbsp;</em>
+            <!--{ ? goodsCategoryList }-->
+            <!--{ @ goodsCategoryList }-->
+            <span>&gt; </span>
+            <div class="location_select">
+                <div class="location_tit"><a href="#"><span>{=.cateNm}</span></a></div>
+                <ul style="display:none;">
+                    <!--{ @ .data }-->
+                    <li><a href="?{cateType}Cd={..key_}"><span>{=..value_}</span></a></li>
+                    <!--{ / }-->
+                </ul>
+            </div>
+            <!--{ / }-->
+            <!--{ / }-->
+        </div>
+    </div>
+    <!-- //location_wrap -->
+	<div class="cate_wrap">
+	
+	</div>
+    <div class="goods_list_item">
+
+        <div class="goods_list_item_tit">
+            <h2>{=goodsCategoryList[cateCd]['cateNm']}</h2>
+        </div>
+        <!--{ ? naviDisplay.naviUse =='y' }-->
+        <!--{ ? themeInfo.cateHtml1 }-->
+        <!-- 상단 꾸미기 영역 -->
+        <div class="addition_zone">
+            {=stripslashes(str_replace('&nbsp;', ' ', themeInfo.cateHtml1))}
+        </div>
+        <!--{ / }-->
+        <!--{ ? dataSubCategory( cateCd,cateType ) }-->
+        <div class="list_item_category">
+            <ul>
+                <!--{ @ dataSubCategory( cateCd,cateType ) }-->
+                <li class="<!--{ ? cateCd == .cateCd }-->on<!--{ / }-->">
+                    <a href="?{cateType}Cd={.cateCd}"><span>{.cateNm} <!--{ ? naviDisplay.naviCount =='y' }--><em>({.goodsCnt+0})</em><!--{ / }--></span></a>
+                </li>
+                <!--{ / }-->
+            </ul>
+        </div>
+        <!--{ / }-->
+        <!--{ / }-->
+
+        <!-- 설문조사 배너 -->{=pollViewBanner()}<!-- 설문조사 배너 -->
+
+        <!--{ ? themeInfo.recomDisplayFl == 'y'  && widgetGoodsList}-->
+        <!--{ ? themeInfo.cateHtml2 }-->
+        <!-- 추천상품 상단 꾸미기 영역 -->
+        <div class="addition_zone">
+            {=stripslashes(str_replace('&nbsp;', ' ', themeInfo.cateHtml2))}
+        </div>
+        <!-- //추천상품 상단 꾸미기 영역 -->
+        <!--{ / }-->
+
+        <!-- 추천 상품 나오는영역 -->
+        <div class="best_item_view">
+            <div class="best_item_view_tit">
+                <h3>{=__('추천상품')}</h3>
+            </div>
+            <div class="goods_list">
+                <div class="goods_list_cont">
+                    <p>{=includeWidget('goods/_goods_display.html')}</p>
+                </div>
+            </div>
+        </div>
+        <!-- //추천 상품 나오는영역 -->
+        <!--{ / }-->
+
+        <!--{ ? themeInfo.cateHtml3 }-->
+        <div class="addition_zone">
+            {=stripslashes(str_replace('&nbsp;', ' ', themeInfo.cateHtml3))}
+        </div>
+        <!--{ / }-->
+        <div class="goods_pick_list">
+            <span class="pick_list_num">{=__('전체')} <strong>{=number_format(gd_isset(page->recode['total']))}</strong> {=__('건')}</span>
+            <form name="frmList" action="">
+                <input type="hidden" name="{cateType}Cd" value="{cateCd}"/>
+                <div class="pick_list_box">
+                    <ul class="pick_list">
+                        <li>
+                            <input type="radio" id="sort1" class="radio" name="sort" value="">
+                            <label for="sort1">{=__('추천순')}</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="sort2" class="radio" name="sort" value="orderCnt desc,g.regDt desc">
+                            <label for="sort2">{=__('인기순')}</label>
+                        </li>
+                       
+                        <li>
+                            <input type="radio" id="sort6" class="radio" name="sort" value="g.regDt desc">
+                            <label for="sort6">{=__('등록일순')}</label>
+                        </li>
+                    </ul>
+                    <div class="choice_num_view">
+                        <select class="chosen-select" name="pageNum">
+                            <!--{ @ goodsData.multiple }-->
+                            <option value="{=.value_}"  <!--{ ? pageNum == .value_ }-->selected='selected'<!--{ / }-->>{=.value_}{=__('개씩보기')}</option>
+                            <!--{ / }-->
+                        </select>
+                    </div>
+                    <!-- //choice_num_view -->
+                </div>
+                <!-- //pick_list_box -->
+            </form>
+        </div>
+        <!-- //goods_pick_list -->
+
+        <div class="goods_list">
+            <div class="goods_list_cont">
+                <!-- 상품 리스트 -->
+                { # goodsTemplate }
+                <!-- //상품 리스트 -->
+            </div>
+        </div>
+
+        <div class="pagination">
+            {page->getPage()}
+        </div>
+
+    </div>
+    <!-- //goods_list_item -->
+	<script type="text/javascript">
+		$(document).ready(function () {
+
+			$('form[name=frmList] select[name=pageNum]').change(function() {
+				$('form[name=frmList]').get(0).submit();
+			});
+
+			$('form[name=frmList] input[name=sort]').click(function() {
+				$('form[name=frmList]').get(0).submit();
+			});
+
+			$(':radio[name="sort"][value="{sort}"]').prop("checked","checked")
+			$(':radio[name="sort"][value="{sort}"]').next().addClass('on');
+
+		});
+	</script>
+</div>
+<!-- //content -->
+
+{ # footer }

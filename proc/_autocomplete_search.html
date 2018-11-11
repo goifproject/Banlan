@@ -1,0 +1,79 @@
+{*** 페이코서치 자동완성 | proc/_autocomplete_search.html ***}
+<!--{ ? paycosearchAutocompleteUseFl == true }-->
+<div class="autocomplete-area-{mode} dn">
+    <input type="hidden" id="org_query" name="org_query" /> <!-- 페이코 자동완성 > 입력 검색어 대입 -->
+    <div class="bg-none data-div">
+        <ul class="auto-area"></ul>
+        <div id="onofftext" class="autocomplete-close"><a href="#" class="autocomplete-close-btn {mode}">자동완성 닫기</a></div>
+    </div>
+</div>
+<script type="text/javascript">
+    var paycosearchAutocompleteUrl = '{=paycosearchAutocompleteUrl}';
+    $(function() {
+        var targetForm = '';
+        <!--{ ? mode == 'top' }-->
+        var _search = $("#frmSearchTop");
+        <!--{ : mode == 'detail' }-->
+        var _search = $("#frmSearch");
+        <!--{ / }-->
+
+        _search.find('input[name="keyword"]').on('keyup focus', function(e, mode) {
+            targetForm = e.target.form.name;
+            if($.trim($(this).val())) {
+                if (e.keyCode == '13' || e.keyCode == '27') {
+                    $('div[class^="autocomplete-area"]').addClass("dn");
+                } else {
+                    <!--{ ? mode == 'top' && (recentCount > 0 || recomDisplayFl == 'y') }-->
+                    $(".search_cont").addClass("dn");
+                    <!--{ / }-->
+                    $('div[class^="autocomplete-area"]').addClass("dn");
+                    $(".autocomplete-area-{mode}").removeClass("dn");
+                }
+            } else {
+                <!--{ ? mode == 'top' && (recentCount > 0 || recomDisplayFl == 'y') }-->
+                $(".search_cont").removeClass("dn");
+                <!--{ / }-->
+                $('div[class^="autocomplete-area"]').addClass("dn");
+            }
+        }).blur(function(e){
+            $('body').click(function(e){
+                if (!$('.search_cont').has(e.target).length && e.target.name != 'keyword') {
+                    $('.search_cont').addClass('dn');
+                    $(".autocomplete-area-{mode}").addClass("dn");
+                }
+            });
+            $('input[name="keyword"]').on('focus', function(e){
+                if (targetForm != e.target.form.name) {
+                    $('form[name="' + targetForm + '"]').find('.search_cont').addClass('dn');
+                }
+            });
+        });
+        _search.find(".autocomplete-close-btn").click(function(e){
+            e.preventDefault(e);
+            <!--{ ? mode == 'top' && (recentCount > 0 || recomDisplayFl == 'y') }-->
+            $(".search_cont").removeClass("dn");
+            <!--{ / }-->
+            $(".autocomplete-area-{mode}").addClass("dn");
+
+        });
+    });
+</script>
+<style type="text/css">
+    .bg-none { background:none !important; }
+    .autocomplete-close { position:relative; float:none !important; height:25px !important; background:#F2F2F2 !important; border-left:1px solid #000; border-right:1px solid #000; border-bottom:1px solid #000; }
+    .autocomplete-close-btn { position:absolute; right:2px; }
+    .autocomplete-close .autocomplete-close-btn.top { bottom:5px; }
+    .autocomplete-close .autocomplete-close-btn.detail { top:-5px; }
+    div[class^="autocomplete-area"] { background:#fff !important; height:auto !important; }
+    div[class^="autocomplete-area"] div { width:100% !important; margin:0 !important; padding:0 !important; }
+    div[class^="autocomplete-area"] ul.auto-area { width:100%; border:1px solid #000; background:#fff; min-height:50px; }
+    div[class^="autocomplete-area"] ul.auto-area li.li-tit {color:#3e3d3c; padding-left:5px; font-weight:bold; }
+    div[class^="autocomplete-area"] ul.auto-area li {position:relative; width:100%; height:20px; padding: 2px 0 0 4px; text-align:left; }
+    div[class^="autocomplete-area"] ul.auto-area li span {padding-left:10px; width:280px; display:inline-block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+    div[class^="autocomplete-area"] ul.auto-area li small {position:absolute; top:0; right:25px;}
+    div[class^="autocomplete-area"] ul.auto-area li button.dlt_bn {position:absolute; top:-3px; right:10px;}
+    div[class^="autocomplete-area"] ul.auto-area li.no-data { text-align:left; padding:5px; height:auto !important; line-height: normal !important; }
+    div[class^="autocomplete-area"] ul.auto-area li div {float:none !important;}
+    div[class^="autocomplete-area"] ul.auto-area li.srch a strong { color:#fa2828; }
+</style>
+<!--{ / }-->

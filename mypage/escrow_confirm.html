@@ -1,0 +1,107 @@
+{*** PG사 에스크로 구매확인 페이지 호출 | mypage/order_view.php ***}
+{ # share_header }
+<!-- 해당 페이지는 되도록이면 수정하지 마시기 바랍니다. 수정시 PG사 에스크로 구매확인 창이 뜨지 않을수 있습니다. -->
+<!-- 해당 페이지 수정에 대한 모든 책임은 수정자에게 있습니다. -->
+
+<h1 class="dn">{=__('에스크로 구매확인 페이지 호출')}</h1>
+<script type="text/javascript">
+    <!--
+    /**
+     * 부모창에 에스크로 구매확인 레이어창 띄우기
+     */
+    function gd_set_pg_escrow_confirm_layer() {
+        var params = {
+            orderNo: '{=orderNo}',
+        };
+
+        var ajaxUrl = "../payment/{=pgName}/escrow_confirm.php";
+
+        parent.$.ajax({
+            method: "HEAD",
+            cache: false,
+            url: ajaxUrl,
+            success: function () {
+                gd_escrow_confirm_ajax(ajaxUrl);
+            },
+            error: function () {
+                ajaxUrl = "../../payment/{=pgName}/escrow_confirm.php";
+                gd_escrow_confirm_ajax(ajaxUrl);
+            }
+        });
+
+        function gd_escrow_confirm_ajax(url) {
+            parent.$('#pgEscrowConfirmLayer').empty();
+            parent.$.ajax({
+                method: "POST",
+                cache: false,
+                url: url,
+                data: params,
+                async: false,
+                success: function (data) {
+                    var progressFl = true;
+                    if (data == 'NO_ORDER_DATA') {
+                        alert("{=__('주문 정보가 없습니다. 다시 확인 바랍니다.')}");
+                        progressFl = false;
+                    }
+
+                    if (data == 'INVALID_ORDER_DATA') {
+                        alert("{=__('에스크로 구매확인 진행 할수 있는 상태가 아닙니다.')}");
+                        progressFl = false;
+                    }
+
+                    if (progressFl == true) {
+                        // 화면 출력 템플릿 구성
+                        var complied = _.template($('#escrowConfirmBoxLayer').html());
+
+                        // 결제 진행
+                        parent.$('#pgEscrowConfirmLayer').append(complied({content: data}));
+                        gd_set_layer_center();
+                        parent.escrowConfirmStart();
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                    alert(data);
+                }
+            });
+        }
+    }
+
+    /**
+     * 에스크로 구매확인 레이어창 출력 및 중앙 정렬
+     */
+    function gd_set_layer_center() {
+        parent.$('#pgEscrowConfirmLayer').removeClass('dn');
+        parent.$('#layerDim').removeClass('dn');
+        if (!parent.$('#pgEscrowConfirmLayer').hasClass('dn')) {
+            parent.$('#pgEscrowConfirmLayer').find('> div').center(true);
+        }
+    }
+
+    gd_set_pg_escrow_confirm_layer();
+    //-->
+</script>
+
+<script id="escrowConfirmBoxLayer" type="text/template">
+    <input type="hidden" id="orderNo" value="{=orderNo}" />
+    <div class="layer_wrap_cont" style="position: absolute; margin: 0px; top: 178.5px; left: 663px; z-index: 10405;">
+        <div class="ly_tit">
+            <h4>{=__('에스크로 구매확인 진행중')}</h4>
+        </div>
+        <div class="ly_cont">
+            <div class="escrow_cont">
+                <p>
+                    {=__('잠시후 에스크로 구매확인 창이 자동으로 열리게 됩니다.')}<br>
+                    {=__('자동으로 열리지 않으면 아래 에스크로 구매확인창 열기를 눌러주세요.')}<br>
+                    ※ {=__('에스크로 구매확인시에는 active-x 설치가 필요합니다.')}<br/>
+                </p>
+            </div>
+            <div class="btn_center_box">
+                <button type="button" class="btn_escrow_go" onclick="escrowConfirmStart()"><em>{=__('에스크로 구매확인창 열기')}</em></button>
+            </div>
+            <%=content%>
+        </div>
+        <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+    </div>
+</script>
+{ # share_footer }

@@ -1,0 +1,79 @@
+{*** [위젯] 마이페이지 요약정보 | mypage/_member_summary.html ***}
+
+<!--{ ? checkLogin != 'guest' }-->
+<div class="mypage_top_info">
+    <div class="mypage_top_txt">
+        <!--{ ? gMemberInfo.groupImageGb != 'none' }-->
+        <span class="grade_img"><img src="{=gd_get_group_image_http_path(gMemberInfo.groupSno)}"></span>
+        <!--{ / }-->
+        <div class="grade_txt">
+            {=__('%s%s님의%s 회원등급은 %s%s%s%s 입니다.', '<p>', gMemberInfo.memNm, '</p><p>', '<span>', gMemberInfo.groupNm, gd_display_group_label(), '</span>')}
+            <div class="btn_layer">
+                <span class="btn_gray_list"><a href="#lyGrade" class="btn_gray_small"><em>{=__('등급혜택보기')}</em></a></span>
+
+                <!-- N : 회원등급혜택 레이어 시작 -->
+                <div id="lyGrade" class="layer_area" style="display:none;">
+                    <div class="ly_wrap grade_layer">
+                        <div class="ly_tit">
+                            <strong>{=__('등급혜택 안내')}</strong>
+                        </div>
+                        <div class="ly_cont">
+                            <div class="grade_list">
+                                <dl>
+                                    <dt>{=__('회원 등급')}</dt>
+                                    <dd>{=__(gMemberInfo.groupNm)}{=__(gd_display_group_label())}</dd>
+                                </dl>
+                                <dl>
+                                    <dt>{=__('추가 할인')}</dt>
+                                    <dd><strong>{=__('%s이상 구매시 상품 판매금액의 %s 추가 할인', gd_global_currency_display(gMemberInfo.dcLine), number_format(gMemberInfo.dcPercent, 1) + '%')}</strong></dd>
+                                </dl>
+                                <dl>
+                                    <dt>{=__('중복 할인')}</dt>
+                                    <dd><strong>{=__('%s이상 구매시 상품 판매금액의 %s 추가 할인', gd_global_currency_display(gMemberInfo.overlapDcLine), number_format(gMemberInfo.overlapDcPercent, 1) + '%')}</strong></dd>
+                                </dl>
+                                <dl>
+                                    <dt>{=__('추가')} {=gd_display_mileage_name} {=__('적립')}</dt>
+                                    <dd>{=__('%s이상 구매 시 구매금액당 %s 추가 적립', gd_global_currency_display(gMemberInfo.mileageLine), number_format(gMemberInfo.mileagePercent, 1) + '%')}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <!-- //ly_cont -->
+                        <a href="#lyGrade" class="ly_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+                    </div>
+                    <!-- //ly_wrap -->
+                </div>
+                <!-- N : 회원등급혜택 레이어 끝 -->
+
+            </div>
+        </div>
+        <!-- //grade_txt -->
+    </div>
+    <!-- //mypage_top_txt -->
+
+    <div class="mypage_top_wallet">
+        <ul>
+            <!--{? gd_use_coupon()}-->
+            <li>
+                <span><img src="../img/icon/mypage/icon_coupon.png" alt=""></span>
+                <span><em>{=__('쿠폰')}</em><a href="../mypage/coupon.php"><strong>{=gd_money_format(myCouponCount)}</strong></a>{=__('장')}</span>
+            </li>
+            <!--{/}-->
+            <!--{? gd_use_mileage()}-->
+            <li>
+                <span><img src="../img/icon/mypage/icon_mileage.png" alt=""></span>
+                <span><em>{=gd_display_mileage_name()}</em><a href="../mypage/mileage.php"><strong>{=gd_money_format(gMemberInfo.mileage)}</strong></a>{=gd_display_mileage_unit()}</span>
+            </li>
+            <!--{/}-->
+            <!--{? gd_use_deposit()}-->
+            <li>
+                <span><img src="../img/icon/mypage/icon_balance.png" alt=""></span>
+                <span><em>{=gd_display_deposit('name')}</em><a href="../mypage/deposit.php"><strong>{=gd_money_format(gMemberInfo.deposit)}</strong></a>{=gd_display_deposit('unit')}</span>
+            </li>
+            <!--{/}-->
+        </ul>
+    </div>
+    <!-- //mypage_top_wallet -->
+
+</div>
+<!-- //mypage_top_info -->
+<!--{ / }-->

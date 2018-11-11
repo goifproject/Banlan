@@ -1,0 +1,42 @@
+{*** 인기상품 | goods/populate.php ***}
+{ # header }
+
+<div class="content">
+    <div class="goods_list_hot">
+
+        <div class="goods_list_hot_tit">
+            <h2>{=themeInfo['populateName']}</h2>
+        </div>
+		
+		<div class="goods_pick_list">
+			<span class="pick_list_num">{=__('상품 %s', '<strong>' + number_format(gd_isset(total)) + '</strong>')} {=__('개')}</span>
+			<form name="frmList" action="">
+				<input type="hidden" name="sno" value="{sno}"/>
+				<fieldset>
+					<legend class="skip">{=__('상품 정렬 폼')}</legend>
+					<div class="pick_list_box skip">
+						<ul class="pick_list">
+							<li></li>
+						</ul>
+					</div>
+				</fieldset>
+			</form>
+			
+			<div class="goods_list">
+				<div class="goods_list_cont">
+					<!-- 상품 리스트 -->
+					{ # goodsTemplate }
+					 <!-- //상품 리스트 -->
+				</div>
+			</div>
+			<!-- //goods_list -->
+			
+		</div>
+		<!-- //goods_pick_list -->
+    </div>
+    <!-- //goods_list_hot -->
+</div>
+<!-- //content -->
+
+
+{ # footer }

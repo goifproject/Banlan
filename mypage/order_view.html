@@ -1,0 +1,1159 @@
+{*** 마이페이지 > 주문상세 | mypage/order_view.php ***}
+{ # header }
+
+<div class="content">
+    <div class="mypage_main">
+
+        <!-- 마이페이지 회원 요약정보 -->
+        {=includeWidget('mypage/_member_summary.html')}
+        <!-- 마이페이지 회원 요약정보 -->
+
+        <div class="mypage_lately_info">
+            <div class="mypage_zone_tit">
+                <h3>{=__('주문/배송상세')} <strong class="order_num_view">({=__('주문번호')} : {orderInfo.orderNo} )</strong></h3>
+            </div>
+
+            <div class="mypage_lately_info_cont">
+                <!-- 주문상품 리스트 -->
+                {=includeFile('mypage/_order_goods_list.html')}
+                <!--// 주문상품 리스트 -->
+            </div>
+            <!-- //mypage_lately_info_cont -->
+        </div>
+        <!-- //mypage_lately_info -->
+
+        <div class="order_view_info">
+
+            <!--{ ? orderInfo.gift }-->
+            <div class="orderer_info">
+                <div class="mypage_zone_tit">
+                    <h4>{=__('사은품 정보')}</h4>
+                </div>
+
+                <div class="mypage_table_type">
+                    <table class="table_left">
+                        <colgroup>
+                            <col style="width:15%;">
+                            <col style="width:85%;">
+                        </colgroup>
+                        <tbody>
+                        <!--{ @ orderInfo.gift}-->
+                        <tr>
+                            <!--{ ? .index_ == 0 }-->
+                            <th scope="row" rowspan="{totalGiftCnt}">{=__('사은품 정보')}</th>
+                            <!--{ / }-->
+                            <td>{.imageUrl} {.giftNm} ({.giveCnt}개) | {.presentTitle}</td>
+                        </tr>
+                        <!--{ / }-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--{ / }-->
+
+
+            <div class="orderer_info">
+                <div class="mypage_zone_tit">
+                    <h4>{=__('주문자 정보')}</h4>
+                </div>
+
+                <div class="mypage_table_type">
+                    <table class="table_left">
+                        <colgroup>
+                            <col style="width:15%;">
+                            <col style="width:85%;">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th scope="row">{=__('주문자 정보')}</th>
+                            <td>{orderInfo.orderName}</td>
+                        </tr>
+                        <!--{ ? gd_is_login() == true && !gGlobal.isFront }-->
+                        <tr>
+                            <th scope="row">{=__('주소')}</th>
+                            <td><!--{ ? gGlobal.isFront }-->
+                                ({=gd_isset(orderInfo.orderZonecode)}) {=gd_isset(orderInfo.orderAddressSub)}, {=gd_isset(orderInfo.orderAddress)}, {=gd_isset(orderInfo.orderState)}, {=gd_isset(orderInfo.orderCity)}, {=gd_isset(orderInfo.orderCountry)}
+                                <!--{ : }-->
+                                ({orderInfo.orderZonecode}) {orderInfo.orderAddress} {orderInfo.orderAddressSub}
+                                <!--{ / }-->
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                        <tr>
+                            <th scope="row">{=__('전화번호')}</th>
+                            <td><!--{ ? gGlobal.isFront }-->
+                                (+{=gd_isset(orderInfo.orderPhonePrefix)})
+                                <!--{ / }-->
+                                {orderInfo.orderPhone}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('휴대폰 번호')}</th>
+                            <td>
+                                <!--{ ? gGlobal.isFront }-->
+                                (+{=gd_isset(orderInfo.orderCellPhonePrefix)})
+                                <!--{ / }-->
+                                {orderInfo.orderCellPhone}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('이메일')}</th>
+                            <td>{orderInfo.orderEmail}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- //orderer_info -->
+
+            <div class="delivery_info">
+                <div class="mypage_zone_tit">
+                    <h4>{=__('배송지 정보')}</h4>
+                </div>
+
+                <div class="mypage_table_type">
+                    <table class="table_left">
+                        <colgroup>
+                            <col style="width:15%;">
+                            <col style="width:85%;">
+                        </colgroup>
+                        <tbody>
+                        <!--{ ? orderInfo.multiShippingFl == 'y' && multiOrderInfo }-->
+                        <tr>
+                            <th colspan="2" scope="row">{=__('메인 배송지')}</th>
+                        </tr>
+                        <!--{ / }-->
+                        <tr>
+                            <th scope="row">{=__('배송자 정보')}</th>
+                            <td> {orderInfo.receiverName}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('주소')}</th>
+                            <td>
+                                <!--{ ? gGlobal.isFront }-->
+                                ({orderInfo.receiverZonecode}) {orderInfo.receiverAddressSub}, {orderInfo.receiverAddress}, {orderInfo.receiverState}, {orderInfo.receiverCity}, {orderInfo.receiverCountry}
+                                <!--{ : }-->
+                                ({orderInfo.receiverZonecode}) {orderInfo.receiverAddress} {orderInfo.receiverAddressSub}
+                                <!--{ / }-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('전화번호')}</th>
+                            <td>
+                                <!--{ ? gGlobal.isFront }-->(+ {orderInfo.receiverPhonePrefix})<!--{ / }-->
+                                {orderInfo.receiverPhone}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('휴대폰 번호')}</th>
+                            <td>
+                                <!--{ ? gGlobal.isFront }-->(+ {orderInfo.receiverCellPhonePrefix})<!--{ / }-->
+                                {orderInfo.receiverCellPhone}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('남기실 말씀')}</th>
+                            <td>{orderInfo.orderMemo}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!--{ ? orderInfo.multiShippingFl == 'y' && multiOrderInfo }-->
+                    <!--{ @ multiOrderInfo.receiverNm }-->
+                    <table class="table_left" style="margin-top:10px;">
+                        <colgroup>
+                            <col style="width:15%;">
+                            <col style="width:85%;">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th colspan="2" scope="row">{=__('추가 배송지')} {=.index_ + 1}</th>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('배송자 정보')}</th>
+                            <td>
+                                {multiOrderInfo.receiverNm[.index_]}
+                                <!--<button type="button" class="normal-btn small1" onclick="pg_receipt_view('cash', '{orderInfo.orderNo}');"><em>배송지 변경</em></button>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('주소')}</th>
+                            <td>
+                                <!--{ ? gGlobal.isFront }-->
+                                ({multiOrderInfo.receiverZonecode[.index_]}) {multiOrderInfo.receiverAddressSub[.index_]}, {multiOrderInfo.receiverAddress[.index_]}, {multiOrderInfo.receiverState[.index_]}, {multiOrderInfo.receiverCity[.index_]}, {multiOrderInfo.receiverCountry[.index_]}
+                                <!--{ : }-->
+                                ({multiOrderInfo.receiverZonecode[.index_]}) {multiOrderInfo.receiverAddress[.index_]} {multiOrderInfo.receiverAddressSub[.index_]}
+                                <!--{ / }-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('전화번호')}</th>
+                            <td>
+                                <!--{ ? gGlobal.isFront }-->(+ {multiOrderInfo.receiverPhonePrefix[.index_]})<!--{ / }-->
+                                {multiOrderInfo.receiverPhone[.index_]}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('휴대폰 번호')}</th>
+                            <td>
+                                <!--{ ? gGlobal.isFront }-->(+ {multiOrderInfo.receiverCellPhonePrefix[.index_]})<!--{ / }-->
+                                {multiOrderInfo.receiverCellPhone[.index_]}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('남기실 말씀')}</th>
+                            <td>{multiOrderInfo.orderMemo[.index_]}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--{ / }-->
+                    <!--{ / }-->
+                </div>
+            </div>
+            <!-- //delivery_info -->
+
+            <!--{ ? empty(orderInfo.addField) === false }-->
+            <div class="addition_info">
+                <div class="mypage_zone_tit">
+                    <h4>{=__('추가 정보')}</h4>
+                </div>
+
+                <div class="mypage_table_type">
+                    <table class="table_left">
+                        <colgroup>
+                            <col style="width:15%;">
+                            <col style="width:85%;">
+                        </colgroup>
+                        <tbody>
+                        <!--{ @ orderInfo.addField }-->
+                        <!--{ ? .process == 'goods' }-->
+                        <!--{ @ .data }-->
+                        <tr>
+                            <th>{=.name} : {=.goodsNm[..key_]}</th>
+                        </tr>
+                        <tr>
+                            <td>{=..value_}</td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ : }-->
+                        <tr>
+                            <th>{=.name}</th>
+                        </tr>
+                        <tr>
+                            <td>{=.data}</td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ / }-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--{ / }-->
+            <!-- //addition_info -->
+
+            <div class="payment_info">
+                <div class="mypage_zone_tit">
+                    <h4>{=__('결제정보')}</h4>
+                </div>
+
+                <div class="mypage_table_type">
+                    <table class="table_left">
+                        <colgroup>
+                            <col style="width:15%;">
+                            <col style="width:85%;">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th scope="row">{=__('상품 합계 금액')}</th>
+                            <td>{=gd_global_order_currency_display(orderInfo.totalGoodsPrice, orderInfo.exchangeRate, orderInfo.currencyPolicy)}</td>
+                        </tr>
+                        <!--{ ? gGlobal.isFront }-->
+                        <tr>
+                            <th scope="row">{=__('총 무게')}</th>
+                            <td>
+                                {=number_format(orderInfo.totalDeliveryWeight, 2)}kg
+                                {=__('상품무게 %s kg + 박스무게 %s kg', number_format(orderInfo.deliveryWeightInfo.goods, 2), number_format(orderInfo.deliveryWeightInfo.box, 2))}
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                        <tr>
+                            <th scope="row">{=__('배송비')}</th>
+                            <td>
+                                {=gd_global_order_currency_display(orderDeliveryInfo.deliveryPolicyCharge, orderInfo.exchangeRate, orderInfo.currencyPolicy)}
+                                <!--{ ? orderInfo.multiShippingFl == 'y' }-->
+                                <!--{ ? orderDeliveryInfo.orderInfoCharge }-->
+                                (<!--{ @ orderDeliveryInfo.orderInfoCharge }-->
+                                <!--{ ? .index_ == 0 }-->{=__('메인 배송지')}<!--{ : }-->{=__('추가 배송지')}{=.index_}<!--{ / }--> : {=gd_global_currency_display(gd_isset(.value_))}
+                                <!--{ / }-->)
+                                <!--{ / }-->
+                                <!--{ / }-->
+                            </td>
+                        </tr>
+                        <!--{ ? orderDeliveryInfo.deliveryAreaCharge > 0}-->
+                        <tr>
+                            <th scope="row">{=__('지역별 배송비')}</th>
+                            <td>{=gd_global_currency_display(gd_isset(orderDeliveryInfo.deliveryAreaCharge))}</td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ ? gGlobal.isFront }-->
+                        <tr>
+                            <th scope="row">{=__('해외배송 보험료')}</th>
+                            <td><strong>{=gd_global_order_currency_display(gd_isset(orderInfo.totalDeliveryInsuranceFee), orderInfo.exchangeRate, orderInfo.currencyPolicy)}</strong></td>
+                        </tr>
+                        <!--{ / }-->
+                        <tr>
+                            <th scope="row">{=__('할인혜택')}</th>
+                            <td>
+                                <div class="discount_benefit">
+                                    <dl>
+                                        <dt>{=__('상품')}</dt>
+                                        <dd>(-) {=gd_global_order_currency_display(orderInfo.totalGoodsDcPrice, orderInfo.exchangeRate, orderInfo.currencyPolicy)}</dd>
+                                    </dl>
+                                    <!--{ ? gd_is_login() == true }-->
+                                    <!--{ ? orderInfo.useMileage > 0 }-->
+                                    <dl>
+                                        <dt>{mileageUse.name}</dt>
+                                        <dd>(-) {=gd_global_order_money_format(orderInfo.useMileage, orderInfo.exchangeRate, orderInfo.currencyPolicy.globalCurrencyDecimal)} {mileageUse.unit}</dd>
+                                    </dl>
+                                    <!--{ / }-->
+                                    <!--{ ? orderInfo.useDeposit > 0 }-->
+                                    <dl>
+                                        <dt>{depositUse.name}</dt>
+                                        <dd>(-) {=gd_global_order_money_format(orderInfo.useDeposit, orderInfo.exchangeRate, orderInfo.currencyPolicy.globalCurrencyDecimal)} {depositUse.unit}</dd>
+                                    </dl>
+                                    <!--{ / }-->
+                                    <!--{ ? (orderInfo.totalMemberDcPrice + orderInfo.totalMemberOverlapDcPrice) > 0 }-->
+                                    <dl>
+                                        <dt>{=__('회원')}</dt>
+                                        <dd>(-) {=gd_global_order_currency_display(orderInfo.totalMemberDcPrice + orderInfo.totalMemberOverlapDcPrice, orderInfo.exchangeRate, orderInfo.currencyPolicy)}</dd>
+                                    </dl>
+                                    <!--{ / }-->
+                                    <!--{ ? (orderInfo.totalCouponOrderDcPrice + orderInfo.totalCouponGoodsDcPrice + orderInfo.totalCouponDeliveryDcPrice) > 0 }-->
+                                    <dl>
+                                        <dt>{=__('쿠폰')}</dt>
+                                        <dd>(-) {=gd_global_order_currency_display(orderInfo.totalCouponOrderDcPrice + orderInfo.totalCouponGoodsDcPrice + orderInfo.totalCouponDeliveryDcPrice, orderInfo.exchangeRate, orderInfo.currencyPolicy)}</dd>
+                                    </dl>
+                                    <!--{ / }-->
+                                    <!--{ ? orderInfo.totalEnuriDcPrice != 0 }-->
+                                    <dl>
+                                        <dt>{=__('운영자 추가 할인')}</dt>
+                                        <dd>
+                                            <!--{ ? orderInfo.totalEnuriDcPrice < 0}-->
+                                            (+)
+                                            <!--{ : }-->
+                                            (-)
+                                            <!--{ / }-->
+                                            {=gd_global_order_currency_display(orderInfo.absTotalEnuriDcPrice, orderInfo.exchangeRate, orderInfo.currencyPolicy)}
+                                        </dd>
+                                    </dl>
+                                    <!--{ / }-->
+                                    <!--{ / }-->
+                                    <dl>
+                                        <dt>{=__('총 할인')}</dt>
+                                        <dd>{=gd_global_order_currency_display(orderInfo.useMileage + orderInfo.useDeposit + orderInfo.totalGoodsDcPrice + orderInfo.totalMemberDcPrice +
+                                            orderInfo.totalMemberOverlapDcPrice + orderInfo.totalCouponOrderDcPrice + orderInfo.totalCouponGoodsDcPrice + orderInfo.totalCouponDeliveryDcPrice + orderInfo.totalEnuriDcPrice, orderInfo.exchangeRate, orderInfo.currencyPolicy)}</dd>
+                                    </dl>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('총 결제 금액')}</th>
+                            <td><strong class="total_pay_money">{=gd_global_order_currency_display(orderInfo.settlePrice, orderInfo.exchangeRate, orderInfo.currencyPolicy)}</strong></td>
+                        </tr>
+                        <!--{ ? substr(orderInfo.settleKind, 0, 1) == 'o' }-->
+                        <tr>
+                            <th scope="row">{=__('승인금액')}</th>
+                            <td><strong>{=gd_global_order_currency_display(orderInfo.settlePrice, orderInfo.exchangeRate, orderInfo.currencyPolicy)}</strong></td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ ? gd_isset(orderInfo.orderStatus) == 'f' && empty(orderInfo.pgFailReason) === false }-->
+                        <tr>
+                            <th scope="row">{=__('결제 실패 사유')}</th>
+                            <td><strong>{=orderInfo.pgFailReason}</strong></td>
+                        </tr>
+                        <!--{ / }-->
+                        <tr>
+                            <th scope="row">{=__('결제수단')}</th>
+                            <td>
+                                <div class="pay_with_list">
+                                    <strong>{orderInfo.settleName}</strong>
+                                    <ul>
+                                        <!--{ ? gd_isset(orderInfo.settleKind) == 'gb' }-->
+                                        <li>{=__('입금은행')} : {=gd_isset(orderInfo.bankAccount[0])}</li>
+                                        <li>{=__('입금계좌')} : {=gd_isset(orderInfo.bankAccount[1])}</li>
+                                        <li>{=__('예금주명')} : {=gd_isset(orderInfo.bankAccount[2])}</li>
+                                        <li>{=__('입금금액')} : <strong class="deposit_money">{=gd_global_order_currency_display(gd_isset(orderInfo.settlePrice), orderInfo.exchangeRate, orderInfo.currencyPolicy)}</strong></li>
+                                        <li>{=__('입금자명')} : {=gd_isset(orderInfo.bankSender)}</li>
+                                        <!--{ : }-->
+                                        <!--{ ? gd_isset(orderInfo.settleMethod) == 'c' }-->
+                                        <li>{=gd_isset(orderInfo.pgSettleNm[0])}</li>
+                                        <!--{ : gd_isset(orderInfo.settleMethod) == 'b' }-->
+                                        <li>{=__('이체은행')} : {=gd_isset(orderInfo.pgSettleNm[0])}</li>
+                                        <!--{ : gd_isset(orderInfo.settleMethod) == 'v' }-->
+                                        <li>{=__('입금은행')} : {=gd_isset(orderInfo.pgSettleNm[0])}</li>
+                                        <li>{=__('가상계좌')} : {=gd_isset(orderInfo.pgSettleNm[1])}</li>
+                                        <!--{ ? gd_isset(orderInfo.pgSettleNm[2]) != '' }-->
+                                        <li>{=__('예금자명')} : {=gd_isset(orderInfo.pgSettleNm[2])}</li>
+                                        <!--{ / }-->
+                                        <!--{ ? gd_isset(orderInfo.pgSettleCd[0]) != '' }-->
+                                        <li>{=__('송금일자')} : {=gd_date_format('Y-m-d', gd_isset(orderInfo.pgSettleCd[0]))} 까지</li>
+                                        <!--{ / }-->
+                                        <li>{=__('입금금액')} : <strong class="deposit_money">{=gd_global_currency_display(gd_isset(orderInfo.settlePrice))}</strong></li>
+                                        <!--{ : gd_isset(orderInfo.settleMethod) == 'h' }-->
+                                        <li>{=__('통신사')} : {=gd_isset(orderInfo.pgSettleNm[0])}</li>
+                                        <!--{ ? gd_isset(orderInfo.pgSettleCd[0]) != '' }-->
+                                        <li>{=__('결제 휴대폰 번호')} : {=gd_isset(orderInfo.pgSettleCd[0])}</li>
+                                        <!--{ / }-->
+                                        <!--{ / }-->
+                                        <!--{ / }-->
+                                    </ul>
+
+                                    <!--{ ? gd_isset(escrowConfirmFl) === true }-->
+                                    <!-- 에스크로 구매확인 레이어 -->
+                                    {=escrowScript}
+                                    <div id="pgEscrowConfirmLayer" class="layer_wrap escrow_layer dn"></div>
+                                    <!--//에스크로 구매확인 레이어 -->
+                                    <form id="frmEscrowConfirm" name="frmEscrowConfirm" action="./order_ps.php" method="post" target="ifrmProcess">
+                                        <input type="hidden" name="mode" value="escrowConfirm"/>
+                                        <input type="hidden" name="orderNo" value="{orderInfo.orderNo}"/>
+                                        <input type="hidden" name="pgName" value="{orderInfo.pgName}"/>
+                                        <span class="btn_gray_list">
+                                            <button class="btn_gray_mid"><span>{=__('에스크로 구매확인')}</span></button>
+                                        </span>
+                                    </form>
+                                    <!--{ / }-->
+                                </div>
+                            </td>
+                        </tr>
+                        <!--{ ? gd_is_login() == true && orderInfo.totalMileage > 0 && gd_use_mileage() }-->
+                        <tr>
+                            <th scope="row">{=__('적립')}  {mileageUse.name}</th>
+                            <td>
+                                <div class="saving_mileage">
+                                    <strong>{=__('적립 예정')} {mileageUse.name}</strong>
+                                    <!--{ ? (orderInfo.totalGoodsMileage + orderInfo.totalMemberMileage) > 0 }-->
+                                    <dl>
+                                        <dt>{=__('구매')} {mileageUse.name}</dt>
+                                        <dd>{=gd_money_format(orderInfo.totalGoodsMileage + orderInfo.totalMemberMileage)}{mileageUse.unit}</dd>
+                                    </dl>
+                                    <!--{ / }-->
+                                    <!--{ ? 0 > 0 }-->
+                                    <dl>
+                                        <dt>{=__('후기작성')} {mileageUse.name}</dt>
+                                        <dd>{=gd_money_format(0)}{mileageUse.unit}</dd>
+                                    </dl>
+                                    <!--{ / }-->
+                                    <!--{ ? (orderInfo.totalCouponGoodsMileage + orderInfo.totalCouponOrderMileage) > 0 }-->
+                                    <dl>
+                                        <dt>{=__('추가')} {mileageUse.name}</dt>
+                                        <dd>{=gd_money_format(orderInfo.totalCouponGoodsMileage + orderInfo.totalCouponOrderMileage)}{mileageUse.unit}</dd>
+                                    </dl>
+                                    <!--{ / }-->
+                                    <dl>
+                                        <dt>{=__('총')} {mileageUse.name}</dt>
+                                        <dd>{=gd_money_format(orderInfo.totalMileage)}{mileageUse.unit}</dd>
+                                    </dl>
+                                </div>
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+
+                        <!--{ ? gd_isset(orderInfo.settleReceipt) }-->
+                        <tr>
+                            <th scope="row">{=__('결제영수증')}</th>
+                            <td><span class="btn_gray_list">
+                                    <button type="button" class="btn_gray_mid" onclick="gd_pg_receipt_view('{=orderInfo.settleReceipt}', '{orderInfo.orderNo}');"><span>{=__('결제영수증 조회')}</span></button>
+                                </span>
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ ? (empty(orderInfo.cash) === false && orderInfo.receiptFl == 'r') ||  (receipt['cashFl'] == 'y' && orderInfo.receiptFl == 'n') }-->
+                        <tr>
+                            <th scope="row">{=__('현금영수증')}</th>
+                            <td>
+                                <!--{ ? (empty(orderInfo.cash) === false && orderInfo.receiptFl == 'r') }-->
+                                <div class="pay_with_list">
+                                    <ul>
+                                        <li>{=__('발행 용도')} :
+                                            <!--{ ? gd_isset(orderInfo.cash.useFl) == 'd' }-->{=__('소득공제용')}<!--{ / }-->
+                                            <!--{ ? gd_isset(orderInfo.cash.useFl) == 'e' }-->{=__('지출증빙용')}<!--{ / }-->
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <li>
+                                            {=__('발행 현황')} :
+                                            <!--{ ? gd_isset(orderInfo.cash.statusFl) == 'r' }-->
+                                            {=__('발급요청')}
+                                            <!--{ : gd_isset(orderInfo.cash.statusFl) == 'y' }-->
+                                            {=__('발행완료')}
+                                            <!--{ : gd_isset(orderInfo.cash.statusFl) == 'c' }-->
+                                            {=__('발행취소')}
+                                            <!--{ : }-->
+                                            {=__('발행오류')}
+                                            <!--{ / }-->
+                                        </li>
+                                    </ul>
+                                    <!--{ ? gd_isset(orderInfo.cash.statusFl) == 'y' || gd_isset(orderInfo.cash.statusFl) == 'c' }-->
+                                    <ul>
+                                        <li>
+                                            <span class="btn_gray_list">
+                                                <button type="button" class="btn_gray_mid" onclick="gd_pg_receipt_view('cash', '{orderInfo.orderNo}');"><span>{=__('현금영수증 출력')}</span></button>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                    <!--{ / }-->
+                                </div>
+                                <!--{ / }-->
+
+                                <!--{ ? (receipt['cashFl'] == 'y' && orderInfo.receiptFl == 'n') }-->
+                                <!--{ ? receipt['periodFl'] == 'y' }-->
+                                <div class="btn_layer">
+                                    <span class="btn_gray_list"><a href="#lyCashReceipt" class="btn_gray_small" onclick="gd_cash_receipt_toggle();"><em>{=__('현금영수증 발행')}</em></a></span>
+
+                                    <!-- N : 현금영수증 발행 레이어 시작 -->
+                                    <div id="lyCashReceipt" class="layer_area" style="display:none;">
+                                        <div class="ly_wrap cash_receipt_layer">
+                                            <form id="frmCashReceipt" name="frmCashReceipt" action="./order_ps.php" method="post" target="ifrmProcess">
+                                                <input type="hidden" name="mode" value="cashReceiptRequest"/>
+                                                <input type="hidden" name="orderNo" value="{orderInfo.orderNo}"/>
+                                                <div class="ly_tit">
+                                                    <strong>{=__('현금영수증 발행')}</strong>
+                                                </div>
+                                                <div class="ly_cont">
+                                                    <div class="cash_receipt_cont">
+                                                        <dl>
+                                                            <dt>{=__('발행용도')}</dt>
+                                                            <dd>
+                                                                <div class="form_element">
+                                                                    <ul class="cash_receipt_select">
+                                                                        <li>
+                                                                            <input type="radio" id="cashCertD" name="cashUseFl" value="d" onclick="gd_cash_receipt_toggle();" checked="checked"/>
+                                                                            <label class="choice_s on" for="cashCertD">{=__('소득공제용')}</label>
+                                                                        </li>
+                                                                        <li>
+                                                                            <input type="radio" id="cashCertE" name="cashUseFl" value="e" onclick="gd_cash_receipt_toggle();"/>
+                                                                            <label class="choice_s" for="cashCertE">{=__('지출증빙용')}</label>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt class="js_cert_no_title">{=__('휴대폰번호')}</dt>
+                                                            <dd id="certNoHp">
+                                                                <input type="text" class="number_only" name="cashCertNo[c]" value="{=gd_isset(memberInvoiceInfo['cash']['cellPhone'])}" placeholder="{=__('- 없이 입력하세요')}" maxlength="11"/>
+                                                            </dd>
+                                                            <dd id="certNoBno">
+                                                                <input type="text" class="number_only" name="cashCertNo[b]" value="{=str_replace('-', '', gd_isset(memberInvoiceInfo['cash']['cashBusiNo']))}" placeholder="{=__('- 없이 입력하세요')}" maxlength="10" />
+                                                            </dd>
+                                                        </dl>
+                                                    </div>
+                                                    <div class="btn_center_box">
+                                                        <a href="#" class="bnt_cash_receipt"><em>{=__('현금영수증 발행')}</em></a>
+                                                    </div>
+                                                </div>
+                                                <!-- //ly_cont -->
+                                                <a href="#lyCashReceipt" class="ly_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+                                            </form>
+                                        </div>
+                                        <!-- //ly_wrap -->
+                                    </div>
+                                    <!-- //layer_area -->
+                                    <!-- //N : 현금영수증 발행 레이어 끝 -->
+                                </div>
+
+                                <!--{ : }-->
+                                발급불가 (※ 발급요청은 결제완료 후 3일 이내에만 가능합니다.)
+                                <!--{ / }-->
+                                <!--{ / }-->
+
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+
+                        <!--{ ? (empty(orderInfo.tax) === false && orderInfo.receiptFl == 't') ||  (receipt['taxFl'] == 'y' && orderInfo.receiptFl == 'n') }-->
+                        <tr>
+                            <th scope="row">{=__('세금계산서')}</th>
+                            <td>
+
+                                <!--{ ? (empty(orderInfo.tax) === false && orderInfo.receiptFl == 't') }-->
+                                <div class="pay_with_list">
+                                    <ul>
+                                        <li>{=__('발행 현황')} :
+                                            <!--{ ? gd_isset(orderInfo.tax.statusFl) == 'r' }-->
+                                            {=__('발급요청')}
+                                            <!--{ : gd_isset(orderInfo.tax.statusFl) == 'y' }-->
+                                            {=__('발행완료')}
+                                            <!--{ : gd_isset(orderInfo.tax.statusFl) == 'c' }-->
+                                            {=__('발행취소')}
+                                            <!--{ : }-->
+                                            {=__('발행오류')}
+                                            <!--{ / }-->
+                                        </li>
+                                    </ul>
+                                    <!--{ ? gd_isset(orderInfo.tax.statusFl) == 'y' }-->
+                                    <!--{ ? gd_isset(orderInfo.tax.issueFl) =='g' }-->
+                                    <ul>
+                                        <li>
+                                            <span class="btn_gray_list">
+                                                <button type="button" class="btn_gray_mid js_btn_tax_invoice"><span>{=__('세금계산서 출력')}</span></button>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                    <!--{ : }-->
+                                    <ul>
+                                        <li>
+                                            <div class="admin_text">
+                                                * {=__('전자세금계산서는 주문자정보의 이메일주소로 발송됩니다. %s 발행완료된 후 전자세금계산서 메일이 확인되지 않으면 고객센터로 문의주시기 바랍니다.', '<br/>&nbsp;&nbsp;')}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!--{ / }-->
+                                    <!--{ / }-->
+                                </div>
+                                <!--{ / }-->
+
+                                <!--{ ? (receipt['taxFl'] == 'y'  && orderInfo.receiptFl == 'n') }-->
+                                <!--{ ? (receipt.limitDateFl =='y') }-->
+                                <div class="btn_layer">
+                                    <span class="btn_gray_list"><a href="#lyTaxInvoice" class="btn_gray_small"><em>{=__('세금계산서 발행')}</em></a></span>
+                                    <!--{ ? taxinvoiceInfo }-->
+                                    <div class="admin_text">{taxinvoiceInfo}</div>
+                                    <!--{ / }-->
+
+                                    <!-- N : 세금계산서 발행 레이어 시작 -->
+                                    <div id="lyTaxInvoice" class="layer_area" style="display:none;">
+                                        <div class="ly_wrap tax_invoice_layer">
+                                            <div class="ly_tit">
+                                                <strong>{=__('세금계산서 발행')}</strong>
+                                                <!--{ ? memberInvoiceInfo['tax']['memberTaxInfoFl'] == 'y' }-->
+                                                <button class="normal-btn small1 tax_info_init"><em>{=__('초기화')}</em></button>
+                                                <!--{ / }-->
+                                            </div>
+                                            <div class="ly_cont">
+                                                <form id="frmTaxInvoiceRequest" name="frmTaxInvoiceRequest" action="./order_ps.php" method="post" target="ifrmProcess">
+                                                    <input type="hidden" name="mode" value="taxInvoiceRequest"/>
+                                                    <input type="hidden" name="orderNo" value="{orderInfo.orderNo}"/>
+                                                    <div class="tax_invoice_cont">
+                                                        <div class="left_table_type">
+                                                            <table id="tax_info" summary="{=__('세금계산서 입력폼입니다.')}">
+                                                                <colgroup>
+                                                                    <col style="width:20%;">
+                                                                    <col style="width:30%;">
+                                                                    <col style="width:20%;">
+                                                                    <col style="width:30%;">
+                                                                </colgroup>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <th scope="row">{=__('사업자번호')}</th>
+                                                                    <td colspan="3"><input type="text" name="taxBusiNo" placeholder="{=__('- 없이 입력하세요')}" value="{=str_replace('-', '', gd_isset(memberInvoiceInfo['tax']['taxBusiNo']))}" maxlength="10"/></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">{=__('회사명')}</th>
+                                                                    <td><input type="text" name="taxCompany" value="{=gd_isset(memberInvoiceInfo['tax']['company'])}" maxlength="50" data-pattern="gdMemberNmGlobal"/></td>
+                                                                    <th scope="row">{=__('대표자명')}</th>
+                                                                    <td><input type="text" name="taxCeoNm" value="{=gd_isset(memberInvoiceInfo['tax']['ceo'])}"/></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">{=__('업태')}</th>
+                                                                    <td><input type="text" name="taxService" value="{=gd_isset(memberInvoiceInfo['tax']['service'])}"/></td>
+                                                                    <th scope="row">{=__('종목')}</th>
+                                                                    <td><input type="text" name="taxItem" value="{=gd_isset(memberInvoiceInfo['tax']['item'])}"/></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">{=__('사업장주소')}</th>
+                                                                    <td colspan="3" class="member_address">
+                                                                        <div class="address_postcode">
+                                                                            <input type="text" name="taxZonecode" value="{=gd_isset(memberInvoiceInfo['tax']['comZonecode'])}" readonly="readonly">
+                                                                            <input type="hidden" name="taxZipcode" value="{=gd_isset(memberInvoiceInfo['tax']['comZipcode'])}">
+                                                                            <span id=taxrZipcodeText" class="old_post_code"></span>
+                                                                            <button type="button" class="btn_post_search" onclick="gd_postcode_search('taxZonecode', 'taxAddress', 'taxZipcode');">{=__('우편번호검색')}</button>
+                                                                        </div>
+                                                                        <div class="address_input">
+                                                                            <input type="text" name="taxAddress" value="{=gd_isset(memberInvoiceInfo['tax']['comAddress'])}"/>
+                                                                            <input type="text" name="taxAddressSub" value="{=gd_isset(memberInvoiceInfo['tax']['comAddressSub'])}"/>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <!--{ ? taxInfo.eTaxInvoiceFl == 'y' }-->
+                                                                <tr>
+                                                                    <th scope="row">{=__('발행 이메일')}</th>
+                                                                    <td colspan="3" class="cash_receipt_email">
+                                                                        <input type="text" id="idTaxEmail" name="taxEmail" placeholder="{=__('미입력 시 주문자의 이메일로 발행')}" value="{=gd_isset(memberInvoiceInfo['tax']['email'])}"/>
+                                                                        <select id="taxEmailDomain" class="chosen_select_none">
+                                                                            <!--{ @ emailDomain }-->
+                                                                            <option value="{=.key_}">{=.value_}</option>
+                                                                            <!--{ / }-->
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                                <!--{ / }-->
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class="btn_center_box">
+                                                        <button type="submit" class="bnt_tax_invoice"><em>세금계산서 발행</em></button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!-- //ly_cont -->
+                                            <a href="#lyTaxInvoice" class="ly_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+                                        </div>
+                                        <!-- //ly_wrap -->
+                                    </div>
+                                    <!-- //layer_area -->
+                                    <!-- //N : 세금계산서 발행 레이어 끝 -->
+                                </div>
+                                <!--{ : }-->
+
+                                {=__('발급불가 %s 결제완료 기준 다음 달  %s 일까지 신청 가능 가능합니다.%s', '(※ ', receipt['taxInvoiceLimitDate'], ')' )}<br />
+                                <!--{ ? taxinvoiceDeadline }-->
+                                <div class="admin_text">
+                                    {taxinvoiceDeadline}
+                                </div>
+                                <!--{ / }-->
+
+                                <!--{ / }-->
+                                <!--{ / }-->
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+
+                        <!--{ ? receipt['reception'] == 'y' || receipt['particularFl'] == 'y'}-->
+                        <form id="printform" name="printform" action="./order_print.php" method="post" target="orderPrintPopup">
+                            <input type="hidden" name="orderPrintMode" />
+                            <input type="hidden" name="orderPrintCode" value="{orderInfo.orderNo}"/>
+                        </form>
+                        <!--{ / }-->
+                        <!--{ ? receipt['particularFl'] == 'y' }-->
+                        <tr>
+                            <th scope="row">{=__('거래명세서')}</th>
+                            <td>
+                                <span class="btn_gray_list">
+                                    <button type="button" class="btn_gray_mid" onclick="gd_order_print_popup('particular')"><span>{=__('거래명세서 인쇄')}</span></button>
+                                </span>
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ ? receipt['reception'] == 'y' }-->
+                        <tr>
+                            <th scope="row">{=__('간이영수증')}</th>
+                            <td>
+                                <span class="btn_gray_list">
+                                    <button type="button" class="btn_gray_mid" onclick="gd_order_print_popup('reception')"><span>{=__('간이영수증 인쇄')}</span></button>
+                                </span>
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- //payment_info -->
+
+            <!--{ ? isHandle && totalRefundPrice > 0}-->
+            <div class="orderer_info">
+                <div class="mypage_zone_tit">
+                    <h4>{=__('환불 정보')}</h4>
+                </div>
+
+                <div class="mypage_table_type">
+                    <table class="table_left">
+                        <colgroup>
+                            <col style="width:15%;">
+                            <col style="width:85%;">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th scope="row">{=__('환불 금액')}</th>
+                            <td>{=gd_global_currency_symbol()}<strong>{=gd_global_money_format(totalRefundPrice)}</strong>{=gd_global_currency_string()}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('환불 내역')}</th>
+                            <td>
+                                <div class="pay_with_list">
+                                    <ul>
+                                        <!--{ ? totalCompleteCashPrice > 0}-->
+                                        <li>{=__('현금')} :
+                                            {=gd_global_currency_symbol()}<strong>{=gd_global_money_format(totalCompleteCashPrice)}</strong>{=gd_global_currency_string()}
+                                        </li>
+                                        <!--{ / }-->
+                                        <!--{ ? totalCompletePgPrice > 0}-->
+                                        <li>PG :
+                                            {=gd_global_currency_symbol()}<strong>{=gd_global_money_format(totalCompletePgPrice)}</strong>{=gd_global_currency_string()}
+                                        </li>
+                                        <!--{ / }-->
+                                        <!--{ ? totalCompleteDepositPrice > 0}-->
+                                        <li>{=__('예치금')} :
+                                            {=gd_global_currency_symbol()}<strong>{=gd_global_money_format(totalCompleteDepositPrice)}</strong>{=gd_global_currency_string()} ({=__('사용 예치금 환불')} {=gd_global_currency_symbol()}<strong>{=gd_global_money_format(totalRefundUseDeposit)}</strong>{=gd_global_currency_string()})
+                                        </li>
+                                        <!--{ / }-->
+                                        <!--{ ? totalRefundUseMileage > 0}-->
+                                        <li>{=__('마일리지')} :
+                                            {=gd_global_currency_symbol()}<strong>{=gd_global_money_format(totalRefundUseMileage)}</strong>{=gd_global_currency_string()}
+                                        </li>
+                                        <!--{ / }-->
+                                        <!--{ ? totalCompleteMileagePrice > 0}-->
+                                        <li>{=__('기타')} :
+                                            {=gd_global_currency_symbol()}<strong>{=gd_global_money_format(totalCompleteMileagePrice)}</strong>{=gd_global_currency_string()}
+                                        </li>
+                                        <!--{ / }-->
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <!--{ ? totalCompleteCashPrice > 0 }-->
+                        <tr>
+                            <th scope="row">{=__('환불 계좌정보')}</th>
+                            <td>
+                                <!--{ ? totalRefundData }-->
+                                <!--{ @ totalRefundData }-->
+                                <!--{ ? .account }-->
+                                {=__('입금은행')} : {=nl2br(.bank)} | {=__('입금계좌')} : {=nl2br(.account)} | {=__('입금자명')} : {=nl2br(.depositor)} <br />
+                                <!--{ / }-->
+                                <!--{ / }-->
+                                <!--{ / }-->
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--{ / }-->
+
+            <!--{ ? isExchangeHandle }-->
+            <!--{ @ exchangeHandleData }-->
+            <!--{ ? .ehDifferencePrice < 0 }-->
+            <div class="orderer_info">
+                <div class="mypage_zone_tit">
+                    <h4>{=__('교환 추가결제 정보')}</h4>
+                </div>
+
+                <div class="mypage_table_type">
+                    <table class="table_left">
+                        <colgroup>
+                            <col style="width:15%;">
+                            <col style="width:85%;">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th scope="row">{=__('추가결제 금액')}</th>
+                            <td>{=gd_global_currency_symbol()}<strong>{=gd_global_money_format(.ehAbsDifferencePrice)}</strong>{=gd_global_currency_string()}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('입금자명')}</th>
+                            <td>{.ehSettleName}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('결제계좌정보')}</th>
+                            <td>{.ehSettleBankAccountInfo}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--{ : }-->
+            <div class="orderer_info">
+                <div class="mypage_zone_tit">
+                    <h4>{=__('교환환불 정보')}</h4>
+                </div>
+
+                <div class="mypage_table_type">
+                    <table class="table_left">
+                        <colgroup>
+                            <col style="width:15%;">
+                            <col style="width:85%;">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th scope="row">{=__('환불금액')}</th>
+                            <td>{=gd_global_currency_symbol()}<strong>{=gd_global_money_format(.ehAbsDifferencePrice)}</strong>{=gd_global_currency_string()}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{=__('환불수단')}</th>
+                            <td>{.ehRefundNameStr}</td>
+                        </tr>
+                        <!--{ ? .ehRefundMethod == 'bank' }-->
+                        <tr>
+                            <th scope="row">{=__('환불계좌정보')}</th>
+                            <td>{.ehRefundBankName} / {.ehRefundBankAccountNumber} / {.ehRefundName}</td>
+                        </tr>
+                        <!--{ / }-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--{ / }-->
+            <!--{ / }-->
+            <!--{ / }-->
+        </div>
+        <!-- //order_view_info -->
+
+    </div>
+    <!-- //mypage_main -->
+
+</div>
+<!-- //content -->
+
+{ # footer }
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('input.number_only').on('keyup', function () {
+            var value = $(this).val().replace(/[^0-9]/g, '');
+            $(this).val(value);
+        });
+
+        // 현금영수증 신청
+        $('.bnt_cash_receipt').click(function (e) {
+
+            var certCode = $('input[name=\'cashUseFl\']:checked').val();
+            var pass = true;
+            if (certCode == 'd') {
+                if ($('input[name=\'cashCertNo[c]\']').val() == '') {
+                    pass = false;
+                    alert("{=__('휴대폰 번호를 입력해주세요.')}");
+                }
+            } else if (certCode == 'e') {
+                if ($('input[name=\'cashCertNo[b]\']').val() == '') {
+                    pass = false;
+                    alert("{=__('사업자 번호를 입력해주세요.')}");
+                }
+            } else {
+                pass = false;
+                alert("{=__('발행용도를 선택해주세요.')}");
+            }
+
+            if (pass == true) {
+                $('#frmCashReceipt').target = 'ifrmProcess'
+                $('#frmCashReceipt').submit();
+            }
+        });
+
+        <!--{ ? gd_isset(orderInfo.tax.statusFl) == 'y' && gd_isset(orderInfo.tax.issueFl) =='g' }-->
+        // 세금계산서 보기
+        $('.js_btn_tax_invoice').click(function (e) {
+            var win = gd_popup({
+                url: '../share/show_tax_invoice.php?orderNo={orderInfo.orderNo}'
+                , target: 'tax_invoice'
+                , width: 750
+                , height: 600
+                , resizable: 'yes'
+                , scrollbars: 'yes'
+            });
+            win.focus();
+            return win;
+
+        });
+        <!--{ / }-->
+
+        <!--{ ? (receipt['taxFl'] == 'y' && orderInfo.receiptFl == 'n') }-->
+        <!--{ ? taxInfo.eTaxInvoiceFl == 'y' }-->
+        $.validator.addMethod(
+            'taxEmailChk', function (value, element) {
+                if ($('input[name="taxEmail"]').val() !==  '' && !$.validator.methods.email.call(this, $.trim(value), element)) {
+                    $.validator.messages.taxEmailChk =  __('[세금계산서] 발행 이메일을 정확하게 입력하여 주세요.');
+                    return false;
+                }
+                return true;
+            },'');
+        <!--{ / }-->
+
+        // 세금계산서 신청
+        $('#frmTaxInvoiceRequest').validate({
+            onkeyup: onkeyup,
+            submitHandler: function (form) {
+                <!--{ ? taxInfo.eTaxInvoiceFl == 'y' }-->
+                if($('#idTaxEmail').val().length==0){
+                    $('#idTaxEmail').val('{orderInfo.orderEmail}');
+                }
+                <!--{ / }-->
+                form.target = 'ifrmProcess';
+                form.submit();
+            },
+            rules: {
+                taxBusiNo: {
+                    required: true,
+                    businessnoKR: true
+                },
+                taxCompany: {
+                    required: true
+                },
+                taxCeoNm: {
+                    required: true
+                },
+                taxService: {
+                    required: true
+                },
+                taxItem: {
+                    required: true
+                },
+                <!--{ ? taxInfo.eTaxInvoiceFl == 'y' }-->
+                taxEmail: {
+                    taxEmailChk: true
+                },
+                <!--{ / }-->
+                taxAddress: {
+                    required: true
+                }
+            },
+            messages: {
+                taxBusiNo: {
+                    required: "{=__('[세금계산서] 사업자번호를 입력하세요.')}"
+                },
+                taxCompany: {
+                    required: "{=__('[세금계산서] 회사명을 입력하세요.')}"
+                },
+                taxCeoNm: {
+                    required: "{=__('[세금계산서] 대표자명을 입력하세요.')}"
+                },
+                taxService: {
+                    required: "{=__('[세금계산서] 업태를 입력하세요.')}"
+                },
+                taxItem: {
+                    required: "{=__('[세금계산서] 종목을 입력하세요.')}"
+                },
+                taxAddress: {
+                    required: "{=__('[세금계산서] 사업장주소를 입력하세요.')}"
+                }
+            }
+        });
+
+        //이메일세팅
+        gd_select_email_domain('taxEmail','taxEmailDomain');
+
+        <!--{ ? memberInvoiceInfo['tax']['memberTaxInfoFl'] == 'y' }-->
+        // 세금계산서 입력 정보 초기화
+        $('.tax_info_init').on('click', function (e) {
+            e.preventDefault();
+            $('#tax_info').find('input').val('');
+        });
+        <!--{ / }-->
+        <!--{ / }-->
+    });
+
+
+    <!--{ ? (receipt['cashFl'] == 'y' && orderInfo.receiptFl == 'n' && receipt['periodFl'] == 'y') }-->
+    /**
+     * 현금영수증 인증방법 선택
+     * (소득공제용 - 휴대폰 번호(c), 지출증빙용 - 사업자번호(b))
+     */
+    function gd_cash_receipt_toggle() {
+        var certCode = $('input[name=\'cashUseFl\']:checked').val();
+
+        if (certCode == 'd') {
+            $('input[name=\'cashCertFl\']').val('c');
+            $('.js_cert_no_title').text("{=__('휴대폰번호')}");
+            $('#certNoHp').show();
+            $('#certNoBno').hide();
+        } else {
+            $('input[name=\'cashCertFl\']').val('b');
+            $('.js_cert_no_title').text("{=__('사업자번호')}");
+            $('#certNoHp').hide();
+            $('#certNoBno').show();
+        }
+    }
+    <!--{ / }-->
+
+
+    <!--{ ? receipt['reception'] == 'y' || receipt['particularFl'] == 'y'}-->
+    // 주문 프린트 팝업창
+    function gd_order_print_popup(orderPrintMode){
+        var orderPrint = window.open('', 'orderPrintPopup', 'width=750,height=600,menubar=yes,scrollbars=yes,resizable=yes');
+        $('input[name=orderPrintMode]').val(orderPrintMode);
+        $('#printform').submit();
+    }
+    <!--{ / }-->
+
+    /**
+     * validator onkeyup 함수
+     * @param element
+     * @param event
+     * @returns {boolean}
+     */
+    function onkeyup(element, event) {
+        if (check_key_code2(event)) {
+            return true;
+        }
+        if ($.isFunction(replace_keyup[$(element).data('pattern')])) {
+            replace_keyup[$(element).data('pattern')](element);
+        }
+    }
+
+    var regexp_test = function (string, pattern) {
+        if (string === undefined || string.length < 1) {
+            return false;
+        }
+        return pattern.test(string);
+    };
+
+    var replace_pattern = function (string, pattern, c) {
+        if (string === undefined || string.length < 1) {
+            return '';
+        }
+        return string.replace(pattern, c);
+    };
+
+    var replace_keyup = {
+        gdEngNum: function (element) {
+            element.value = replace_pattern(element.value, /[^\da-zA-Z]/g, '');
+        },
+        gdEngKor: function (element) {
+            // IE11에서 초중종성 분리되는 현상때문에 test 후 replace 처리로 변경
+            if (regexp_test(element.value, /[^a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣\u119E\u11A2]/)) {
+                element.value = replace_pattern(element.value, /[^a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣\u119E\u11A2]/g, '');
+            }
+        },
+        gdEngKorNum: function (element) {
+            // IE11에서 초중종성 분리되는 현상때문에 test 후 replace 처리로 변경
+            if (regexp_test(element.value, /[^a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣0-9\u119E\u11A2]/)) {
+                element.value = replace_pattern(element.value, /[^a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣0-9\u119E\u11A2]/g, '');
+            }
+
+        },
+        gdNum: function (element) {
+            element.value = replace_pattern(element.value, /[^\d]/g, '');
+        },
+        gdEng: function (element) {
+            element.value = replace_pattern(element.value, /[^a-zA-Z]/g, '');
+        },
+        gdKor: function (element) {
+            if (regexp_test(element.value, /[^가-힣ㄱ-ㅎㅏ-ㅣ\u119E\u11A2]/)) {
+                element.value = replace_pattern(element.value, /[^가-힣ㄱ-ㅎㅏ-ㅣ\u119E\u11A2]/g, '');
+            }
+        },
+        gdMemberId: function (element) {
+            element.value = replace_pattern(element.value, /[^\da-zA-Z\.\-_@]/g, '');
+        },
+        gdMemberNmGlobal: function (element) {
+            // IE11에서 초중종성 분리되는 현상때문에 test 후 replace 처리로 변경
+            if (regexp_test(element.value, /[\/\'\"\\\|]/)) {
+                element.value = replace_pattern(element.value, /[\/\'\"\\\|]/g, '');
+            }
+        }
+    };
+
+    /**
+     * jquery validation의 키 체크 함수
+     * @param event
+     * @returns {boolean}
+     */
+    function check_key_code2(event) {
+        // Avoid revalidate the field when pressing one of the following keys
+        /* Shift       => 16 Ctrl        => 17 Alt         => 18
+         Caps lock   => 20 End         => 35 Home        => 36
+         Left arrow  => 37 Up arrow    => 38 Right arrow => 39
+         Down arrow  => 40 Insert      => 45 Num lock    => 144 AltGr key   => 225*/
+        var excludedKeys = [
+            16, 17, 18, 20, 35, 36, 37,
+            38, 39, 40, 45, 144, 225
+        ];
+
+        return event.which === 9 || $.inArray(event.keyCode, excludedKeys) !== -1;
+    }
+</script>
+<script type="text/javascript" src="../js/jquery/validation/additional/businessnoKR.js"></script>

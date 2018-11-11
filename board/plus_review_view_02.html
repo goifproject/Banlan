@@ -1,0 +1,493 @@
+{*** 상품상세 - 플러스 리뷰 게시글 보기 | board/plus_review_view.php ***}
+<script src="../js/slider/slick/slick.js" type="text/javascript" charset="utf-8"></script>
+<style>
+    #plusReviewPhotoLayer .plusreview_view_layer2{width:930px; height:700px; position:absolute; top:5%; left:50%; margin:0 0 0 -465px; border:none; background:#fff;}
+    .plusreview_view_layer2 .ly_cont{height:100%; min-height:auto; padding:0; overflow:hidden;}
+    .plusreview_view_layer2 .ly_cont > *{float:left; height:100%;}
+    .plus_review2_left{width:600px;}
+    .slick-slide{display:block; float:left; min-height:1px;}
+    .slick-slide:before{content:''; display:inline-block; vertical-align:middle; height:100%;}
+    .slick-slide img{width:100%; display:inline-block; vertical-align:middle;}
+    .plus_review2_left div{height:100%;}
+    .slick-slider{overflow:hidden; position:relative; display:block; margin:0 auto; box-sizing:border-box; text-align:center;
+        -webkit-user-select:none;
+        -moz-user-select:none;
+        -ms-user-select:none;
+        user-select:none;
+        -webkit-touch-callout:none;
+        -khtml-user-select:none;
+        -ms-touch-action:pan-y;
+        touch-action:pan-y;
+        -webkit-tap-highlight-color:transparent;
+    }
+    .slick-slider .slick-list{display:block; overflow:hidden; position:relative; margin:0; padding:0;}
+    .slick-prev,
+    .slick-next{font-size:0; line-height:0; position:absolute; top:45%; display:block; width:27px; height:44px; padding:0; cursor:pointer; z-index:1000; background-repeat:no-repeat;
+        -webkit-transform:translate(0, -45%);
+        -ms-transform:translate(0, -45%);
+        transform:translate(0, -45%);
+    }
+    .slick-track{display:block; position:relative; top:0; left:0;}
+    .slick-track:before,
+    .slick-track:after{display:table; content:'';}
+    .slick-track:after{clear:both;}
+    .plus_review2_slide .slick-prev{background:#000 url('../img/btn/btn_slide_prev2.png') center center no-repeat; filter:alpha(opacity=10); background-color:rgba(0,0,0,.1); width:74px; height:80px; left:0; top:50%;}
+    .plus_review2_slide .slick-next{background:#000 url('../img/btn/btn_slide_next2.png') center center no-repeat; filter:alpha(opacity=10); background-color:rgba(0,0,0,.1); width:74px; height:80px; right:0; top:50%;}
+    .plus_review2_right{width:330px;}
+    .plus_review2_right_top{margin:20px 20px 0; padding-bottom:13px; border-bottom:#f2f2f2 1px solid; display:block;}
+    .plus_review2_right_top .goods_infor1{overflow:hidden;}
+    .plus_review2_slide .slick-dots{display:block; position:absolute; bottom:40px; width:100%; margin:0; padding:0; text-align:center; z-index:1000;}
+    .plus_review2_slide .slick-dots li{display:inline-block; position:relative; margin:0 8px; padding:0; cursor:pointer;}
+    .plus_review2_slide .slick-dots li button{display:block; padding:5px; font-size:0; line-height:0; cursor:pointer; border:0; outline:none; opacity:0.75; width:8px; height:8px; border-radius:0; background-color:#666; filter:alpha(opacity=50); background-color:rgba(102,102,102,.5);}
+    .plus_review2_slide .slick-dots li.slick-active button{opacity:1; background-color:#333; filter:alpha(opacity=100); background-color:rgba(51,51,51,1);}
+    .goods_photo{width:74px; float:left;}
+    .goods_photo img{width:100%;}
+    .goods_cont{width:200px; height:74px; float:right; position:relative;}
+    .goods_tit{font-size:14px; font-weight:bold; margin-top:-4px; color:#333; white-space:nowrap; text-overflow:ellipsis; overflow:hidden; letter-spacing:-0.5px;}/* 2018-04-24 수정 */
+    .goods_star{font-size:20px; color:#e2e2e2; line-height:1em; margin-top:3px;}
+    .goods_star span{color:#ffcc00}
+    .goods_user{font-size:12px; color:#555; position:absolute; bottom:5px; left:0;}
+    .goods_infor2{font-size:12px; color:#666; margin-top:7px;}
+    .goods_infor2 strong{color:#fa2828; margin:0 9px 0 4px;}
+    .plus_review2_right_bot{padding:15px 20px 0; overflow-y:auto; height:491px;}
+    .noMember .plus_review2_right_bot{height:347px;}
+    .noComment .plus_review2_right_bot{height:552px;}
+    .plus_review2_right_bot > div{width:290px;}
+    .plus_review2_right_bot .gray_box{padding:10px 0 15px; background:#f8f8f8;}
+    .goods_buy_infor li{margin-top:2px;}
+    .goods_buy_infor li:first-child{margin-top:0;}
+    .goods_buy_infor dl{overflow:hidden; font-size:12px; color:#555;}
+    .goods_buy_infor dl > dt{font-weight:bold; float:left; width:65px; padding-left:15px;}
+    .goods_buy_infor dl > dd{float:right; width:181px; padding-right:15px;}
+    .plus_review_wear_review{font-size:12px; color:#555; margin-top:7px; border-bottom:#e2e2e2 1px solid; padding-bottom:15px; letter-spacing:-0.5px;}/* 2018-04-24 수정 */
+    .plus_review_recommend{font-size:12px; color:#484848; position:relative; line-height:26px; margin-top:10px; border-bottom:#e2e2e2 1px solid; padding-bottom:10px;}/* 2018-04-24 수정 */
+    .plus_review_recommend > strong{text-decoration:underline;}
+    .plus_review_recommend > span{color:#fa2828; font-weight:bold; margin-left:9px;}
+    .btn_plus_review_recommend{display:block; position:absolute; top:0px; right:0; border:#e0e0e0 1px solid; font-size:12px; color:#333; width:63px; text-align:center; line-height:24px;}
+    .plus_review_comment_txt dl{margin-bottom:8px;}/* 2018-04-24 수정 */
+    .plus_review_comment_txt dl:first-child{margin-top:11px;}/* 2018-04-24 수정 */
+    .plus_review_comment_txt dt{font-weight:bold; color:#333; position:relative; background:url('../img/btn/ico_comment.png') left 3px no-repeat; padding-left:15px;}/* 2018-04-24 수정 */
+    .btn_plus_review_comment_del{position:absolute; top:0; right:0;}
+    .plus_review_comment_txt dd{color:#555; letter-spacing:-0.5px; margin-top:3px;}/* 2018-04-24 수정 */
+    .plus_review_comment_form{border-top:#f2f2f2 1px solid; padding:15px 20px; position:relative; display:block;}
+    .noComment .plus_review_comment_form{display:none;}
+    .plus_review_comment_form > div{width:218px;}
+    .plus_review_comment_form > div > textarea{width:100%; height:31px; line-height:20px; box-sizing:border-box; border:#cccccc 1px solid; padding:5px 10px 0; resize: none; color:#5e5e5e;}/* 2018-04-18 수정 */
+    .plus_review_comment_form > a{display:block; position:absolute; top:15px; right:20px; width:60px; height:32px; line-height:32px; font-size:13px; font-weight:bold; color:#fff; text-align:center; background:#979797;}
+    .plus_review_nonmember_form{padding:13px 20px; display:none;}
+    .noMember .plus_review_nonmember_form{display:block;}
+    .nomember_infor{overflow:hidden;}
+    .nomember_infor > div{float:right; width:160px;}
+    .nomember_infor > div:first-child{float:left; width:120px;}
+    .nomember_infor > div > input{width:100%; height:31px; line-height:31px; box-sizing:border-box; border:#cccccc 1px solid;  padding:0 10px;}
+    .noMemAgree{margin-top:6px;}
+    .noMemAgree input[type=checkbox]{width:13px; height:13px; vertical-align:middle; margin-right:5px;}
+    .plus_review_nonmember_form .terms{width:270px; height:35px; margin-top:7px; overflow-y:auto; font-size:11px; color:#9f9f9f; padding:9px; border:#ccc 1px solid;}
+    .plusreview_view_layer2 .layer_close{display:block; position:absolute; top:0px; right:-47px; width:47px; background-color:#000; filter:alpha(opacity=50); background-color:rgba(0,0,0,.5); padding:0; text-align:center; padding:12px 0;}
+</style>
+
+<div class="layer_wrap_cont plusreview_view_layer2" data-sno="{=data.sno}">
+    <div class="ly_cont">
+        <div class="plus_review2_left">
+            <div class="plus_review2_slide js_pr_slider">
+                <!--{@ data.uploadedFile}-->
+                <div><img src="{.src}" /></div>
+                <!--{/}-->
+            </div>
+            <script type="text/javascript">
+                $('.plus_review2_slide').slick({
+                    autoplay: false,
+                    dots: true,
+                    arrows: true,
+                    infinite: true,
+                    speed: 10,
+                    fade: true,
+                    adaptiveHeight: false
+                });
+            </script>
+        </div>
+        <!-- // plus_review2_left -->
+        <div class="plus_review2_right <!--{ ? gd_is_login() === false }-->noMember<!--{/}--> <!--{ ? plusReviewConfig.memoFl != 'y' || data.auth.canWriteMemo === false}-->noComment<!--{/}-->"><!-- 비회원일 경우 class에 noMember 추가, 댓글 작성 권한이 없을 경우 class에 noComment 추가 -->
+            <a class="plus_review2_right_top" href="../goods/goods_view.php?goodsNo={=data.goodsNo}" target="_blank">
+                <div class="goods_infor1" href="../goods/goods_view.php?goodsNo={=data.goodsNo}" target="_blank">
+                    <div class="goods_photo"><img src="{=data.goodsImageSrc}" width="74" height="74" /></div>
+                    <div class="goods_cont">
+                        <p class="goods_tit">{=data.goodsNm}</p>
+                        <div class="goods_star"><span><!--{  ? data.goodsPt > 0}-->
+                            <!--{ @range(1,data.goodsPt)}-->★<!--{/}-->
+                            <!--{/}--></span>
+                        </div>
+                    </div>
+                    <!-- // goods_cont -->
+                </div>
+                <!-- // goods_infor1 -->
+                <div class="goods_infor2">{=__('평가')}<strong>{=data.goodsInfo.goodsPt.avg}</strong>{=__('리뷰')}<strong>{=data.goodsInfo.reviewCount}</strong> {=data.writer}</div>
+            </a>
+            <!-- // plus_review2_right_top -->
+            <div class="plus_review2_right_bot">
+
+                <!--{ ? plusReviewConfig.addFormFl == 'y' || data.option}-->
+                <div class="gray_box">
+                    <ul class="goods_buy_infor">
+                        <!--{ @ data.addFormData}-->
+                        <li>
+                            <dl>
+                                <dt>{.key_}</dt>
+                                <dd>{.value_}</dd>
+                            </dl>
+                        </li>
+                        <!--{/}-->
+                        <!--{ @ data.option}-->
+                        <li>
+                            <dl>
+                                <dt>{.name}</dt>
+                                <dd>{.value}</dd>
+                            </dl>
+                        </li>
+                        <!--{/}-->
+                    </ul>
+                    <!-- // goods_buy_infor -->
+                </div>
+                <!-- // gray_box -->
+                <!--{/}-->
+
+                <div class="plus_review_wear_review">
+                    {=data.viewContents}
+                </div>
+                <!-- // plus_review_wear_review -->
+                <div class="plus_review_comment_area">
+
+                    <div class="plus_review_recommend">
+                        <!--{ ? plusReviewConfig.memoFl == 'y'}-->
+                        <strong class="js_pr_comment_cnt">{=data.memoCnt}</strong>{=__('개의 댓글이 있습니다.')}
+                        <!--{/}-->
+                        <!--{ ? plusReviewConfig.recommendFl == 'y'}-->
+                        <span>{=__('추천')} : <span class="js_pr_recommend_cnt">{=data.recommend}</span></span><a href="#" class="btn_plus_review_recommend js_pr_btn_recommend">{=__('추천하기')}</a>
+                        <!--{/}-->
+                    </div>
+                    <!-- // plus_review_recommend -->
+
+                    <!--{ ? plusReviewConfig.memoFl == 'y'}-->
+                    <div class="plus_review_comment_txt js_pr_comment_list">
+
+                    </div>
+                    <!--{/}-->
+                    <!-- // plus_review_comment_txt -->
+
+                </div>
+                <!-- // plus_review_comment_area -->
+            </div>
+            <!-- // plus_review2_right_bot -->
+
+            <!--{ ? data.auth.canWriteMemo === true}-->
+            <form onsubmit="return false;">
+                <input type="hidden" name="mode" value="addMemo">
+                <input type="hidden" name="goodsNo" value="{=data.goodsNo}">
+                <!--{ ? gd_is_login() === false }-->
+                <div class="plus_review_nonmember_form">
+                    <div class="nomember_infor">
+                        <div><input type="text" name="writerNm" placeholder="{=__('이름')}" /></div>
+                        <div><input type="password" name="writerPw" placeholder="{=__('비밀번호')}" /></div>
+                    </div>
+                    <div class="noMemAgree"><input type="checkbox" id="info_collection_agree_write" name="agreeFl" value="y" name="checkCollectAgree require" /><label for="info_collection_agree_write">{=__('(비회원) 개인정보 수집항목 동의')}</label></div>
+                    <p class="terms">
+                        {=__('- 수집항목: 이름, 전화번호, 이메일주소')}<br />
+                        {=__('- 수집/이용목적: 게시글 접수 및 결과 회신')}<br />
+                        {=__('- 이용기간: 원칙적으로 개인정보 수집 및 이용목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다.
+                        단, 관계법령의 규정에 의하여 보전할 필요가 있는 경우 일정기간 동안 개인정보를 보관할 수 있습니다.
+                        그 밖의 사항은 (주) 000 개인정보처리방침을 준수합니다.')}
+                    </p>
+                </div>
+                <!--{/}-->
+                <!-- // plus_review_nonmember_form -->
+                <div class="plus_review_comment_form">
+                    <div><textarea name="memo" placeholder="{=__('댓글 내용을 입력해주세요')}"></textarea></div><!-- 2018-04-18 수정 -->
+                    <a href="javascript:void(0);" class="js_pr_btn_comment_save">{=__('확인')}</a>
+                </div>
+                <!-- // plus_review_comment_form -->
+            </form>
+            <!--{/}-->
+
+        </div>
+        <!-- // plus_review2_right -->
+    </div>
+    <!-- //ly_cont -->
+    <a href="#close" class="ly_close layer_close"><img src="../img/btn/btn_plus_review_close2.png" alt="닫기"></a>
+</div>
+<!-- //layer_wrap_cont -->
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on('click', '.layer_wrap .layer_close', function(){
+            $(this).closest('.layer_wrap').addClass('dn');
+
+            if($('.plusreview_view_layer2').is(':visible') == true){
+                $('#layerDim').css('z-index',200);
+            }else{
+                // 창이 2개 이상 떠있는 경우 Dim처리 안되게
+                if (!$('.layer_wrap').is(':visible')) {
+                    $('#layerDim').addClass('dn');
+                    $('body').removeAttr('style');
+                }
+            }
+        });
+
+        $('.plusreview_view_layer2 .slick-slide img').load(function () {
+            sliderResize(0);
+        });
+
+        $('.js_pr_slider').on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+            $('.plusreview_view_layer2').hide();
+            sliderResize(nextSlide)
+            $('.plusreview_view_layer2').show();
+        });
+
+
+        /**
+         * 댓글저장
+         * */
+        $('.plusreview_view_layer2').on('click', '.js_pr_btn_comment_save', function (e) {
+            e.stopPropagation();
+            var form = $(this).closest('form');
+            var sno = {=data.sno};
+            var params = form.serialize();
+            params = params + '&articleSno=' + sno;
+            $.ajax({
+                method: "POST",
+                data: params,
+                cache: false,
+                url: "../board/plus_review_ps.php",
+                success: function (data) {
+                    alert(data.msg);
+                    if (data.result == 'ok') {
+                        gd_load_plus_view_comment(sno);
+                        form.find('[name=memo]').val('');
+                        setTimeout(function(){
+                            var offset = $('.plus_review2_right_bot').offset();
+                            var height = $('.plus_review2_right_bot').height();
+                            $('.plus_review2_right_bot').animate({scrollTop : offset.top+height}, 300);
+                        }, 300);
+                    }
+                },
+                error: function (data) {
+                    alert(data.message);
+                }
+            });
+        });
+
+
+        /**
+         * 댓글 출력
+         * */
+        var gd_load_plus_view_comment = function (sno) {
+
+            var row = $('.plusreview_view_layer2[data-sno="' + sno + '"]');
+
+            $.ajax({
+                method: "POST",
+                data: {mode: 'getMemo', sno: sno},
+                cache: false,
+                url: "../board/plus_review_ps.php",
+                success: function (data) {
+
+                    var commentList = row.find('.js_pr_comment_list');
+                    commentList.empty();
+                    $.each(data.data, function (key, val) {
+                        var commentRow = _.template($('#plusViewCommentList').html());
+                        commentList.append(commentRow(val));
+                    });
+                    row.find('.js_pr_comment_cnt').text(data.data.length);
+
+                },
+                error: function (data) {
+                }
+
+            });
+        };
+
+
+        /**
+         * 댓글삭제버튼 클릭
+         * **/
+        $('.plusreview_view_layer2').on('click', '.js_pr_btn_comment_remove', function () {
+            var auth = $(this).data('auth');
+            var row = $(this).closest('.js_pr_comment_row');
+            var articleSno = row.closest('.plusreview_view_layer2').data('sno');
+            var sno = row.data('sno');
+
+            if (auth == 'y') {
+                if (confirm(__('정말로 삭제하시겠습니까?'))) {
+                    gd_plus_view_remove_comment(articleSno, sno);
+                }
+            }
+            else if (auth == 'c') {
+                passwordLayer.show();
+                passwordLayer.btn.unbind('click').bind('click', function () {
+                    gd_plus_view_remove_comment(articleSno, sno, passwordLayer.value());
+                })
+            }
+            else {
+                alert(__('삭제권한이 없습니다.'));
+            }
+        });
+
+
+        /**
+         * 댓글삭제 처리
+         * **/
+        var gd_plus_view_remove_comment = function (articleSno, sno, writerPw) {
+            $.ajax({
+                method: "POST",
+                data: {mode: 'deleteMemo', sno: sno, writerPw: writerPw},
+                cache: false,
+                url: "../board/plus_review_ps.php",
+                success: function (data) {
+                    alert(data.msg);
+                    if (data.result == 'ok') {
+                        {
+                            gd_load_plus_view_comment(articleSno);
+                            passwordLayer.close();
+                        }
+                    }
+                },
+                error: function (data) {
+                    alert(data.message);
+                }
+            });
+
+        };
+
+        $('.plusreview_view_layer2').on('click', '.js_pr_btn_recommend', function () {
+            var row = $(this).closest('.plusreview_view_layer2');
+            var sno = row.data('sno');
+            $.ajax({
+                method: "POST",
+                data: {mode: 'recommend', sno: sno},
+                cache: false,
+                url: "../board/plus_review_ps.php",
+                success: function (data) {
+                    alert(data.msg);
+                    if (data.result == 'ok') {
+                        row.find('.js_pr_recommend_cnt').text(data.cnt);
+                    }
+                },
+                error: function (data) {
+                    alert(data.message);
+                }
+            })
+        });
+
+        gd_load_plus_view_comment({=data.sno});
+
+        //패스워드입력 레이어 창
+        var passwordLayer = {
+            element: $('.js_password_layer'),
+            btn: $('.js_password_layer').find('.js_submit'),
+            value: function () {
+                return $('.js_password_layer').find('input[name="writerPw"]').val();
+            },
+            show: function () {
+                this.element.removeClass('dn').css('z-index',220);
+                this.element.currentCenter();
+                $('#layerDim').removeClass('dn').css('z-index',215);
+                $('#scroll_left, #scroll_right').addClass('dim');
+                $('.password_layer .ly_cont .text').focus().val('');
+            },
+            close: function () {
+                $('.js_password_layer').find('input[name="writerPw"]').val('');
+                $('.password_layer .ly_close').trigger('click');
+            }
+        }
+
+    });
+
+
+    function sliderResize(nextSlide) {
+        var activeSlide = $('.plusreview_view_layer2 .slick-slide[data-slick-index="' + nextSlide + '"]');
+
+        var activeImg = activeSlide.find('img');
+        var naturalWidth = activeImg.get(0).naturalWidth;
+        var naturalHeight = activeImg.get(0).naturalHeight;
+
+        var maxWidth = 1000;
+        var maxHeight = 700;
+        var minWidth = 200;
+        var defaultWidth = 600; //css 초기화 사이즈
+        var defaultHeight = 700; //css 초기화 사이즈
+
+        var viewImageWidth = defaultWidth;
+        var viewImageHeight = defaultHeight;
+        var radio = 1;
+        var diff = 0;
+        var viewLayerWidth = 0;
+        var slideWidth = 0;
+
+        if (naturalHeight < naturalWidth) {  //가로가 더 길면
+            if (naturalWidth > maxWidth) {   //가로가 최대가로보다 크면
+                viewImageWidth = maxWidth; //가로는 최대가로
+            }
+            else {
+                viewImageWidth = naturalWidth;
+            }
+
+            if (viewImageWidth != naturalWidth) {
+                radio = (naturalHeight / naturalWidth).toFixed(2);
+                viewImageHeight = viewImageWidth * radio;
+            }
+            else {
+                viewImageHeight = naturalHeight;
+            }
+        }
+        else {
+            if (naturalHeight > maxHeight) {   //가로가 최대가로보다 크면
+                viewImageHeight = maxHeight; //가로는 최대가로
+            }
+            else {
+                viewImageHeight = naturalHeight;
+            }
+
+            if (viewImageHeight != naturalHeight) {
+                var radio = (naturalWidth / naturalHeight).toFixed(2);
+                viewImageWidth = viewImageHeight * radio;
+            }
+            else {
+                viewImageWidth = naturalWidth;
+            }
+        }
+
+        if (viewImageWidth > defaultWidth) {
+            diff = viewImageWidth - defaultWidth;
+            viewLayerWidth = 930 + diff;
+            slideWidth = 600 + diff;
+        }else{
+            if(viewImageWidth < minWidth){
+                diff = minWidth;
+                viewLayerWidth = 330 + diff;
+                slideWidth = diff;
+            }else{
+                diff = defaultWidth - viewImageWidth;
+                viewLayerWidth = 930 - diff;
+                slideWidth = 600 - diff;
+            }
+        }
+
+        activeImg.width(viewImageWidth).height(viewImageHeight);
+        $('#plusReviewPhotoLayer .plusreview_view_layer2').css('width', (viewLayerWidth) + 'px');
+        $('.plus_review2_left').css('width',(slideWidth) + 'px');
+        activeSlide.css('width', (slideWidth) + 'px');
+        $('.plusreview_view_layer2').center();
+
+    }
+
+</script>
+<script id="plusViewCommentList" type="text/html">
+    <dl class="js_pr_comment_row" data-sno="<%=sno%>">
+        <dt><%=writer%>
+            <% if (auth.modifyAndRemove != 'n') {%>
+            <a href="javascript:void(0);" class="btn_plus_review_comment_del js_pr_btn_comment_remove" data-auth="<%=auth.modifyAndRemove%>"><img src="../img/btn/btn_del.png" /></a>
+            <% } %>
+        </dt>
+        <dd style="word-break:break-all;"><%=viewMemo%></dd>
+    </dl>
+</script>

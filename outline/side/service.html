@@ -1,0 +1,38 @@
+{*** 측면 고객센터 | mypage/index.php ***}
+<div class="sub_menu_box">
+    <h2>{=__('고객센터')}</h2>
+    <ul class="sub_menu">
+        <!--{?canNotice}--><li><a href="../service/notice.php">{=__('공지사항')}</a></li><!--{/}-->
+        <!--{?canQa}--><li><a href="../service/qa.php">1:1{=__('문의하기')}</a></li><!--{/}-->
+        <li><a href="../service/faq.php">FAQ</a></li>
+    </ul>
+</div>
+<!-- //sub_menu_box -->
+<div class="info_box">
+    <dl>
+        <dt>{=__('고객상담센터')}</dt>
+        <dd>
+            <strong class="info_num">{gMall.centerPhone}</strong><br />
+            <a href="mailto:{gMall.centerEmail}" class="info_mail_link">{gMall.centerEmail}</a>
+            <p>{=nl2br(gMall.centerHours)}</p>
+        </dd>
+    </dl>
+    <!--{ ? !gGlobal.isFront }-->
+    <dl>
+        <dt>{=__('은행계좌 안내')}</dt>
+        <dd>
+            <strong class="info_num">{gBank.accountNumber}</strong>
+            <p>
+                <em>{gBank.bankName}</em> <br />
+                <span>[{=__('예금주')} : {gBank.depositor}]</span>
+            </p>
+
+        </dd>
+    </dl>
+    <!--{ / }-->
+</div>
+<!-- //info_box -->
+<script type="text/javascript">
+    // 메뉴 선택
+    $('.sub_menu li > a[href*="' + document.location.pathname + '"]').addClass('active');
+</script>

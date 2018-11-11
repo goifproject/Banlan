@@ -1,0 +1,67 @@
+{*** 설문조사 | service/poll_result.php ***}
+{ # header }
+
+<div class="content">
+    <div class="poll_sec">
+        <div class="poll_tit">
+            <h3>{title}</h3>
+        </div>
+        <div class="poll_cont">
+            <div class="poll_info_box">
+                <dl>
+                    <dt>{=__('설문기간')}</dt>
+                    <dd>{date}</dd>
+                </dl>
+                <dl>
+                    <dt>{=__('전체응답자')}</dt>
+                    <dd>{=number_format(total)}{=__('명')}</dd>
+                </dl>
+            </div>
+            <!-- //poll_info_box -->
+
+            <!--{ @ data.itemAnswerType }-->
+            <div class="poll_result_box">
+                <div class="poll_result_tit">
+                    {.key_ + 1}. {data.itemTitle[.key_]}<!--{ ? data.itemRequired[.key_] == 'Y' }--> <strong>({=__('필수항목')})</strong><!--{ / }-->
+                </div>
+                <!--{ ? data.itemAnswerType[.key_] == 'sub' }-->
+                <!--{ ? count(sortData[.key_]) > 0 }-->
+                <div class="poll_result_cont">
+                    <!--{ ? data.itemResponseType[.key_] == 'short' }-->
+                    <div class="poll_result_view">
+                        {=implode(', ', sortData[.key_])}
+                    </div>
+                    <!--{ : }-->
+                    <!--{ @ sortData[.key_] }-->
+                    <div class="poll_result_view">
+                        {=..value_}
+                    </div>
+                    <!--{ / }-->
+                    <!--{ / }-->
+                </div>
+                <!--{ / }-->
+                <!--{ : data.itemAnswerType[.key_] == 'obj' }-->
+                <div class="poll_result_cont">
+                    <ul>
+                        <!--{ @ data.itemAnswer[.key_] }-->
+                        <li>
+                            <span class="poll_result_txt">{..value_}</span>
+                            <span class="poll_stick"><em style="width:{=gd_money_format((sortData[.key_][..key_] * 100) / graphData[.key_], false)}%;"></em></span>
+                            <span class="poll_percent">{=sortData[.key_][..key_] * 1}{=__('명')} ({=gd_money_format((sortData[.key_][..key_] * 100) / graphData[.key_], false)}%)</span>
+                        </li>
+                        <!--{ / }-->
+                    </ul>
+                </div>
+                <!--{ / }-->
+            </div>
+            <!--{ / }-->
+        </div>
+        <!-- //poll_cont -->
+        <div class="btn_center_box">
+            <a href="/" class="btn_main_go"><em>{=__('홈 바로가기')}</em></a>.
+        </div>
+    </div>
+    <!-- //poll_sec -->
+</div>
+<!-- //content -->
+{ # footer }

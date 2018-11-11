@@ -1,0 +1,55 @@
+{*** [위젯] 레이어형 측면 카테고리 | proc/category_side.htm ***}
+
+<div class="sub_menu_box {type}_type"><!-- N : 레이어 타입 : layer_type 추가, 트리형 타입 tree_type 추가 -->
+    <ul class="sub_depth0 sub_menu0">
+        <!--{ @ data }-->
+        <li <!--{ ? .divisionFl =='y' }--> class='group_tit'<!--{ / }-->>
+            <!--{ ? .divisionFl =='n' }-->
+            <a href="../goods/goods_list.php?{cateType}Cd={.cateCd}" >{.cateNm}</a>
+            <!--{ : }-->
+            {.cateNm}
+            <!--{ / }-->
+            <!--{ ? .children }-->
+            <ul class="sub_depth1">
+                <!--{ @ .children }-->
+                <li <!--{ ? ..divisionFl =='y' }--> class='group_tit'<!--{ / }-->>
+                <!--{ ? ..divisionFl =='n' }-->
+                <a href="../goods/goods_list.php?{cateType}Cd={..cateCd}" >{..cateNm}</a>
+                <!--{ : }-->
+                {..cateNm}
+                <!--{ / }-->
+                    <!--{ ? ..children }-->
+                    <ul class="sub_depth2">
+                        <!--{ @ ..children }-->
+                        <li <!--{ ? ...divisionFl =='y' }--> class='group_tit'<!--{ / }-->>
+                        <!--{ ? ...divisionFl =='n' }-->
+                        <a href="../goods/goods_list.php?{cateType}Cd={...cateCd}" >{...cateNm}</a>
+                        <!--{ : }-->
+                        {...cateNm}
+                        <!--{ / }-->
+                            <!--{ ? ...children }-->
+                            <ul class="sub_depth3">
+                                <!--{ @ ...children }-->
+                                <li <!--{ ? ....divisionFl =='y' }--> class='group_tit'<!--{ / }-->>
+                                <!--{ ? ....divisionFl =='n' }-->
+                                <a href="../goods/goods_list.php?{cateType}Cd={....cateCd}" >{....cateNm}</a>
+                                <!--{ : }-->
+                                {....cateNm}
+                                <!--{ / }-->
+                                </li>
+                                <!--{ / }-->
+                            </ul>
+                            <!--{ / }-->
+                        </li>
+                        <!--{ / }-->
+                    </ul>
+                    <!--{ / }-->
+                </li>
+                <!--{ / }-->
+            </ul>
+            <!--{ / }-->
+        </li>
+        <!--{ / }-->
+    </ul>
+</div>
+<!-- //sub_menu_box -->

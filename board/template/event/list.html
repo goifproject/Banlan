@@ -1,0 +1,170 @@
+{*** 목록 | list.php ***}
+<!--{?bdList.cfg.bdHeader && !inList}-->
+<div class="addition_zone">
+	<p>{bdList.cfg.bdHeader}</p>
+</div>
+<!--{/}-->
+<div class="board_zone_sec">
+	<div class="board_zone_tit">
+		<h2>{=__(bdList.cfg.bdNm)}</h2>
+	</div>
+	<div class="board_zone_cont">
+		<div class="board_zone_list">
+
+			<div class="board_list_event">
+				<!--{ ? !inList}-->
+				<div class="board_hot_list">
+					<ul>
+						<li <!--{?req.period == 'all'}-->class="on"<!--{/}-->><a href="list.php?bdId={req.bdId}&period=all"><span>{=__('전체')}({=bdList.cnt.totalEventCount})</span></a></li>
+						<li <!--{?req.period == 'current'}-->class="on"<!--{/}-->><a href="list.php?bdId={req.bdId}&period=current"><span>{=__('진행중 이벤트')}({=bdList.cnt.currentEventCount})</span></a></li>
+						<li <!--{?req.period == 'end'}-->class="on"<!--{/}-->><a href="list.php?bdId={req.bdId}&period=end"><span>{=__('종료된 이벤트')}({=bdList.cnt.endEventCount})</span></a></li>
+					</ul>
+				</div>
+				<!--{/}-->
+				<div class="event_list" align="{bdList.cfg.bdAlign}" {bdList.cfg.bdWidthStyle}>
+					<ul>
+						<!--{? bdList.list}-->
+						<!--{ @ bdList.list }-->
+						<li {bdList.cfg.bdHeightStyle}>
+							<div class="event_cont">
+								<div class="board_img">
+									<a href="javascript:gd_btn_view('{req.bdId}',{.sno} , '{.auth.view}')">
+										<img src="{=gd_isset(.viewListImage, 'img/etc/noimg.png')}" width="{bdList.cfg.bdListImgWidth}" height="{bdList.cfg.bdListImgHeight}" class="js_image_load" />
+									</a>
+								</div>
+								<div class="event_info_cont">
+
+									<div class="board_tit">
+										<!--{ ? bdList.cfg.bdCategoryFl == 'y' && .category}-->
+										<em>[{.category}]</em>
+										<!--{/}-->
+										<a href="javascript:gd_btn_view('{req.bdId}',{.sno} , '{.auth.view}')">
+											<strong>{.subject}</strong>
+											<!--{? bdList.cfg.bdMemoFl == 'y' && .memoCnt>0}-->
+											<span>({.memoCnt})</span>
+											<!--{/}-->
+										</a>
+										<!--{ ? bdList.cfg.bdSubSubjectFl == 'y' && .subSubject}-->
+										<span class="board_txt">
+											{.subSubject}
+										</span>
+										<!--{/}-->
+									</div>
+
+									<div class="board_event_day">
+										<span><strong>{=__('이벤트기간')}</strong> {.eventStart} ~ {.eventEnd}</span>
+									</div>
+									<div class="board_likeit_hits">
+										<!--{ ? bdList.cfg.bdRecommendFl == 'y'}--><span class="board_likeit">{=__('추천')} {.recommend}</span><!--{/}-->
+										<span class="board_hits">{=__('조회')} {.hit}</span>
+									</div>
+								</div>
+								<!-- //event_info_cont -->
+							</div>
+							<!-- //event_cont -->
+						</li>
+						<!--{/}-->
+						<!--{:}-->
+						<li class="event_cont" {bdList.cfg.bdHeightStyle}>
+							{=__('게시글이 존재하지 않습니다.')}
+						</li>
+						<!--{/}-->
+					</ul>
+				</div>
+			</div>
+			<!-- //board_list_event -->
+
+			{bdList.pagination}
+
+			<div class="board_search_box">
+				<form name="frmList" id="frmList" action="list.php" method="get">
+					<input type="hidden" name="bdId" value="{bdList.cfg.bdId}">
+					<input type="hidden" name="memNo" value="{req.memNo}"/>
+					<input type="hidden" name="noheader" value="{req.noheader}"/>
+
+					<!--{ ? bdList.cfg.bdCategoryFl == 'y'}-->
+					{=gd_select_box('category', 'category', bdList.cfg.arrCategory, null, gd_isset(req.category), __('선택'), 'style="width: 80px;"','chosen-select')}
+					<!--{/}-->
+					<select class="chosen-select" name="searchField">
+						<option value="subject"
+						<!--{ ? req.searchField == 'subject'}-->selected<!--{/}--> >{=__('제목')}</option>
+						<option value="contents"
+						<!--{ ? req.searchField == 'contents'}-->selected<!--{/}--> >{=__('내용')}</option>
+						<option value="writerNm"
+						<!--{ ? req.searchField == 'writerNm'}-->selected<!--{/}--> >{=__('작성자')}</option>
+					</select>
+
+					<input type="text" class="text" name="searchWord" value="{=req.searchWord}">
+					<button class="btn_board_search"><em>{=__('검색')}</em></button>
+				</form>
+			</div>
+			<!-- //board_search_box -->
+
+		</div>
+		<!-- //board_zone_list -->
+
+	</div>
+	<!-- //board_zone_cont -->
+
+</div>
+<!-- //board_zone_sec -->
+<!--{?bdList.cfg.bdFooter && !inList}-->
+<div class="addition_zone">
+	<p>{=bdList.cfg.bdFooter}</p>
+</div>
+<!--{/}-->
+<form id="frmWritePassword">
+	<div id="lyPassword" class="dn layer_wrap password_layer" style="height: 226px">
+		<div class="layer_wrap_cont">
+			<div class="ly_tit">
+				<h4>{=__('비밀번호 인증')}</h4>
+			</div>
+			<div class="ly_cont">
+				<div class="scroll_box">
+					<p>{=__('비밀번호를 입력해 주세요.')}</p>
+					<input type="password" name="writerPw" class="text">
+				</div>
+				<!-- // -->
+				<div class="btn_center_box">
+					<button type="button" class="btn_ly_password js_submit"><strong>{=__('확인')}</strong></button>
+				</div>
+			</div>
+			<!-- //ly_cont -->
+			<a href="#close" class="ly_close layer_close"><img src="../../../img/common/layer/btn_layer_close.png" alt="닫기"></a>
+		</div>
+		<!-- //layer_wrap_cont -->
+	</div>
+	<!-- //layer_wrap -->
+</form>
+
+<div id="layerDim" class="dn">&nbsp;</div>
+<script type="text/javascript" src="\{=c.PATH_SKIN}js/gd_board_list.js" charset="utf-8"></script>
+<script>
+	$(document).ready(function () {
+		$('img.js_image_load').error(function () {
+					$(this).css('background', 'url("img/etc/noimg.png") no-repeat center center');
+					$(this).attr('src', '../../../img/etc/blank.gif');
+				})
+				.each(function () {
+					$(this).attr("src", $(this).attr("src"));
+				})
+
+        $('.board_hot_list ul li a').on('click', function(){
+            if ($('iframe[name=ifrmBoard]', window.parent.document).length > 0) {
+                var words = $(this).attr('href').split('&');
+                var result = words[1].split('=');
+                var period = result[1];
+
+                if (period == 'all') {
+                    $('iframe[name=ifrmBoard]', window.parent.document).attr('src', '../board/list.php?bdId={req.bdId}&noheader=y&period=all');
+                } else if (period == 'current') {
+                    $('iframe[name=ifrmBoard]', window.parent.document).attr('src', '../board/list.php?bdId={req.bdId}&noheader=y&period=current');
+                } else if (period == 'end') {
+                    $('iframe[name=ifrmBoard]', window.parent.document).attr('src', '../board/list.php?bdId={req.bdId}&noheader=y&period=end');
+                }
+                return false;
+            }
+        })
+
+	});
+</script>

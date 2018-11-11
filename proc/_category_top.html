@@ -1,0 +1,54 @@
+{*** [위젯] 레이어형 상단 카테고리 | proc/category_top.htm ***}
+<div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
+<div class="gnb_menu_box">
+    <ul class="depth0 gnb_menu0">
+        <!--{ @ data }-->
+        <li <!--{ ? .divisionFl =='y' }--> class='group_tit'<!--{ / }-->>
+            <!--{ ? .divisionFl =='n' }-->
+            <a href="../goods/goods_list.php?{cateType}Cd={.cateCd}" class ="mainCate">{.cateNm}</a>
+            <!--{ : }-->
+            {.cateNm}
+            <!--{ / }-->
+            <!--{ ? .children }-->
+            <ul class="depth1">
+                <!--{ @ .children }-->
+                <li <!--{ ? ..divisionFl =='y' }--> class='group_tit'<!--{ / }-->>
+                    <!--{ ? ..divisionFl =='n' }-->
+                    <a href="../goods/goods_list.php?{cateType}Cd={..cateCd}" class ="mainCateDep1">{..cateNm}</a>
+                    <!--{ : }-->
+                    {..cateNm}
+                    <!--{ / }-->
+                    <!--{ ? ..children }-->
+                    <ul class="depth2">
+                        <!--{ @ ..children }-->
+                        <li <!--{ ? ...divisionFl =='y' }--> class='group_tit'<!--{ / }-->>
+                            <!--{ ? ...divisionFl =='n' }-->
+                            <a href="../goods/goods_list.php?{cateType}Cd={...cateCd}" >{...cateNm}</a>
+                            <!--{ : }-->
+                            {...cateNm}
+                            <!--{ / }-->
+                            <!--{ ? ...children }-->
+                            <ul class="depth3">
+                                <!--{ @ ...children }-->
+                                <li <!--{ ? ....divisionFl =='y' }--> class='group_tit'<!--{ / }-->>
+                                <!--{ ? ....divisionFl =='n' }-->
+                                <a href="../goods/goods_list.php?{cateType}Cd={....cateCd}" >{....cateNm}</a>
+                                <!--{ : }-->
+                                {....cateNm}
+                                <!--{ / }-->
+                                </li>
+                                <!--{ / }-->
+                            </ul>
+                            <!--{ / }-->
+                        </li>
+                        <!--{ / }-->
+                    </ul>
+                    <!--{ / }-->
+                </li>
+                <!--{ / }-->
+            </ul>
+            <!--{ / }-->
+        </li>
+        <!--{ / }-->
+    </ul>
+</div>

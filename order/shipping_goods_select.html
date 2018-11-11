@@ -1,0 +1,388 @@
+{*** 복수배송지 상품 선택 | order/delivery_goods_select.php ***}
+
+<div class="layer_wrap_cont" style="width:750px; height:600px; overflow-y:auto;">
+    <div class="view">
+        <div class="ly_tit">
+            <h4>{=__('상품 선택')}</h4>
+        </div>
+        <div class="order_table_type">
+            <div class="ly_cont">
+                <table>
+                    <colgroup>
+                        <col />
+                        <col style="width:180px" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>{=__('상품/옵션 정보')}</th>
+                        <th>{=__('수량')}</th>
+                    </tr>
+                    <!--{ @ cartInfo }-->
+                    <!--{ @ .value_ }-->
+                    <!--{ @ ..value_ }-->
+                    <input type="hidden" name="cartSno[]" data-scm-no="{...scmNo}" data-delivery-sno="{...deliverySno}" value="{...sno}" />
+                    <tr>
+                        <td class="td_left goods_info">
+                            <div class="pick_add_cont">
+                                <span class="pick_add_img">
+                                    <a href="../goods/goods_view.php?goodsNo={=...goodsNo}">{=...goodsImage}</a>
+                                </span>
+                                <div class="pick_add_info">
+                                    <!--{ ? ...orderPossible === 'n' }-->
+                                    <strong class="chk_none">{=__('구매 불가')}: {=...orderPossibleMessage}</strong>
+                                    <!--{ / }-->
+                                    <!--{ ? ...duplicationGoods === 'y' }-->
+                                    <strong class="chk_none">{=__('중복 상품')}</strong>
+                                    <!--{ / }-->
+
+                                    <em><a href="../goods/goods_view.php?goodsNo={=...goodsNo}">{=...goodsNm}</a></em>
+
+                                    <!--{ ? ...payLimitFl =='y' && is_array(...payLimit) }-->
+                                    <div class="icon_pick_list">
+                                        <!--{ @ ...payLimit }-->
+                                        <!--{ ?....value_ =='pg' }-->
+                                        <div class="icon_pg_over">
+                                            <img src="../img/icon/order/icon_settle_kind_{....value_}.png">
+                                            <div class="icon_pg_cont"></div>
+                                        </div>
+                                        <!--{ : }-->
+                                        <img src="../img/icon/order/icon_settle_kind_{....value_}.png">
+                                        <!--{ / }-->
+                                        <!--{ / }-->
+                                    </div>
+                                    <!--{ / }-->
+                                    <!-- //icon_pick_list -->
+
+                                    <div class="pick_option_box">
+                                        <!--{ @ ...option }-->
+                                        <!--{ ? ....optionName }-->
+                                        <span class="text_type_cont">{=....optionName} : {=....optionValue} <!--{ ? ((....index_ + 1) == ....size_) && ...optionPrice != 0 }--><strong>(<!--{ ? ...optionPrice > 0 }-->+<!--{ / }-->{=gd_global_currency_display(...optionPrice)})</strong><!--{ / }--></span>
+                                        <!--{ / }-->
+                                        <!--{ / }-->
+                                    </div>
+
+                                    <div class="pick_option_box">
+                                        <!--{ @ ...optionText }-->
+                                        <!--{ ? ....optionValue }-->
+                                        <span class="text_type_cont">{=....optionName} : {=....optionValue} <!--{ ? ....optionTextPrice != 0 }--><strong>(<!--{ ? ....optionTextPrice > 0 }-->+<!--{ / }-->{=gd_global_currency_display(....optionTextPrice)})</strong><!--{ / }--></span>
+                                        <!--{ / }-->
+                                        <!--{ / }-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- //pick_add_cont -->
+                        </td>
+                        <td class="td_order_amount option_list">
+                            <span class="count">
+                                <span class="goods_qty">
+                                    <input type="text" class="text" title="{=__('수량')}" name="goodsCnt[]" value="{=gd_isset(nowData['goods'][...goodsNo][...sno], 0)}" data-max-cnt="{=...goodsCnt - setData['goods'][...goodsNo][...sno]}" data-cart-sno="{...sno}" data-goods-no="{...goodsNo}" data-fixed-sales="{=...fixedSales}" data-fixed-order-cnt="{=...fixedOrderCnt}" data-min-order-cnt="{=...minOrderCnt}" data-goods-key="{=...goodsKey}" data-sales-unit="<!--{ ? ...fixedSales == 'option' }-->{...salesUnit}<!--{ : }-->1<!--{ / }-->" data-real-sales-unit="{...salesUnit}" data-goods-nm="{=gd_remove_only_tag(...goodsNm)}" data-option-nm="{=...optionNm}">
+                                    <span>
+                                        <button type="button" class="up goods_cnt" title="{=__('증가')}" style="cursor: pointer">{=__('증가')}</button>
+                                        <button type="button" class="down goods_cnt" title="{=__('감소')}" style="cursor: pointer">{=__('감소')}</button>
+                                    </span>
+                                </span>
+                                <span class="quantity">&nbsp;/&nbsp;{=...goodsCnt - setData['goods'][...goodsNo][...sno]}</span>
+                            </span>
+                        </td>
+                    </tr>
+                    <!--{ ? empty(...addGoods) === false }-->
+                    <!--{ @ ...addGoods }-->
+                    <tr>
+                        <td class="td_left goods_info">
+                            <div class="pick_add_cont">
+                                <span class="pick_add_plus"><em>{=__('추가')}</em></span>
+                                <span class="pick_add_img">{=....addGoodsImage}</span>
+                                <div class="pick_add_info">
+                                    <b>{=....addGoodsNm}</b>
+                                    <div class="pick_option_box">
+                                        <!--{ ? ....optionNm }-->
+                                        <span class="text_type_cont">{=__('옵션')} : {=....optionNm}</span>
+                                        <!--{ / }-->
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="td_order_amount option_list">
+                            <!--{ ? ....addGoodsMustFl == 'y' }--><div style="text-align:left; padding:0 17px;">({=__('필수')})</div><!--{ / }-->
+                            <span class="count">
+                                <span class="goods_qty">
+                                    <input type="text" class="text" title="{=__('수량')}" name="addGoodsCnt[]" value="{=gd_isset(nowData['addGoods'][....addGoodsNo][...sno], 0)}" data-max-cnt="{=....addGoodsCnt - setData['addGoods'][....addGoodsNo][...sno]}" data-cart-sno="{...sno}" data-parent-goods-no="{...goodsNo}" data-add-goods-no="{....addGoodsNo}" data-must-fl="{=....addGoodsMustFl}" data-sales-unit="1" data-real-sales-unit="1" data-goods-nm="{=gd_remove_only_tag(....addGoodsNm)}">
+                                    <span>
+                                        <button type="button" class="up goods_cnt" title="{=__('증가')}" style="cursor: pointer">{=__('증가')}</button>
+                                        <button type="button" class="down goods_cnt" title="{=__('감소')}" style="cursor: pointer">{=__('감소')}</button>
+                                    </span>
+                                </span>
+                            <span class="quantity">&nbsp;/&nbsp;{=....addGoodsCnt - setData['addGoods'][....addGoodsNo][...sno]}</span>
+                            </span>
+                        </td>
+                    </tr>
+                    <!--{ / }-->
+                    <!--{ / }-->
+
+                    <!--{ / }-->
+                    <!--{ / }-->
+                    <!--{ / }-->
+                    </thead>
+                </table>
+
+                <!--<div class="price-box">
+                    <div>배송비 <span class="delivery-price">{=number_format(deliveryPrice)}</span>원</div>
+                </div>-->
+                <div>※ {=__('선택된 상품의 배송 정책에 따라 배송지별로 배송비가 부과됩니다.')}</div>
+            </div>
+        </div>
+        <div class="btn_center_box">
+            <button class="btn_ly_save shipping_save_btn"><em>{=__('확인')}</em></button>
+        </div>
+        <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+    </div>
+</div>
+
+<script type="text/html" class="template" id="selectGoodsRow">
+    <tr style="border-top:1px solid #dbdbdb">
+        <td><%=goodsInfo%></td>
+        <td width="100"><%=goodsCnt%></td>
+        <td width="100"><div class="del" style="cursor:pointer;"><span data-cart-sno="<%=cartSno%>" data-goods-no="<%=goodsNo%>" data-parent-goods-no="<%=parentGoodsNo%>" data-must-fl="<%=mustFl%>" data-type="<%=goodsType%>" class="delete_add_goods"><img src="../img/icon/shop_cart/ico_cart_del.png" alt="{=__('삭제')}"></span></div></td>
+    </tr>
+</script>
+<script type="text/javascript">
+    var shippingNo = '{=gd_isset(shippingNo, 0)}';
+
+    $(function(){
+        $('.goods_cnt').click(function(){
+            var $target = $(this).closest('span.count').find('input[type="text"]');
+            var param = {
+                nowCnt: parseInt($target.val()),
+                maxCnt: parseInt($target.data('max-cnt')),
+                salesUnit: parseInt($target.data('sales-unit'))
+            }
+
+            var mode = 'up';
+            if ($(this).hasClass('down') === true) {
+                mode = 'down';
+            }
+
+            var cnt = '';
+            switch (mode) {
+                case 'up':
+                    if (param.nowCnt >= param.maxCnt) {
+                        return;
+                    }
+                    cnt = param.nowCnt + param.salesUnit;
+                    break;
+                case 'down':
+                    if (param.nowCnt <= 0) {
+                        return;
+                    }
+                    cnt = param.nowCnt - param.salesUnit;
+                    break;
+            }
+            $target.val(cnt);
+        });
+
+        $('input[name="goodsCnt[]"], input[name="addGoodsCnt[]"]').blur(function(){
+            var param = {
+                nowCnt: parseInt($(this).val()),
+                maxCnt: parseInt($(this).data('max-cnt')),
+                salesUnit: parseInt($(this).data('sales-unit'))
+            }
+            var goodsNm = $(this).data('goods-nm');
+            if ($(this).data('option-nm')) {
+                goodsNm += ' - ' + $(this).data('option-nm');
+            }
+
+            if (param.nowCnt > param.maxCnt) {
+                alert(__('%1$s 구매수량(%2$s개)를 초과하였습니다.', ['[' + goodsNm + ']', param.maxCnt]));
+                $(this).val(param.maxCnt);
+            }
+            if (param.nowCnt > 0 && param.nowCnt % param.salesUnit > 0) {
+                alert(__('%1$s %2$s개 단위로 묶음 주문 상품입니다. 배송지 별로 묶음 주문 수량을 설정하셔야만 배송지 설정이 가능합니다.', ['[' + goodsNm + ']', param.salesUnit]));
+                $(this).val(param.nowCnt - (param.nowCnt % param.salesUnit));
+            }
+        });
+
+        $('.shipping_save_btn').click(function(){
+            gd_get_delivery_charge('close');
+        });
+    });
+
+    function gd_get_delivery_charge(mode) {
+        var msg = '';
+        var totalGoodsCnt = 0;
+        var setData = [];
+        var goodsCntData = [];
+        var postSetData = [];
+
+        $('#cartSelectGoods input[name="cartSno[]"]').each(function(index){
+            var cartData = {
+                sno: $(this).val(),
+                scmNo: $(this).data('scm-no'),
+                deliverySno: $(this).data('delivery-sno'),
+                goodsInfo: '',
+                goodsData: '',
+                addGoodsTotalCnt: 0,
+                addGoodsNo: [],
+                addGoodsCnt: [],
+                addGoodsInfo: [],
+                addGoodsData: [],
+            };
+
+            $('input[name="goodsCnt[]"][data-cart-sno="' + cartData.sno + '"], input[name="addGoodsCnt[]"][data-cart-sno="' + cartData.sno + '"]').each(function(){
+                var name = this.name;
+
+                if (name == 'goodsCnt[]') {
+                    var goodsKey = $(this).data('goods-key');
+                    totalGoodsCnt += parseInt($(this).val());
+                    if (goodsCntData[goodsKey]) {
+                        goodsCntData[goodsKey] += parseInt($(this).val());
+                    } else {
+                        goodsCntData[goodsKey] = parseInt($(this).val());
+                    }
+
+                    cartData.goodsNo = $(this).data('goods-no');
+                    cartData.goodsCnt = parseInt($(this).val());
+                    cartData.goodsInfo = $(this).closest('tr').find('.goods_info').html();
+                    cartData.goodsData = $(this);
+                } else {
+                    cartData.addGoodsTotalCnt += parseInt($(this).val());
+                    cartData.addGoodsNo.push($(this).data('add-goods-no'));
+                    cartData.addGoodsCnt.push($(this).val());
+                    cartData.addGoodsInfo.push($(this).closest('tr').find('.goods_info').html());
+                    cartData.addGoodsData.push($(this));
+
+                    if (cartData.goodsCnt > 0) {
+                        if ($(this).data('must-fl') == 'y' && $(this).val() <= 0) {
+                            msg = __('추가상품이 필수 선택인 상품이 있습니다. 추가상품도 함께 선택하셔야 배송지 선택이 가능합니다.');
+                        }
+                    } else {
+                        if ($(this).val() > 0) {
+                            msg = __('추가상품만 단독으로 배송지 선택은 불가합니다.');
+                        }
+                    }
+                }
+            });
+            setData.push(cartData);
+
+            // goodsInfo, addGoodsInfo 데이터는 특수문자로 인해 json 디코딩을 방해하므로 값 삭제 (처리페이지에서 사용하지 않음)
+            var postCartData = $.extend(true, {}, cartData);
+            delete postCartData.goodsInfo;
+            delete postCartData.addGoodsInfo;
+            postSetData.push(postCartData);
+        });
+
+        if (mode == 'close') {
+            $.each(goodsCntData, function(index, value){
+                if (_.isUndefined(value)) return true;
+
+                var $data = $('input[name="goodsCnt[]"][data-goods-key="' + index + '"]');
+                var goodsNm = $data.data('goods-nm');
+                if ($data.data('option-nm')) {
+                    goodsNm += ' - ' + $data.data('option-nm');
+                }
+
+                if ($data.data('fixed-sales') == 'goods') {
+                    if (value > 0 && value % $data.data('real-sales-unit') > 0) {
+                        msg = __('%1$s %2$s개 단위로 묶음 주문 상품입니다. 배송지 별로 묶음 주문 수량을 설정하셔야만 배송지 설정이 가능합니다.', ['[' + goodsNm + ']', $data.data('real-sales-unit')]);
+                        return false;
+                    }
+                } else {
+                    $.each($data, function(){
+                        if ($(this).val() > 0 && $(this).val() % $(this).data('sales-unit') > 0) {
+                            msg = __('%1$s %2$s개 단위로 묶음 주문 상품입니다. 배송지 별로 묶음 주문 수량을 설정하셔야만 배송지 설정이 가능합니다.', ['[' + goodsNm + ']', $(this).data('sales-unit')]);
+                            return false;
+                        }
+                    });
+                }
+                if ($data.data('fixed-order-cnt') == 'goods') {
+                    if (value > 0 && $data.data('min-order-cnt') > 1 && $data.data('min-order-cnt') > value) {
+                        msg = __('%1$s 최소 %2$s개 이상 선택하셔야합니다.', ['[' + goodsNm + ']', $data.data('min-order-cnt')]);
+                        return false;
+                    }
+                } else {
+                    $.each($data, function(){
+                        if ($(this).val() > 0 && $(this).data('min-order-cnt') > 1 && $(this).data('min-order-cnt') > $(this).val()) {
+                            msg = __('%1$s 최소 %2$s개 이상 선택하셔야합니다.', ['[' + goodsNm + ']', $(this).data('min-order-cnt')]);
+                        }
+                    });
+                }
+            });
+            if (msg) {
+                alert(msg);
+                return false;
+            }
+        }
+
+        var data = JSON.stringify(setData);
+        var cartAllSno = [];
+        $('input[name="cartSno[]"]').each(function(idx){
+            cartAllSno.push($(this).val());
+        });
+        // 실제 처리페이지에 보낼 값
+        var postData = JSON.stringify(postSetData);
+
+        $.ajax({
+            method: "POST",
+            url: "../order/cart_ps.php",
+            data: {mode: 'multi_shipping_delivery', address:'{address}', selectGoods: data, cartAllSno: cartAllSno}
+        }).success(function (getData) {
+            var deliveryCharge = 0;
+            var deliveryAreaPrice = 0;
+            if (mode == 'close') {
+                if (totalGoodsCnt > 0) {
+                    $('.select_goods:eq(' + shippingNo + ')').removeClass('dn').find('table').empty();
+
+                    setData.forEach(function (goodsEle, goodsIdx) {
+                        if (goodsEle.goodsCnt > 0) {
+                            var content = {
+                                goodsInfo: goodsEle.goodsInfo,
+                                goodsCnt: goodsEle.goodsCnt,
+                                cartSno: goodsEle.sno,
+                                goodsNo: goodsEle.goodsNo,
+                                parentGoodsNo: 0,
+                                mustFl: 'n',
+                                goodsType: 'goods'
+                            };
+                            var compiled = _.template($('#selectGoodsRow').html());
+                            compiled = compiled(content);
+                            $('.select_goods:eq(' + shippingNo + ')').find('table').append(compiled);
+
+                            goodsEle.addGoodsInfo.forEach(function (addGoodsInfo, addGoodsIdx) {
+                                if (goodsEle.addGoodsCnt[addGoodsIdx] > 0) {
+                                    var content = {
+                                        goodsInfo: addGoodsInfo,
+                                        goodsCnt: goodsEle.addGoodsCnt[addGoodsIdx],
+                                        cartSno: goodsEle.sno,
+                                        goodsNo: goodsEle.addGoodsNo[addGoodsIdx],
+                                        parentGoodsNo: goodsEle.goodsNo,
+                                        mustFl: $(goodsEle.addGoodsData[addGoodsIdx]).data('must-fl'),
+                                        goodsType: 'addGoods'
+                                    };
+
+                                    var compiled = _.template($('#selectGoodsRow').html());
+                                    compiled = compiled(content);
+                                    $('.select_goods:eq(' + shippingNo + ')').find('table').append(compiled);
+                                }
+                            });
+                        }
+                    });
+
+                    deliveryCharge = getData.deliveryCharge;
+                    deliveryAreaPrice = getData.deliveryAreaPrice;
+                    $('input[name="multiDelivery[' + shippingNo + ']"]').val(getData.deliveryCharge);
+                    $('input[name="selectGoods[' + shippingNo + ']"]').val(postData);
+                } else {
+                    $('.select_goods:eq(' + shippingNo + ')').addClass('dn');
+                    $('input[name="multiDelivery[' + shippingNo + ']"]').val('');
+                    $('input[name="selectGoods[' + shippingNo + ']"]').val('');
+                    $('.select_goods:eq(' + shippingNo + ')').find('table').empty();
+                }
+                alert(__('배송비가 %s 추가되었습니다.', gd_money_format(deliveryCharge + deliveryAreaPrice)));
+                gd_get_delivery_area_charge();
+                gd_set_real_settle_price();
+                $('.ly_close').trigger('click');
+            } else {
+                $('.delivery_price').html(gd_money_format(getData.deliveryCharge));
+            }
+        });
+    }
+</script>

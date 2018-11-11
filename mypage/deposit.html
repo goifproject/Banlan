@@ -1,0 +1,187 @@
+{*** 마이페이지 > 예치금 | mypage/mileage.php ***}
+{ # header }
+<div class="content">
+    <div class="mypage_cont">
+
+        <!-- 마이페이지 회원 요약정보 -->
+        {=includeWidget('mypage/_member_summary.html')}
+        <!-- 마이페이지 회원 요약정보 -->
+
+        <div class="mypage_lately_info">
+            <div class="mypage_zone_tit">
+                <h3>{=gd_display_deposit('name')}</h3>
+            </div>
+
+            <div class="date_check_box">
+                <form name="formSearch" id="formSearch" method="get">
+                    <h3> {=__('조회기간')} </h3>
+                    <div class="date_check_list" data-target-name="regDt[]">
+                        <button type="button" data-value="0">{=__('오늘')}</button>
+                        <button type="button" data-value="7">7{=__('일')}</button>
+                        <button type="button" data-value="15">15{=__('일')}</button>
+                        <button type="button" data-value="30">1{=__('개월')}</button>
+                        <button type="button" data-value="90">3{=__('개월')}</button>
+                        <button type="button" data-value="365">1{=__('년')}</button>
+                    </div>
+                    <!-- //date_check_list -->
+                    <div class="date_check_calendar">
+                        <input type="text" id="picker2" name="regDt[]" class="anniversary js_datepicker" value="{regDt[0]}"> ~ <input type="text" name="regDt[]" class="anniversary js_datepicker" value="{regDt[1]}">
+                    </div>
+                    <!-- //date_check_calendar -->
+
+                    <button type="submit" class="btn_date_check"><em>{=__('조회')}</em></button>
+                </form>
+
+            </div>
+            <!-- //date_check_box -->
+
+            <div class="mypage_lately_info_cont">
+
+                <div class="mypage_table_type">
+                    <span class="pick_list_day">{? active['regTerm']['-1'] == 'active' }<strong>{=__('전체')}</strong>{:}<strong>{ regDt[0] } ~ { regDt[1] } </strong> {=__('까지의')}{/} {=gd_display_deposit('name')} {=__('사용내역')} {=__('총')} <strong>{page->recode['total']}</strong>{=__('건')}</span>
+                    <table>
+                        <colgroup>
+                            <col style="width:12%">	<!-- 날짜 -->
+                            <col style="width:12%"> <!-- 유형 -->
+                            <col>					<!-- 내용 -->
+                            <col style="width:15%"> <!-- 예치금 내역 -->
+                            <col style="width:15%"> <!-- 잔여 예치금 -->
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>{=__('날짜')}</th>
+                            <th>{=__('유형')}</th>
+                            <th>{=__('내용')}</th>
+                            <th class="td_cash"><span>{=gd_display_deposit('name')} {=__('내역')}</span></th>
+                            <th class="td_cash"><span>{=__('잔여')} {=gd_display_deposit('name')}</span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--{@ list}-->
+                        <tr data-order-no="{.handleCd}" data-order-handlesno="{.handleSno}">
+                            <td>{.regdate}</td>
+                            <td>{? .deposit >= 0}{=__('적립')}{:}{=__('차감')}{/}</td>
+                            <td class="td_left">{.contents}
+                                {? .handleDetailReasonShowFl =='y' && .handleReason !=''}
+                                 <a href="#lyReason" class="order_num_link btn_open_layer">[{.handleReason}]</a>
+                                {: .handleReason !=''}
+                                [{.handleReason}]
+                                {/}
+                            </td>
+                            <td class="td_cash">
+                                {? .deposit >= 0}
+                                <strong class="cash_minus">+{=gd_money_format(.deposit)}{=gd_display_deposit('unit')}</strong>
+                                {:}
+                                <strong class="cash_minus">{=gd_money_format(.deposit)}{=gd_display_deposit('unit')}</strong>
+                                {/}
+                            </td>
+                            <td class="td_cash"><span>{=gd_money_format(.afterDeposit)}{=gd_display_deposit('unit')}</span></td>
+                        </tr>
+                        <!--{/}-->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!-- //mypage_lately_info_cont -->
+        </div>
+        <!-- //mypage_lately_info -->
+
+        <div class="pagination">
+            { page->getPage() }
+        </div>
+        <!-- //pagination -->
+
+    </div>
+    <!-- //mypage_cont -->
+
+</div>
+<!-- //content -->
+
+<div id="lyReason" class="layer_wrap reason_layer dn" data-remote="../mypage/layer_deposit_reason.php"></div>
+
+<script type="text/javascript">
+    <!--
+    $(document).ready(function () {
+        $('#formSearch').validate({
+            submitHandler: function (form) {
+                $('<input />').attr({
+                    "type": "hidden", "name": "regTerm", "value": $('button.on').data('value')
+                }).appendTo(form);
+                form.submit();
+            }
+        });
+        // 인풋박스 선택 이벤트
+        if ($('.js_datepicker').length) {
+            $('.js_datepicker').datetimepicker({
+                locale: '{=gGlobal.locale}',
+                format: 'YYYY-MM-DD',
+                dayViewHeaderFormat: 'YYYY MM',
+                viewMode: 'days',
+                ignoreReadonly: true,
+                debug: false,
+                keepOpen: false
+            });
+        }
+        // 기간버튼 선택 이벤트
+        if ($('.date_check_list').length) {
+            $('.date_check_list button').click(function (e) {
+                $startDate = $endDate = '';
+                $period = $(this).data('value');
+                $elements = $('input[name="' + $(this).closest('.date_check_list').data('target-name') + '"]');
+                $format = $($elements[0]).data('DateTimePicker').format();
+                if ($period >= 0) {
+                    $startDate = moment().hours(0).minutes(0).seconds(0).subtract($period, 'days').format($format);
+                    $endDate = moment().hours(0).minutes(0).seconds(0).format($format);
+                }
+                $($elements[0]).val($startDate);
+                $($elements[1]).val($endDate);
+                $('.date_check_list button').removeClass('on');
+                $(this).addClass('on');
+            });
+
+            // 선택된 버튼에 따른 값 초기화
+            $elements = $('input[name*=\'' + $('.date_check_list').data('target-name') + '\']');
+            if ($elements.length && $elements.val() != '') {
+                $interval = moment($($elements[1]).val()).diff(moment($($elements[0]).val()), 'days');
+                $('.date_check_list').find('button[data-value="' + $interval + '"]').trigger('click');
+            } else {
+                $('.date_check_list').find('button[data-value="-1"]').trigger('click');
+            }
+        }
+
+        // 레이어 오픈 바인딩
+        $('.btn_open_layer').bind('click', function (e) {
+            e.preventDefault();
+            // 일반 레이어 호출
+            if ($(this).attr('href') == '#lyReason') {
+                gd_call_layer_handler($(this));
+
+            }
+        });
+
+        function gd_call_layer_handler(obj) {
+            var target = obj.attr('href');
+            var url = $(target).data('remote');
+            var params = {
+                orderNo: obj.closest('tr').data('order-no'),
+                handleSno: obj.closest('tr').data('order-handlesno')
+            };
+
+            $(target).empty();
+            $.post(url, params, function (data) {
+                console.log(data);
+                if (!_.isUndefined(data.code) && data.code == 0) {
+                    alert(data.message);
+                    gd_close_layer();
+                    return false;
+                }
+                $(target).empty().html(data);
+                $(target).find('>div').center();
+            });
+        }
+
+    });
+    //-->
+</script>
+{ # footer }

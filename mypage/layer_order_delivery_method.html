@@ -1,0 +1,31 @@
+{*** 배송방식 정보노출 | mypage/layer_order_delivery_method.php ***}
+<div class="layer_wrap_cont delivery-method-layer">
+    <div class="wrap">
+        <h4>{orderGoodsData['deliveryMethodFlText']}</h4>
+
+        <div class="mypage_table_type delivery-method-layer-table" style="margin-top: 10px;">
+            <table>
+                <colgroup>
+                    <col style="width:100px;" />
+                    <col />
+                </colgroup>
+                <tr>
+                    <th>{=__('배송 정보')}</th>
+                    <td>{orderGoodsData['invoiceNo']}</td>
+                </tr>
+                <!--{? orderGoodsData['deliveryMethodFl'] == 'visit' }-->
+                <tr>
+                    <th>{=__('방문수령지')}</th>
+                    <td>{deliveryVisitAddress}</td>
+                </tr>
+                <!--{ / }-->
+                <tr>
+                    <th>{=__('처리일')}</th>
+                    <td>{orderGoodsData['deliveryDt']}</td>
+                </tr>
+            </table>
+        </div>
+
+        <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+    </div>
+</div>

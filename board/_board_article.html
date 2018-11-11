@@ -1,0 +1,11 @@
+{*** [위젯] 게시글 리스트 | board/_board_article.php ***}
+<!--{?canList == 'y'}-->
+<ul>
+    <!--{ @ list }-->
+    <li>
+        <span><!--{ ? .isNew == 'y' }--><img src="{cfg.iconImage.new.url}" alt="{=__('신규 등록글')}"/><!--{ / }--></span>
+        <a href="../board/view.php?bdId={bdId}&sno={.sno}">{.subject}</a>
+    </li>
+    <!--{ / }-->
+</ul>
+<!--{/}-->

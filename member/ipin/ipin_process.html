@@ -1,0 +1,48 @@
+<!-- 가상주민번호 서비스 팝업 페이지에서 사용자가 인증을 받으면 암호화된 사용자 정보는 해당 팝업창으로 받게됩니다.
+	 따라서 부모 페이지로 이동하기 위해서는 다음과 같은 form이 필요합니다. -->
+<form name="vnoform" method="post">
+    <input type="hidden" name="enc_data"> <!-- 인증받은 사용자 정보 암호화 데이타입니다. -->
+
+    <!-- 업체에서 응답받기 원하는 데이타를 설정하기 위해 사용할 수 있으며, 인증결과 응답시 해당 값을 그대로 송신합니다.
+         해당 파라미터는 추가하실 수 없습니다. -->
+    <input type="hidden" name="param_r1" value="{=returnUrl}">
+    <input type="hidden" name="param_r2" value="">
+    <input type="hidden" name="param_r3" value="">
+</form>
+<script type="text/javascript">
+    var _joinGubun = "{=joinGubun}";
+    function fnLoad() {
+        var _joinGubunHeader = (_joinGubun == "mobile") ? parent : opener;
+        // 당사에서는 최상위를 설정하기 위해 'parent.opener.parent.document.'로 정의하였습니다.
+        // 따라서 귀사에 프로세스에 맞게 정의하시기 바랍니다.
+        document.vnoform.enc_data.value = "{=sResponseData}";
+        document.vnoform.param_r1.value = "{=sReservedParam1}";
+        document.vnoform.param_r2.value = "{=sReservedParam2}";
+        document.vnoform.param_r3.value = "{=sReservedParam3}";
+        document.vnoform.target = "ifrmRnCheck";
+        document.vnoform.action = "ipin_result.php";
+        document.vnoform.submit();
+        //        _joinGubunHeader.document.getElementById('ifrmRnCheck').contentWindow.document.vnoform.enc_data.value = "{=sResponseData}";
+        //
+        //        _joinGubunHeader.document.getElementById('ifrmRnCheck').contentWindow.document.vnoform.param_r1.value = "{=sReservedParam1}";
+        //        _joinGubunHeader.document.getElementById('ifrmRnCheck').contentWindow.document.vnoform.param_r2.value = "{=sReservedParam2}";
+        //        _joinGubunHeader.document.getElementById('ifrmRnCheck').contentWindow.document.vnoform.param_r3.value = "{=sReservedParam3}";
+        //
+        //        _joinGubunHeader.document.getElementById('ifrmRnCheck').contentWindow.document.vnoform.target = "ifrmRnCheck";
+        //
+        //        // 인증 완료시에 인증결과를 수신하게 되는 귀사 클라이언트 결과 페이지 URL
+        //        _joinGubunHeader.document.getElementById('ifrmRnCheck').contentWindow.document.vnoform.action = "ipin_result.php";
+        //        _joinGubunHeader.document.getElementById('ifrmRnCheck').contentWindow.document.vnoform.submit();
+        if (_joinGubun == "mobile") {
+            if (typeof(parent.frmMaskRemove) != 'undefined') parent.frmMaskRemove('popupCertKey');
+            else self.close();
+        }
+        else self.close();
+    }
+    <!--{ ? sResponseData != '' }-->
+    document.onload = fnLoad();
+    <!--{ : }-->
+    alert('응답 데이터가 없습니다.');
+    document.onload = self.close();
+    <!--{ / }-->
+</script>

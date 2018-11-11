@@ -1,0 +1,381 @@
+{*** 쇼핑 카트탭 - 찜리스트 | goods/cart_tab_wish.php ***}
+<div id="cart_tab_wish" class="shop_zzim_tab cart_tab_cont">
+    <form id="frmTabWish" name="frmTabWish" method="post" target="ifrmProcess">
+        <input type="hidden" name="mode" value="">
+        <div class="zzim_table_box">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <colgroup>
+                    <col width="50px" />
+                    <col width="300px" />
+                    <col />
+                    <col />
+                    <col />
+                    <col width="50px" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th class="cart_chk">
+                            <span>
+                                <input type="checkbox" id="zzimAllCheck" class="checkbox gd_checkbox_all" checked="checked" data-target-name="sno[]" data-target-form="#frmTabWish">
+                                <label for="zzimAllCheck" class="on"></label>
+                            </span>
+                        </th>
+                        <th>{=__('상품명')}</th>
+                        <th>{=__('판매가격')}</th>
+                        <th>{=__('수량')}</th>
+                        <th>{=__('합계')}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <!--{ ? wishInfo }-->
+                <!--{ @ wishInfo }-->
+                <!--{ @ .value_ }-->
+                <!--{ @ ..value_ }-->
+                    <tr>
+                        <td class="cart_chk" rowspan="{=(1 + count(...addGoods))}">
+                            <span class="wish_tab_sno_{...sno}">
+                                <input type="checkbox" id="zzimCheck{...sno}" name="sno[]" <!--{ ? ...orderPossible == 'y' }-->class="checkbox" checked="checked"<!--{ : }-->disabled="disabled"<!--{ / }--> value="{=...sno}" data-price="{=...price['goodsPriceSubtotal']}" data-mileage="{=(...mileage.goodsMileage + ...mileage.memberMileage)}" data-goodsdc="{=...price.goodsDcPrice}" data-memberdc="{=(...price.memberDcPrice + ...price.memberOverlapDcPrice)}" data-coupondc="{...price.couponGoodsDcPrice}" data-possible="{=...orderPossible}" />
+                                <label for="zzimCheck{...sno}" class="<!--{ ? ...orderPossible == 'y' }-->on<!--{ / }-->"></label>
+                            </span>
+                        </td>
+                        <td class="cart_prdt_name">
+                            <div class="cart_btn_box">
+                                <!--{ ? ...orderPossibleMessageList }-->
+                                <div>
+                                    <strong class="caution_msg1">{=__('구매 이용 조건 안내')}
+                                        <a class="normal_btn js_impossible_layer">
+                                            <em>{=__('전체보기')}<img class="arrow" src="../img/etc/bl_arrow.png" alt="" /></em>
+                                        </a>
+                                        <div class="nomal_layer dn">
+                                            <div class="wrap">
+                                                <strong>{=__('결제 제한 조건 사유')}</strong>
+                                                <div class="list">
+                                                    <table cellspacing="0" border="0">
+                                                        <!--{ @ ...orderPossibleMessageList }-->
+                                                        <tr>
+                                                            <td class="strong">{=....value_}</td>
+                                                        </tr>
+                                                        <!--{ / }-->
+                                                    </table>
+                                                </div>
+                                                <button type="button" class="close js_impossible_layer" title="{=__('닫기')}">{=__('닫기')}</button>
+                                            </div>
+                                        </div>
+                                    </strong>
+                                </div>
+                                <!--{ / }-->
+                                <!--{ ? ...duplicationGoods === 'y' }-->
+                                <strong class="cart_chk_none">{=__('중복 상품')}</strong>
+                                <!--{ / }-->
+                                <!--{ ? ...orderPossible == 'y' }-->
+                                <a href="#optionViewLayer" class="btn_open_layer" data-goodsno="{...goodsNo}" data-sno="{...sno}"><img src="../img/common/btn/btn_option_count.png" alt="{=__('옵션/수량 변경')}" /></a>
+                                <!--{ / }-->
+                            </div>
+                            <div class="cart_tit_box">
+                                <span class="prdt_explain">{=cartScmInfo[.key_]['companyNm']}</>
+                                <strong class="prdt_name">{=...goodsNm}</strong>
+                                <!--{ @ ...option }-->
+                                <!--{ ? ....optionName }-->
+                                <span class="text_type_cont">
+                                    {=....optionName}&nbsp;:&nbsp;{=....optionValue}
+                                    <!--{ ? ((....index_ + 1) == ....size_) && ....optionPrice != 0 }-->
+                                    <strong>(<!--{ ? ....optionPrice > 0 }-->+<!--{ / }-->{=gd_global_currency_display(....optionPrice)})</strong>
+                                    <!--{ / }-->
+                                </span>
+                                <!--{ / }-->
+                                <!--{ / }-->
+                                <!--{ @ ...optionText }-->
+                                <!--{ ? ....optionValue }-->
+                                <span class="text_type_cont">
+                                    {=....optionName}&nbsp;:&nbsp;{=....optionValue}
+                                    <!--{ ? ....optionTextPrice != 0 }-->
+                                    <strong>(<!--{ ? ....optionTextPrice > 0 }-->+<!--{ / }-->{=gd_global_currency_display(....optionTextPrice)})</strong>
+                                    <!--{ / }-->
+                                </span>
+                                <!--{ / }-->
+                                <!--{ / }-->
+                            </div>
+                        </td>
+                        <td>
+                            <!--{ ? empty(...goodsPriceString) === false }-->
+                            {=...goodsPriceString}
+                            <!--{ : }-->
+                            {=gd_global_currency_display((...price['goodsPrice']) + (...price['optionPrice']) + (...price['optionTextPrice']))}
+                            <!--{ / }-->
+                        </td>
+                        <td>{=__('%s개', ...goodsCnt)}</td>
+                        <td>
+                            <!--{ ? empty(...goodsPriceString) === false }-->
+                            {=...goodsPriceString}
+                            <!--{ : }-->
+                            {=gd_global_currency_display(((...price['goodsPrice']) + (...price['optionPrice']) + (...price['optionTextPrice'])) * ...goodsCnt)}
+                            <!--{ / }-->
+                        </td>
+                        <td rowspan="{=(1+count(...addGoods))}">
+                            <a href="#" class="del_wish" data-sno="{...sno}"><img src="../img/icon/shop_cart/ico_cart_del.png" alt="{=__('삭제')}"/></a>
+                        </td>
+                    </tr>
+                <!--{ ? empty(...addGoods) === false }-->
+                <!--{ @ ...addGoods }-->
+                <tr>
+                    <td class="cart_prdt_name">
+                        <div class="cart_tit_box">
+                            <strong class="prdt_name">{=....addGoodsNm}</strong>
+                            <!--{ ? ....optionNm != '' }-->
+                            <span class="text_type_cont">
+                                {=__('옵션')}&nbsp;:&nbsp;{=....optionNm}
+                            </span>
+                            <!--{ / }-->
+                        </div>
+                    </td>
+                    <!--{ ? empty(...goodsPriceString) === false }-->
+                    <td>
+                        {=gd_global_currency_display(0)}
+                    </td>
+                    <td>
+                        {=__('%s개', ....addGoodsCnt)}
+                    </td>
+                    <td>
+                        {=gd_global_currency_display(0)}
+                    </td>
+                    <!--{ : }-->
+                    <td>
+                        {=gd_global_currency_display((....addGoodsPrice))}
+                    </td>
+                    <td>
+                        {=__('%s개', ....addGoodsCnt)}
+                    </td>
+                    <td>
+                        {=gd_global_currency_display((....addGoodsPrice * ....addGoodsCnt))}
+                    </td>
+                    <!--{ / }-->
+                </tr>
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ : }-->
+                <tr>
+                    <td colspan="6">
+                        {=__('찜한 상품이 없습니다.')}
+                    </td>
+                </tr>
+                <!--{ / }-->
+                </tbody>
+            </table>
+        </div>
+        <!-- //zzim_table_box -->
+    </form>
+    <div class="cart_total_box">
+        <div>
+            <dl>
+                <dt>{=__('상품가격')}</dt>
+                <dd>{=gd_global_currency_symbol()}<span class="totalGoodsPrice">{=gd_global_money_format(totalGoodsPrice)}</span>{=gd_global_currency_string()}</dd>
+            </dl>
+            <!--{ ? totalGoodsDcPrice > 0 }-->
+            <dl>
+                <dt>{=__('상품할인')}</dt>
+                <dd>{=gd_global_currency_symbol()}<span class="totalGoodsDcPrice">{=gd_global_money_format(totalGoodsDcPrice)}</span>{=gd_global_currency_string()}</dd>
+            </dl>
+            <!--{ / }-->
+            <!--{ ? totalSumMemberDcPrice > 0 }-->
+            <dl>
+                <dt>{=__('회원할인')}</dt>
+                <dd>{=gd_global_currency_symbol()}<span class="totalMinusMember">{=gd_global_money_format(totalSumMemberDcPrice)}</span>{=gd_global_currency_string()}</dd>
+            </dl>
+            <!--{ / }-->
+            <!--{ ? totalCouponGoodsDcPrice > 0 }-->
+            <dl>
+                <dt>{=__('쿠폰할인')}</dt>
+                <dd>{=gd_global_currency_symbol()}<span class="totalCouponGoodsDcPrice">{=gd_global_money_format(totalCouponGoodsDcPrice)}</span>{=gd_global_currency_string()}</dd>
+            </dl>
+            <!--{ / }-->
+            <dl class="total_price_sec">
+                <dt>{=__('총 결제 예정금액')}</dt>
+                <dd><strong>{=gd_global_currency_symbol()}<span class="totalSettlePrice">{=gd_global_money_format(totalSettlePrice)}</span>{=gd_global_currency_string()}</strong></dd>
+            </dl>
+            <p class="option_txt delivery_charge_text">※배송비는 선택 정보에 따라 주문서 작성 시 계산됩니다.</p>
+        </div>
+        <div class="btn_cart_box">
+            <button type="button" class="btn_shop_buy"><span>{=__('장바구니')}</span></button>
+        </div>
+    </div>
+    <!-- //cart_total_box -->
+</div>
+<!-- //shop_zzim_tab -->
+
+<script type="text/javascript">
+    <!--
+    $(document).ready(function(){
+        $('#cart_tab_wish .del_wish').on('click', function(){
+            if (confirm("{=__('상품을 찜리스트에서 삭제하시겠습니까?')}") === true) {
+                $('#frmTabWish input[name="sno[]"]').prop('checked',false);
+                $('#frmTabWish .wish_tab_sno_'+$(this).data('sno')+' input:checkbox').prop('disabled',false);
+                $('#frmTabWish .wish_tab_sno_'+$(this).data('sno')+' input:checkbox').prop('checked',true);
+                $('#frmTabWish .wish_tab_sno_'+$(this).data('sno')+' label').addClass('on');
+                $('#frmTabWish input[name="mode"]').val('delete');
+
+                var params = $( "#frmTabWish" ).serialize();
+
+                $.ajax({
+                    method: "POST",
+                    cache: false,
+                    url: "../mypage/wish_list_ps.php",
+                    data: params,
+                    success: function (data) {
+                        if ($('#frmWish').length > 0) {
+                            document.location.reload();
+                        } else {
+                            gd_cart_tab_action('#cart_tab_wish');
+                        }
+                    },
+                    error: function (data) {
+                        alert(data.message);
+                    }
+                });
+            }
+            return false;
+        });
+
+
+        $('#cart_tab_wish .btn_shop_buy').on('click', function(){
+            $('#cart_tab_wish input:checkbox[name="sno[]"]:checked').each(function() {
+                var possible = $(this).data('possible');
+
+                if (possible == 'n') {
+                    $(this).prop('checked', false);
+                    $('#cart_tab_wish  .wish_tab_sno_'+$(this).val()+' label').removeClass('on');
+                }
+            });
+
+            var checkedCnt = $('#frmTabWish input:checkbox[name="sno[]"]:checked').length;
+
+            msg = "{=__('상품을 장바구니로 저장하시겠습니까?')}";
+
+            if (checkedCnt == 0) {
+                alert("{=__('선택하신 상품이 없습니다.')}");
+                return false;
+            } else {
+                if (confirm(__('선택하신 %i개 ', checkedCnt) + msg) === true) {
+
+                    $('#frmTabWish input[name="mode"]').val('wishToCart');
+
+                    var params = $("#frmTabWish").serialize();
+
+                    $.ajax({
+                        method: "POST",
+                        cache: false,
+                        url: "../mypage/wish_list_ps.php",
+                        data: params,
+                        success: function (data) {
+                            location.href="../order/cart.php";
+                        },
+                        error: function (data) {
+                            alert(data.message);
+                        }
+                    });
+                }
+                return true;
+            }
+            return false;
+        });
+
+        $('#cart_tab_wish .btn_open_layer').on('click', function(e){
+            var params = {
+                type : 'wish',
+                page : 'cart_tab_wish',
+                sno: $(this).data('sno'),
+                goodsNo: $(this).data('goodsno')
+            };
+
+            $.ajax({
+                method: "POST",
+                cache: false,
+                url: "../goods/layer_option.php",
+                data: params,
+                success: function (data) {
+                    $('#optionViewLayer').empty().append(data);
+                    $('#optionViewLayer').find('>div').center();
+                },
+                error: function (data) {
+                    alert(data.message);
+                }
+            });
+        });
+
+        $('#frmTabWish input:checkbox[name="sno[]"]').click(function () {
+            gd_wish_total();
+        });
+
+        gd_wish_total();
+
+        $('#cart_tab_wish .js_impossible_layer').on('click', function(){
+            $("#cart_tab_wish .nomal_layer").addClass('dn');
+            if ($("#cart_tab_wish .nomal_layer").is(":hidden")) {
+                $(this).next(".nomal_layer").removeClass('dn');
+            }
+        });
+
+    });
+
+    function gd_wish_total() {
+        var totalDeliveryCharge = 0;
+        var goodsPrice = 0;
+        var goodsMileage = 0;
+        var goodsDcPrice = 0;
+        var memberDcPrice = 0;
+        var couponGoodsDcPrice = 0;
+        var totalGoodsPrice = 0;
+        var totalGoodsDcPrice = 0;
+        var totalSumMemberDcPrice = 0;
+        var totalCouponGoodsDcPirce = 0;
+        var totalGoodsMileage = 0;
+        $('#frmTabWish input:checkbox[name="sno[]"]:checked').each(function() {
+            if ($(this).attr('disabled') != 'disabled') {
+                goodsPrice = $(this).data('price');
+                goodsMileage = $(this).data('mileage');
+                goodsDcPrice = $(this).data('goodsdc');
+                memberDcPrice = $(this).data('memberdc');
+                couponGoodsDcPrice = $(this).data('coupondc');
+                totalGoodsDcPrice = totalGoodsDcPrice + parseInt(goodsDcPrice);
+                totalSumMemberDcPrice = totalSumMemberDcPrice + parseInt(memberDcPrice);
+                totalCouponGoodsDcPirce = totalCouponGoodsDcPirce + parseInt(couponGoodsDcPrice);
+                totalGoodsPrice = totalGoodsPrice + parseInt(goodsPrice) + parseInt(memberDcPrice) + parseInt(goodsDcPrice) + parseInt(couponGoodsDcPrice);
+                totalGoodsMileage = totalGoodsMileage + parseInt(goodsMileage);
+            }
+        });
+        var totalGoodsCnt = $('input:checkbox[name="sno[]"]:checked').length;
+        var totalSettlePrice = totalGoodsPrice - totalGoodsDcPrice - totalSumMemberDcPrice - totalCouponGoodsDcPirce + totalDeliveryCharge;
+        $('span.totalGoodsCnt').html(numeral(totalGoodsCnt).format());
+        $('span.totalGoodsPrice').html(numeral(totalGoodsPrice).format());
+        $('span.totalGoodsDcPrice').html(numeral(totalGoodsDcPrice).format());
+        $('span.totalMinusMember').html(numeral(totalSumMemberDcPrice).format());
+        $('span.totalCouponGoodsDcPrice').html(numeral(totalCouponGoodsDcPirce).format());
+        $('span.totalSettlePrice').html(numeral(totalSettlePrice).format());
+        $('span.totalGoodsMileage').html(numeral(totalGoodsMileage).format());
+    }
+
+    function gd_carttab_option_view_result(params, sno) {
+        params += "&mode=wishModify&sno=" + sno;
+
+        $.ajax({
+            method: "POST",
+            cache: false,
+            url: "../mypage/wish_list_ps.php",
+            data: params,
+            success: function (data) {
+                if ($('#frmWish').length > 0) {
+                    document.location.reload();
+                } else {
+                    gd_cart_tab_action('#cart_tab_wish');
+                }
+            },
+            error: function (data) {
+                alert(data.message);
+            }
+        });
+    }
+    //-->
+</script>

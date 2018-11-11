@@ -1,0 +1,149 @@
+{*** 플러스리뷰 포토리뷰 게시판 | board/plus_review_photo.php ***}
+{ # header }
+<script type="text/javascript">
+    $(document).ready(function () {
+        if(window.location.hash) {
+            var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+            var hashKey = hash.split('=')[0];
+            var hashValue = hash.split('=')[1];
+            if(hashKey == 'sno' &&  hashValue) {
+                var sno = hashValue;
+                $.ajax({
+                    method: "get",
+                    data: {sno: sno},
+                    cache: false,
+                    url: "../board/plus_review_view.php",
+                    success: function (data) {
+                        photoLayer.show(data);
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+        }
+
+        $('.photo_wrap').pinterest_grid({
+            no_columns: 4,
+            padding_x: 20,
+            padding_y: 20,
+            margin_bottom: $('.photo_wrap .photo').length * 5,
+        });
+
+        $('.js_pr_btn_image').on('click', function () {
+            var sno = $(this).data('sno');
+            $.ajax({
+                method: "get",
+                data: {sno: sno},
+                cache: false,
+                url: "../board/plus_review_view.php",
+                success: function (data) {
+                    photoLayer.show(data);
+                    location.hash = "sno="+sno;
+                },
+                error: function (data) {
+                    alert('error');
+                }
+            });
+        }).css('cursor','pointer');
+
+        var photoLayer = {
+            show: function (data) {
+                $('#layerDim').removeClass('dn');
+                $('#plusReviewPhotoLayer').removeClass('dn');
+                $('#plusReviewPhotoLayer').html(data);
+                $('#plusReviewPhotoLayer').find('>div').center();
+            },
+            close: function () {
+                $('#plusReviewPhotoLayer').find('.close').trigger('click');
+            },
+        }
+
+    });
+
+    //패스워드입력 레이어 창
+    var passwordLayer = {
+        element: $('.js_password_layer'),
+        btn: $('.js_password_layer').find('.js_submit'),
+        value: function () {
+            return $('.js_password_layer').find('input[name="writerPw"]').val();
+        },
+        show: function () {
+            this.element.removeClass('dn');
+            this.element.currentCenter();
+            $('#layerDim').removeClass('dn');
+            $('#scroll_left, #scroll_right').addClass('dim');
+            $('.password_layer .ly_cont .text').focus();
+        },
+        close: function () {
+            $('.js_password_layer').find('input[name="writerPw"]').val('');
+            $('.password_layer .ly_close').trigger('click');
+        }
+    }
+</script>
+<div class="area_title">
+    <!--{ ?  isSkinDivison == true}-->
+    <h2>포토 리뷰</h2>
+    <!--{:}-->
+    <div class="area_title_text">포토 리뷰</div>
+    <!--{/}-->
+</div>
+
+<!--{ ? data.list}-->
+<div class="photo_wrap">
+    <!--{ @ data.list}-->
+    <div class="photo">
+        <a href="javascript:void(0)">
+            <div class="img">
+                <img src="{=.uploadHeadImage.src}" data-sno="{=.sno}" class="js_pr_btn_image" alt="">
+                <strong>+{=count(.uploadedFile)}</strong>
+            </div>
+            <div class="text">{=.listContents}</div>
+        </a>
+        <a href="../goods/goods_view.php?goodsNo={.goodsNo}" target="_blank">
+            <div class="cont_wrap">
+                <div class="img"><img src="{=.goodsImageSrc}" alt=""></div>
+                <div class="cont">
+                    <strong>{=.goodsNm}</strong>
+                    <ul>
+                        <li><span class="tit">평가</span><span class="con">{=.avgGoodsPt}</span></li>
+                        <li><span class="tit">리뷰</span><span class="con">{=.plusReviewCnt}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!--{/}-->
+</div>
+<!--{:}-->
+<div class="no_data">
+    작성된 포토리뷰가 없습니다.
+</div>
+<!--{/}-->
+<div>
+    {=data.pagination}
+</div>
+{ # footer }
+
+<div id="lyPassword" class="layer_wrap password_layer js_password_layer dn" style="height: 226px">
+    <div class="layer_wrap_cont">
+        <div class="ly_tit">
+            <h4>{=__('비밀번호 인증')}</h4>
+        </div>
+        <div class="ly_cont">
+            <div class="scroll_box">
+                <p>{=__('글 작성시 설정한 비밀번호를 입력해 주세요.')}</p>
+                <input type="password" name="writerPw" class="text" autocomplete="off">
+            </div>
+            <!-- // -->
+            <div class="btn_center_box">
+                <button type="button" class="btn_ly_password js_submit"><strong>{=__('확인')}</strong></button>
+            </div>
+        </div>
+        <!-- //ly_cont -->
+        <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+    </div>
+    <!-- //layer_wrap_cont -->
+</div>
+<!-- //password_layer -->
+
+<div id="plusReviewPhotoLayer" class="layer_wrap plus_review_view_layer dn"></div>

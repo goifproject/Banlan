@@ -1,0 +1,423 @@
+{*** 마이페이지 > 찜리스트 | mypage/wish_list.php ***}
+{ # header }
+
+<div class="content">
+    <div class="mypage_cont">
+
+        <!-- 마이페이지 회원 요약정보 -->
+        {=includeWidget('mypage/_member_summary.html')}
+        <!-- 마이페이지 회원 요약정보 -->
+
+        <div class="mypage_wish_list">
+            <div class="mypage_zone_tit">
+                <h3>{=__('찜리스트')}</h3>
+            </div>
+
+            <div class="mypage_table_type">
+                <form id="frmWish" name="frmWish" method="post" target="ifrmProcess">
+                    <input type="hidden"  name="mode" value="">
+                    <input type="hidden"  name="isCart" value="false">
+                    <table>
+                        <colgroup>
+                            <col style="width:8%">	<!-- 선택 -->
+                            <col>					<!-- 상품명/옵션 -->
+                            <col style="width:15%">	<!-- 상품금액/수량 -->
+                            <col style="width:15%">	<!-- 혜택 -->
+                            <col style="width:10%">	<!-- 합계 -->
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>
+                                <div class="form_element">
+                                    <input type="checkbox" id="allCheck" name="allCheck" class="gd_checkbox_all" data-target-name="sno[]" data-target-form="#frmWish">
+                                    <label for="allCheck" class="check_s"></label>
+                                </div>
+                            </th>
+                            <th>{=__('상품명')}/{=__('옵션')}</th>
+                            <th>{=__('상품금액')}/{=__('수량')}</th>
+                            <th>{=__('혜택')}</th>
+                            <th>{=__('합계')}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <!--{ ? wishInfo }-->
+                        <!--{ @ wishInfo }-->
+                        <!--{ @ .value_ }-->
+                        <!--{ @ ..value_ }-->
+                        <tr>
+                            <td>
+                                <div class="form_element wish_sno_{...sno}"">
+                                    <input type="checkbox" id="wishSno{...sno}" name="sno[]" value = "{...sno}" data-order-possible="{...orderPossible}">
+                                    <label for="wishSno{...sno}" class="check_s"></label>
+                                </div>
+                            </td>
+                            <td class="td_left">
+                                <div class="pick_add_cont">
+                                    <span class="pick_add_img">
+                                        <a href="../goods/goods_view.php?goodsNo={=...goodsNo}">{=...goodsImage}</a>
+                                    </span>
+                                    <div class="pick_add_info">
+                                        <!--{ ? ...timeSaleFl }-->
+                                        <span class="icon_time_sale"><img src="../img/icon/goods_icon/icon_time_sale.png" alt="{=__('타임세일')}"></span>
+                                        <!--{ / }-->
+                                        <!--{ ? ...orderPossibleMessageList }-->
+                                        <strong class="caution_msg1">{=__('구매 이용 조건 안내')}
+                                            <a class="normal_btn js_impossible_layer">
+                                                <em>{=__('전체보기')}<img class="arrow" src="../img/etc/bl_arrow.png" alt="" /></em>
+                                            </a>
+                                            <div class="nomal_layer dn">
+                                                <div class="wrap">
+                                                    <strong>{=__('결제 제한 조건 사유')}</strong>
+                                                    <div class="list">
+                                                        <table cellspacing="0" border="0">
+                                                            <!--{@ ...orderPossibleMessageList }-->
+                                                            <tr>
+                                                                <td class="strong">{=....value_}</td>
+                                                            </tr>
+                                                            <!--{/}-->
+                                                        </table>
+                                                    </div>
+                                                    <button type="button" class="close js_impossible_layer" title="{=__('닫기')}">{=__('닫기')}</button>
+                                                </div>
+                                            </div>
+                                        </strong>
+                                        <!--{ / }-->
+                                        <!--{ ? ...duplicationGoods === 'y' }-->
+                                        <div><strong class="chk_none">{=__('중복 상품')}</strong></div>
+                                        <!--{ / }-->
+
+                                        <em><a href="../goods/goods_view.php?goodsNo={=...goodsNo}">{=...goodsNm}</a></em>
+
+                                        <!--{ @ ...option }-->
+                                        <!--{ ? ....optionName }-->
+                                        <span class="text_type_cont">{=....optionName} : {=....optionValue} <strong><!--{ ? ((....index_ + 1) == ....size_) && ....optionPrice != 0 }-->
+                                            ({=gd_global_currency_symbol()}<!--{ ? ....optionPrice > 0 }-->+<!--{ / }-->{=gd_global_money_format(....optionPrice)}{=gd_global_currency_string()})
+                                            <!--{ / }--></strong></span>
+                                        <!--{ / }-->
+                                        <!--{ / }-->
+
+                                        <!--{ @ ...optionText }-->
+                                        <!--{ ? ....optionValue }-->
+                                        <span class="text_type_cont">{=....optionName} : {=....optionValue} <strong><!--{ ? ....optionTextPrice != 0 }-->
+                                            ({=gd_global_currency_symbol()}<!--{ ? ....optionTextPrice > 0 }-->+<!--{ / }-->{=gd_global_money_format(....optionTextPrice)}{=gd_global_currency_string()})
+                                            <!--{ / }--></strong></span>
+                                        <!--{ / }-->
+                                        <!--{ / }-->
+                                    </div>
+                                </div>
+                                <!-- //pick_add_info -->
+                                <!--{ ? empty(...addGoods) === false }-->
+                                <div class="pick_add_list">
+                                    <!--{ @ ...addGoods }-->
+                                    <div class="pick_add_cont">
+                                        <span class="pick_add_plus"><em>{=__('추가')}</em></span>
+                                        <span class="pick_add_img">{=....addGoodsImage}</span>
+                                        <div class="pick_add_info">
+                                            <em>
+                                                <b>{=....addGoodsNm}</b> <br> {=__('수량')} : {=....addGoodsCnt}{=__('개')}
+                                                <!--{ ? empty(...goodsPriceString) === false }-->
+                                                (+{=gd_global_currency_display(0)})
+                                                <!--{ : }-->
+                                                (+{=gd_global_currency_display((....addGoodsPrice * ....addGoodsCnt))})
+                                                <p class="add_currency">{=gd_global_add_currency_display((....addGoodsPrice * ....addGoodsCnt))}</p>
+                                                <!--{ / }-->
+                                            </em>
+                                            <div class="pick_option_box">
+                                                <!--{ ? ....optionNm }-->
+                                                <span class="text_type_cont">{=__('옵션')} : {=....optionNm}</span>
+                                                <!--{ / }-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--{ / }-->
+                                    <!-- //pick_add_cont -->
+                                </div>
+                                <!--{ / }-->
+                                <!-- //pick_add_list -->
+                            </td>
+                            <td>
+                                <!--{ ? empty(...goodsPriceString) === false }-->
+                                <strong>{=...goodsPriceString}</strong>
+                                <!--{ : }-->
+                                <strong>{=gd_global_currency_display(...price['goodsPriceSubtotal'])}</strong>{=gd_global_add_currency_display(...price['goodsPriceSubtotal'])}
+                                <!--{ / }-->/ {=...goodsCnt}{=__('개')}
+                                <!--{ ? ...orderPossible === 'y' }-->
+                                <div class="btn_gray_list">
+                                    <a href="#optionViewLayer" class="btn_gray_small btn_open_layer" data-goodsno="{...goodsNo}" data-sno="{...sno}" data-page="wish_modify"><span>{=__('옵션/수량변경')}</span></a>
+                                </div>
+                                <!--{ / }-->
+                            </td>
+                            <td>
+                                <!--{ ? ...goodsPriceDisplayFl =='n'}-->
+                                <div>-</div>
+                                <!--{ : }-->
+                                <ul class="benefit_list">
+                                    <!--{ ? (...price['goodsDcPrice'] + ...price['memberDcPrice'] + ...price['memberOverlapDcPrice'] + ...price['couponGoodsDcPrice']) > 0 }-->
+                                    <li class="benefit_sale">
+                                        <em>{=__('할인')}</em>
+                                        <!--{ ? ...price['goodsDcPrice'] > 0 }-->
+                                        <span>{=__('상품')} <strong>-{=gd_global_currency_display(...price['goodsDcPrice'])}</strong></span>
+                                        <!--{ / }-->
+                                        <!--{ ? (...price['memberDcPrice'] + ...price['memberOverlapDcPrice']) > 0 }-->
+                                        <span>{=__('회원')} <strong>-{=gd_global_currency_display(...price['memberDcPrice'] + ...price['memberOverlapDcPrice'])}</strong></span>
+                                        <!--{ / }-->
+                                        <!--{ ? ...price['couponGoodsDcPrice'] > 0 }-->
+                                        <span>{=__('쿠폰')} <strong>-{=gd_global_currency_display(...price['couponGoodsDcPrice'])}</strong></span>
+                                        <!--{ / }-->
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? mileage['info']['useFl'] === 'y' && (...mileage.goodsMileage + ...mileage.memberMileage + ...mileage.goodsCouponMileage) > 0 }-->
+                                    <li class="benefit_mileage">
+                                        <em>{=__('적립')}</em>
+                                        <!--{ ? ...mileage.goodsMileage > 0 }-->
+                                        <span>{=__('상품')} <strong>+{=gd_global_money_format(...mileage.goodsMileage)}{=mileage['basic']['unit']}</strong></span>
+                                        <!--{ / }-->
+                                        <!--{ ? ...mileage.memberMileage > 0 }-->
+                                        <span>{=__('회원')} <strong>+{=gd_global_money_format(...mileage.memberMileage)}{=mileage['basic']['unit']}</strong></span>
+                                        <!--{ / }-->
+                                        <!--{ ? ...mileage.goodsCouponMileage > 0 }-->
+                                        <span>{=__('쿠폰')} <strong>+{=gd_global_money_format(...mileage.goodsCouponMileage)}{=mileage['basic']['unit']}</strong></span>
+                                        <!--{ / }-->
+                                    </li>
+                                    <!--{ / }-->
+                                </ul>
+                                <!--{ / }-->
+                            </td>
+                            <td>
+                                <div class="">
+                                    <!--{ ? ...orderPossible === 'y' }-->
+                                    <!--{ ? empty(...isCart) === false }-->
+                                    <a href="#" class="btn_wish_cart js_cart_wish" data-sno="{...sno}"><em>{=__('장바구니')}</em></a>
+                                    <!--{ : }-->
+                                    <a href="#optionViewLayer" class="btn_open_layer btn_wish_cart" data-goodsno="{...goodsNo}" data-sno="{...sno}" data-page="wish_cartIn"><em>{=__('장바구니')}</em></a>
+                                    <!--{ / }-->
+                                    <!--{ / }-->
+
+                                    <a href="#" class="btn_wish_del" data-sno="{...sno}"><em>{=__('삭제하기')}</em></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ / }-->
+                        <!--{ / }-->
+                        <!--{ : }-->
+                        <tr>
+                            <td colspan="5"><p class="no_data">{=__('찜리스트에 상품이 없습니다.')}</p></td>
+                        </tr>
+                        <!--{ / }-->
+
+                        </tbody>
+                    </table>
+
+                    <button class="btn_wish_choice_del"><em>{=__('선택 상품 삭제')}</em></button>
+                    <button class="btn_wish_choice_cart"><em>{=__('선택 상품 장바구니')}</em></button>
+                </form>
+            </div>
+
+        </div>
+        <!-- //mypage_wish_list -->
+
+    </div>
+    <!-- //mypage_cont -->
+
+</div>
+<!-- //content -->
+
+
+<div id="optionViewLayer" class="layer_wrap dn"></div>
+
+
+<script type="text/javascript">
+    <!--
+    $(document).ready(function(){
+        $('#frmWish .js_impossible_layer').on('click', function(){
+            $("#frmWish .nomal_layer").addClass('dn');
+            if ($("#frmWish .nomal_layer").is(":hidden")) {
+                $(this).next(".nomal_layer").removeClass('dn');
+            }
+        });
+
+        $('.btn_wish_choice_del').on('click', function(){
+            gd_submit_wish('delete');
+            return false;
+        });
+
+        $('.btn_wish_choice_cart').on('click', function(){
+            gd_submit_wish('wishToCart');
+            return false;
+        });
+
+        $('#frmWish .btn_wish_del').on('click', function(){
+
+            $('input[name="sno[]"]').prop('checked', false);
+            $('label[for*="wishSno"]').removeClass('on');
+            $('#frmWish  .wish_sno_'+$(this).data('sno')+' input:checkbox').prop('checked','true');
+            $('#frmWish  .wish_sno_'+$(this).data('sno')+' label').addClass('on');
+
+            gd_submit_wish('delete');
+
+            return false;
+
+        });
+
+        $('#frmWish .js_cart_wish').on('click', function(){
+
+            $('input[name="sno[]"]').prop('checked', false);
+            $('label[for*="wishSno"]').removeClass('on');
+            $('#frmWish  .wish_sno_'+$(this).data('sno')+' input:checkbox').prop('checked','true');
+            $('#frmWish  .wish_sno_'+$(this).data('sno')+' label').addClass('on');
+
+            gd_submit_wish('wishToCart');
+            return false;
+
+        });
+
+
+        $('#frmWish .btn_open_layer').bind('click', function(e){
+            if($(this).attr('href') == '#optionViewLayer') {
+
+                var params = {
+                    type : 'wish',
+                    page : $(this).data('page'),
+                    sno: $(this).data('sno'),
+                    goodsNo: $(this).data('goodsno')
+                };
+
+                $.ajax({
+                    method: "POST",
+                    cache: false,
+                    url: "../goods/layer_option.php",
+                    data: params,
+                    success: function (data) {
+                        $('#optionViewLayer').empty().append(data);
+                        $('#optionViewLayer').find('>div').center();
+                    },
+                    error: function (data) {
+                        alert(data.message);
+
+                    }
+                });
+
+            }
+        });
+
+
+    });
+
+
+    function gd_submit_wish(mode) {
+
+        var checkedCnt = $('#frmWish  input:checkbox[name="sno[]"]:checked').length;
+        var orderImpossibleFl = false;
+
+        if(mode == 'delete') {
+            msg = "{=__('상품을 찜리스트에서 삭제하시겠습니까?')}";
+        } else {
+            msg = "{=__('상품을 장바구니로 저장하시겠습니까?')}";
+        }
+
+        $('input[name="sno[]"]:checked').each(function() {
+            if ($(this).data('order-possible') == 'n') {
+                orderImpossibleFl = true;
+                return false;
+            }
+        });
+
+        if (checkedCnt == 0) {
+            alert("{=__('선택하신 상품이 없습니다.')}");
+            return false;
+        } else if (mode == 'wishToCart' && orderImpossibleFl) {
+            alert("{=__('선택하신 상품 중에 구매불가 상품이 있습니다.')}");
+            return false;
+        } else {
+            if (confirm(__('선택하신 %i개', checkedCnt) + <!--{ ? gGlobal.locale != 'ko' }--> ', ' + <!--{ / }--> msg) === true) {
+                $('#frmWish input[name="mode"]').val(mode);
+
+                var params = $( "#frmWish" ).serialize();
+
+                $.ajax({
+                    method: "POST",
+                    cache: false,
+                    url: "../mypage/wish_list_ps.php",
+                    data: params,
+                    success: function (data) {
+
+                        if(mode == 'delete') {
+                            location.reload();
+                        } else {
+                            location.href="../order/cart.php";
+                        }
+
+                    },
+                    error: function (data) {
+                        alert(data.message);
+
+                    }
+                });
+
+
+            }
+            return true;
+        }
+
+    }
+
+
+    function gd_option_view_result(params,sno) {
+        var mode = '';
+        params.filter(function (data) {
+            if (data.name == 'page') {
+                mode = data.value;
+            }
+        });
+        if (mode == 'wish_modify') {
+            params.push({name: 'mode', value: 'wishModify'});
+            params.push({name: 'sno', value: sno});
+            var url = '../mypage/wish_list_ps.php';
+        } else {
+            params.push({name: 'mode', value: 'cartIn'});
+            var url = '../order/cart_ps.php';
+        }
+
+        $.ajax({
+            method: "POST",
+            cache: false,
+            url: url,
+            data: params,
+            success: function (data) {
+                if (mode == 'wish_modify') {
+                    document.location.reload();
+                } else {
+                    <!--{ ? moveWishPageFl =='n' }-->
+                    $('#frmWish .wish_sno_' + sno + ' input:checkbox').prop('checked', true);
+                    $('#frmWish .wish_sno_' + sno + ' label').addClass('on');
+                    $('#frmWish input[name="mode"]').val('delete');
+                    var params = $("#frmWish").serialize();
+
+                    $.ajax({
+                        method: "POST",
+                        cache: false,
+                        url: "../mypage/wish_list_ps.php",
+                        data: params,
+                        success: function (data) {
+                            location.href="../order/cart.php";
+                        },
+                        error: function (data) {
+                            alert(data.message);
+                        }
+                    });
+                    <!--{ : }-->
+                    location.href="../order/cart.php";
+                    <!--{ / }-->
+                }
+            },
+            error: function (data) {
+                alert(data.message);
+            }
+        });
+    }
+    //-->
+</script>
+
+{ # footer}

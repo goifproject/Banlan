@@ -1,0 +1,290 @@
+{*** 목록 | list.php ***}
+<!--{ ? bdList.cfg.bdHeader && !inList}-->
+<div class="addition_zone">
+	<p>{=bdList.cfg.bdHeader}</p>
+</div>
+<!--{/}-->
+<div class="board_zone_sec">
+	<!--{ ? !inList}-->
+	<div class="board_zone_tit">
+		<h2>{=__(bdList.cfg.bdNm)}</h2>
+	</div>
+	<!--{/}-->
+	<div class="board_zone_cont">
+		<div class="board_zone_list">
+			<!--{ ? !inList}-->
+			<div class="date_check_box">
+				<form name="frmSearch" method="get" action="list.php">
+					<input type="hidden" name="bdId" value="{req.bdId}"/>
+					<input type="hidden" name="memNo" value="{req.memNo}"/>
+					<input type="hidden" name="noheader" value="{req.noheader}"/>
+
+					<h3> {=__('조회기간')} </h3>
+					<div class="date_check_list" data-target-name="rangDate[]">
+						<button type="button" data-value="0">{=__('오늘')}</button>
+						<button type="button" data-value="7">7{=__('일')}</button>
+						<button type="button" data-value="15">15{=__('일')}</button>
+						<button type="button" data-value="30">1{=__('개월')}</button>
+						<button type="button" data-value="90">3{=__('개월')}</button>
+						<button type="button" data-value="365">1{=__('년')}</button>
+					</div>
+					<!-- //date_check_list -->
+					<div class="date_check_calendar">
+						<input type="text" id="picker2" name="rangDate[]" class="anniversary js_datepicker" value="{req.rangDate[0]}"> ~ <input type="text" name="rangDate[]" class="anniversary js_datepicker" value="{req.rangDate[1]}">
+					</div>
+					<!-- //date_check_calendar -->
+
+					<button type="submit" class="btn_date_check"><em>{=__('조회')}</em></button>
+				</form>
+			</div>
+			<!-- //date_check_box -->
+			<!--{/}-->
+
+
+			<div class="board_list_qa" align="{bdList.cfg.bdAlign}">
+				<table class="board_list_table" {bdList.cfg.bdWidthStyle}>
+					<colgroup>
+						<col style="width:10%"> <!-- 문의날짜 -->
+						<!--{ ? bdList.cfg.bdListImageFl == 'y'}-->
+						<col style="width:10%">
+						<!--{/}-->
+						<!--{?bdList.cfg.bdCategoryFl == 'y'}-->
+						<col style="width:15%"> <!-- 카테고리 -->
+						<!--{/}-->
+						<col><!-- 제목 -->
+						<!--{?!isMemNo}-->
+						<col style="width:10%">  <!-- 작성자 -->
+						<!--{/}-->
+						<col style="width:10%"> <!-- 문의상태 -->
+
+					</colgroup>
+					<thead>
+					<tr>
+						<th>{=__('문의날짜')}</th>
+						<!--{ ? bdList.cfg.bdListImageFl == 'y'}-->
+						<th>{=__('이미지')}</th>
+						<!--{/}-->
+						<!--{?bdList.cfg.bdCategoryFl == 'y'}-->
+						<th>{=__('카테고리')}</th>
+						<!--{/}-->
+						<th>{=__('제목')}</th>
+						<!--{?!isMemNo}-->
+						<th>{=__('작성자')}</th>
+						<!--{/}-->
+						<th>{=__('문의상태')}</th>
+					</tr>
+					</thead>
+					<tbody>
+
+					<!--{ @ bdList.noticeList }-->
+					<tr {bdList.cfg.bdHeightStyle}>
+						<td><img src="{bdList.cfg.iconImage.notice.url}" alt="{=__('공지')}"/></td>
+						<!--{ ? bdList.cfg.bdListImageFl == 'y'}-->
+						<td>
+							<!--{ ? bdList.cfg.bdListNoticeImageDisplayPc == 'y'}-->
+							<div class="board_img">
+								<a href="javascript:gd_btn_view('{req.bdId}',{.sno} , '{.auth.view}')">
+									<img src="{=gd_isset(.viewListImage, 'img/etc/noimg.png')}" width="{bdList.cfg.bdListImgWidth}" height="{bdList.cfg.bdListImgHeight}" class="js_image_load"/>
+								</a>
+							</div>
+							<!--{/}-->
+						</td>
+						<!--{/}-->
+						<!--{ ? bdList.cfg.bdCategoryFl == 'y'}-->
+						<td>
+							<!--{? .category }-->[{.category}]<!--{/}-->
+						</td>
+						<!--{/}-->
+						<td class="board_tit">
+							{.gapReply}
+							<a href="javascript:gd_btn_view('{req.bdId}',{.sno} ,'{.auth.view}')" >
+								<strong>{.subject}</strong>
+							</a>
+							<!--{? bdList.cfg.bdMemoFl == 'y' && .memoCnt>0}-->
+							<span>({.memoCnt})</span>
+							<!--{/}-->
+							<!--{ ? .isFile == 'y' }-->
+							<img src="{bdList.cfg.iconImage.attach_file.url}" alt="{=__('파일첨부 있음')}"/>
+							<!--{/}-->
+							<!--{ ? .isImage == 'y' }-->
+							<img src="{bdList.cfg.iconImage.attach_img.url}" alt="{=__('이미지첨부 있음')}"/>
+							<!--{/}-->
+							<!--{ ? .isNew == 'y' }-->
+							<img src="{bdList.cfg.iconImage.new.url}" alt="{=__('신규 등록글')}"/>
+							<!--{/}-->
+							<!--{ ? .isHot == 'y' }-->
+							<img src="{bdList.cfg.iconImage.hot.url}" alt="{=__('인기글')}"/>
+							<!--{/}-->
+						</td>
+						<!--{?!isMemNo}-->
+						<td> {.writer} </td>
+						<!--{/}-->
+						<td>-</td>
+					</tr>
+					<!--{/}-->
+
+					<!--{? bdList.list}-->
+					<!--{ @ bdList.list }-->
+					<tr {bdList.cfg.bdHeightStyle}>
+						<td> {.regDate} </td>
+						<!--{ ? bdList.cfg.bdListImageFl == 'y'}-->
+						<td>
+							<div class="board_img">
+								<a href="javascript:gd_btn_view('{req.bdId}',{.sno} , '{.auth.view}')">
+									<img src="{=gd_isset(.viewListImage, 'img/etc/noimg.png')}" width="{bdList.cfg.bdListImgWidth}" height="{bdList.cfg.bdListImgHeight}" class="js_image_load"/>
+								</a>
+							</div>
+						</td>
+						<!--{/}-->
+						<!--{ ? bdList.cfg.bdCategoryFl == 'y'}-->
+						<td>
+							<!--{? .category }-->[{.category}]<!--{/}-->
+						</td>
+						<!--{/}-->
+						<td class="board_tit">
+							{.gapReply}
+							<!--{ ? .groupThread }--><img src="{bdList.cfg.iconImage.re.url}"alt="{=__('답변')}" style="padding:0 5px" /><!--{/}-->
+							<a href="javascript:gd_btn_view('{req.bdId}',{.sno} ,'{.auth.view}')" >
+								<!--{ ? .isSecret == 'y' }-->
+								<img src="{bdList.cfg.iconImage.secret.url}" align=absmiddle>
+								<!--{ / }-->
+								<strong>{.subject}</strong>
+								<!--{? bdList.cfg.bdMemoFl == 'y' && .memoCnt>0}-->
+								<span>({.memoCnt})</span>
+								<!--{/}-->
+								<!--{ ? .isFile == 'y' }-->
+								<img src="{bdList.cfg.iconImage.attach_file.url}" alt="{=__('파일첨부 있음')}"/>
+								<!--{/}-->
+								<!--{ ? .isImage == 'y' }-->
+								<img src="{bdList.cfg.iconImage.attach_img.url}" alt="{=__('이미지첨부 있음')}"/>
+								<!--{/}-->
+								<!--{ ? .isNew == 'y' }-->
+								<img src="{bdList.cfg.iconImage.new.url}" alt="{=__('신규 등록글')}"/>
+								<!--{/}-->
+								<!--{ ? .isHot == 'y' }-->
+								<img src="{bdList.cfg.iconImage.hot.url}" alt="{=__('인기글')}"/>
+								<!--{/}-->
+							</a>
+						</td>
+						<!--{?!isMemNo}-->
+						<td> {.writer} </td>
+						<!--{/}-->
+						<td> {.replyStatusText} </td>
+					</tr>
+					<!--{/}-->
+					<!--{:}-->
+					<tr>
+						<td colspan="5" align="center">{=__('게시글이 존재하지않습니다.')}</td>
+					</tr>
+					<!--{/}-->
+
+					</tbody>
+				</table>
+
+			</div>
+			<!-- //board_list_qa -->
+			{bdList.pagination}
+			<!-- //pagination -->
+		</div>
+		<!-- //board_zone_list -->
+
+		<!--{? !inList && bdList.cfg.auth.write == 'y'}-->
+		<div class="btn_right_box">
+			<button type="button" class="btn_write" onclick="gd_btn_write('{req.bdId}')"><strong>1:1 {=__('문의하기')}</strong></button>
+		</div>
+		<!--{/}-->
+
+	</div>
+	<!-- //board_zone_cont -->
+
+</div>
+<!-- //board_zone_sec -->
+<!--{?bdList.cfg.bdFooter && !inList}-->
+<div class="addition_zone">
+	<p>{=bdList.cfg.bdFooter}</p>
+</div>
+<!--{/}-->
+
+<form id="frmWritePassword">
+	<div id="lyPassword" class="dn layer_wrap password_layer" style="height: 226px">
+		<div class="layer_wrap_cont">
+			<div class="ly_tit">
+				<h4>{=__('비밀번호 인증')}</h4>
+			</div>
+			<div class="ly_cont">
+				<div class="scroll_box">
+					<p>{=__('비밀번호를 입력해 주세요.')}</p>
+					<input type="password" name="writerPw" class="text">
+				</div>
+				<!-- // -->
+				<div class="btn_center_box">
+					<button type="button" class="btn_ly_password js_submit"><strong>{=__('확인')}</strong></button>
+				</div>
+			</div>
+			<!-- //ly_cont -->
+			<a href="#close" class="ly_close layer_close"><img src="../../../img/common/layer/btn_layer_close.png" alt="닫기"></a>
+		</div>
+		<!-- //layer_wrap_cont -->
+	</div>
+	<!-- //layer_wrap -->
+</form>
+
+<div id="layerDim" class="dn">&nbsp;</div>
+<script>
+	$(document).ready(function () {
+		$('img.js_image_load').error(function () {
+					$(this).css('background', 'url("img/etc/noimg.png") no-repeat center center');
+					$(this).attr('src', '../../../img/etc/blank.gif');
+				})
+				.each(function () {
+					$(this).attr("src", $(this).attr("src"));
+				})
+	});
+</script>
+<script type="text/javascript">
+	$(function(){
+		// 인풋박스 선택 이벤트
+		if ($('.js_datepicker').length) {
+			$('.js_datepicker').datetimepicker({
+				locale: '{=gGlobal.locale}',
+				format: 'YYYY-MM-DD',
+				dayViewHeaderFormat: 'YYYY MM',
+				viewMode: 'days',
+				ignoreReadonly: true,
+				debug: false,
+				keepOpen: false
+			});
+			//$('.check-cal img').click(function(e){
+			//	$(this).prev('.js-datepicker').data('DateTimePicker').show();
+			//});
+		}
+
+		// 기간버튼 선택 이벤트
+		if ($('.date_check_list').length) {
+			$('.date_check_list button').click(function (e) {
+				$startDate = $endDate = '';
+				$period = $(this).data('value');
+				$elements = $('input[name="' + $(this).closest('.date_check_list').data('target-name') + '"]');
+				$format = $($elements[0]).data('DateTimePicker').format();
+				if ($period >= 0) {
+					$startDate = moment().hours(0).minutes(0).seconds(0).subtract($period, 'days').format($format);
+					$endDate = moment().hours(0).minutes(0).seconds(0).format($format);
+				}
+				$($elements[0]).val($startDate);
+				$($elements[1]).val($endDate);
+				$('.date_check_list button').removeClass('on');
+				$(this).addClass('on');
+			});
+
+			// 선택된 버튼에 따른 값 초기화
+			$elements = $('input[name*=\'' + $('.date_check_list').data('target-name') + '\']');
+			if ($elements.length && $elements.val() != '') {
+				$interval = moment($($elements[1]).val()).diff(moment($($elements[0]).val()), 'days');
+				$('.date_check_list').find('button[data-value="' + $interval + '"]').trigger('click');
+			} else {
+				$('.date_check_list').find('button[data-value="-1"]').trigger('click');
+			}
+		}
+	});
+</script>
+<script type="text/javascript" src="\{=c.PATH_SKIN}js/gd_board_list.js" charset="utf-8"></script>

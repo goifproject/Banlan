@@ -1,0 +1,80 @@
+{*** [위젯] 상단 검색 | proc/_header_search.html ***}
+<div class="top_search">
+    <form name="frmSearchTop" id="frmSearchTop" action="../goods/goods_search.php" method="get">
+        <!--{ ? adUrl }-->
+        <input type="hidden" name="adUrl" value="{adUrl}">
+        <!--{ / }-->
+        <fieldset>
+            <legend>{=__('검색폼')}</legend>
+            <div class="top_search_cont">
+                <div class="top_text_cont">
+                    <input type="text" id="search_form" name="keyword" class="top_srarch_text" title="{adKeyword}"  placeholder="{adKeyword}" autocomplete="off">
+                    <input type="image" src="../img/common/btn/btn_top_search.png" id="btnSearchTop" class="btn_top_srarch" title="{=__('검색')}" value="{=__('검색')}" alt="{=__('검색')}">
+                </div>
+                <!-- //top_text_cont -->
+                <div class="search_cont" style="display:none;">
+                    <input type="hidden" name="recentCount" value="{recentCount}" />
+
+                    {=includeWidget('proc/_recom_goods.html')}
+                    <!-- //recom_box -->
+
+                    <!--{ ? recentCount > 0 }-->
+                    <div class="recent_box">
+                        <dl class="js_recent_area">
+                            <dt>{=__('최근검색어')}</dt>
+                            <!--{ ? recentKeyword }-->
+                            <dd>
+                                <ul class="js_recent_list">
+                                    <!--{ @ recentKeyword }-->
+                                    <li>
+                                        <a href="../goods/goods_search.php?keyword={=urlencode(.value_[0])}">{=.value_[0]}</a>
+                                        <span>{=.value_[1]}<button type="button" class="btn_top_search_del" data-recent-keyword="{=.value_[0]}">
+                                            <img src="../img/common/btn/btn_top_search_del.png" alt="삭제"></button>
+                                        </span>
+                                    </li>
+                                    <!--{ / }-->
+                                </ul>
+                            </dd>
+                            <!--{ : }-->
+                            <dd>{=__('최근 검색어가 없습니다.')}</dd>
+                            <!--{ / }-->
+                        </dl>
+                    </div>
+                    <!--{ / }-->
+                    <!-- //recent_box -->
+                    <div class="seach_top_all">
+                        <!--{ ? recentKeyword }--><button type="button" class="btn_top_search_all_del"><strong>{=__('전체삭제')}</strong></button><!--{ / }-->
+                        <button type="button" class="btn_top_search_close"><strong>{=__('닫기')}</strong></button>
+                    </div>
+                    <!-- //seach_top_all -->
+
+                </div>
+                <!-- //search_cont -->
+                {=includeWidget('proc/_autocomplete_search.html', 'mode', 'top')}
+            </div>
+            <!-- //top_search_cont -->
+        </fieldset>
+    </form>
+</div>
+<div class="detail_search" style="
+    position: absolute;
+    top: 85px;
+    left: 67%;
+    float: right;
+    height: 45px;
+    width: 86px;
+    border: 4px solid #fe0d7f;
+	color: #ffffff;
+	background-color: #fe0d7f;
+    text-align: center;
+">
+	<a href = "#open" class ="btn_quick_search_open">
+	<h3 class="quick_detail_search" style="
+    text-align: center;
+	color: #ffffff;									   
+    display: inline-block;
+    line-height: 44px;
+">스마트검색</h3>
+	</a>
+</div>
+<!-- //top_search -->

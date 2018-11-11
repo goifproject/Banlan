@@ -1,0 +1,152 @@
+{*** 마이페이지 > 내정보수정 | mypage/my_page.php ***}
+{ # header }
+
+<div class="content">
+<link type="text/css" rel="stylesheet" href="{=setBrowserCache('../css/member/member.css')}">
+    <div class="mypage_cont">
+
+        <div class="my_page">
+
+            <div class="mypage_zone_tit">
+                <h2>{=__('회원정보 변경')}</h2>
+            </div>
+
+            <div class="join_base_wrap">
+
+                <div class="member_cont">
+                    <form id="formJoin" name="formJoin" action="{mypageActionUrl}" method="post">
+                        <input type="hidden" name="memNo" value="{data.memNo}"/>
+                        <input type="hidden" name="memberFl" value="{data.memberFl}"/>
+                        <input type="hidden" name="dupeinfo" value="{data.dupeinfo}"/>
+                        <input type="hidden" name="rncheck" value="{data.rncheck}"/>
+                        <input type="hidden" name="mode" value="modify"/>
+
+                        <!-- 회원가입/정보 기본정보 -->{=includeWidget('member/_join_view.html')}<!-- 회원가입/정보 기본정보 -->
+                        <!-- 회원가입/정보 사업자정보 -->{=includeWidget('member/_join_view_business.html')}<!-- 회원가입/정보 사업자정보 -->
+                        <!-- 회원가입/정보 부가정보 -->{=includeWidget('member/_join_view_other.html')}<!-- 회원가입/정보 부가정보 -->
+
+                        <iframe id="ifrmHpauth" name="ifrmHpauth" style="width:500px;height:500px;display:none;"></iframe>
+                        <div class="btn_center_box">
+                            <button type="button" class="btn_member_cancel">{=__('취소')}</button>
+                            <button type="button" class="btn_comfirm js_btn_join" value="{=__('정보수정')}">{=__('정보수정')}</button>
+                        </div>
+                        <!-- //btn_center_box -->
+                    </form>
+                </div>
+                <!-- //member_cont -->
+            </div>
+            <!-- //join_base_wrap -->
+
+        </div>
+        <!-- //my_page -->
+
+    </div>
+    <!-- //mypage_cont -->
+
+</div>
+<!-- //content -->
+
+
+<script type="text/javascript">
+    var snsConnection = {snsConnection};
+    var $formJoin;
+
+    $(document).ready(function () {
+        $formJoin = $('#formJoin');
+
+        $('.btn_member_cancel', $formJoin).click(function (e) {
+            e.preventDefault();
+            top.location.href = '/';
+        });
+
+        $('#btnAuthPhone').click(function (e) {
+            e.preventDefault();
+            var protocol = location.protocol;
+            var callbackUrl = "{=domainUrl}/member/authcellphone/dreamsecurity_result.php";
+            ifrmHpauth.location.href = protocol + "//hpauthdream.godo.co.kr/module/NEW_hpauthDream_Main.php?callType=modifymember&shopUrl=" + callbackUrl + "&cpid={=authDataCpCode}";
+        });
+
+        $('#btnPostcode').click(function (e) {
+            e.preventDefault();
+            gd_postcode_search('zonecode', 'address', 'zipcode');
+        });
+
+        $('#btnCompanyPostcode').click(function (e) {
+            e.preventDefault();
+            gd_postcode_search('comZonecode', 'comAddress', 'comZipcode');
+        });
+
+        // 인풋박스 선택 이벤트
+        var $datepicker = $('.js_datepicker');
+        if ($datepicker.length) {
+            $datepicker.datetimepicker({
+                locale: '{=gGlobal.locale}',
+                format: 'YYYY-MM-DD',
+                dayViewHeaderFormat: 'YYYY MM',
+                viewMode: 'days',
+                ignoreReadonly: true,
+                debug: false,
+                keepOpen: false
+            });
+        }
+
+        /**
+         * 약관 체크박스 이벤트
+         */
+        $('.join_agreement_box :checkbox', $formJoin).change(function (e) {
+            e.preventDefault();
+            $('p.msg').addClass('dn');
+            var $target = $(e.target), $label = $target.siblings('label'), $termsView = $target.closest('.join_agreement_box');
+            var isTermsAgreeSelect = (e.target.id === 'termsAgree3') || (e.target.id === 'termsAgree4') || (e.target.id === 'termsAgree5');
+            var isTargetChecked = $target.prop('checked') === true;
+
+            if (isTargetChecked) {
+                if (isTermsAgreeSelect) {
+                    $termsView.find('.agreement_choice_box label').addClass('on');
+                    $termsView.find('.agreement_choice_box :checkbox').attr({
+                        value: "y", checked: "checked"
+                    });
+                } else {
+                    $target.val('y');
+                    $label.addClass('on');
+                }
+            } else {
+                if (isTermsAgreeSelect) {
+                    $termsView.find('.agreement_choice_box label').removeClass('on');
+                    $termsView.find('.agreement_choice_box :checkbox').attr({
+                        value: "n", checked: "checked"
+                    });
+                } else {
+                    $target.val('n');
+                    $label.removeClass('on');
+                }
+            }
+        });
+
+        gd_select_email_domain('email');
+
+        <!--{? joinField.marriFl.use == 'y' && joinField.marriDate.use == 'y'}-->
+        $(':radio[name="marriFl"]').change(function () {
+            var $marridateinfo = $('.js_marridateinfo');
+            if (this.value == 'y') {
+                $marridateinfo.removeClass('dn');
+            } else {
+                $marridateinfo.addClass('dn');
+                $marridateinfo.find('input#marriDate').val('');
+            }
+        });
+        <!--{/}-->
+
+        gd_member2.set_my_page(my_page);
+        gd_member2.init($formJoin);
+
+        $('.btn_comfirm').click({form: $formJoin}, gd_member2.save);
+    });
+
+    var join_field = <!--{= json_encode(joinField)}-->;
+    var join_data = <!--{= json_encode(data)}-->;
+    <!--{? isMyPage}-->
+    var my_page = true;
+    <!--{/}-->
+</script>
+{ # footer }

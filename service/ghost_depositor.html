@@ -1,0 +1,104 @@
+{*** 미확인 입금자 리스트 | service/ghost_depositor.php ***}
+{ # header }
+
+<div id="lyCouponDown" class="layer_wrap ghost_depositor_layer" style="top:0px; left:0px;">
+    <form id="frmSearchBase" method="get">
+        <div class="layer_wrap_cont">
+            <div class="ly_tit">
+                <h2>{=__('미확인 입금자 리스트')}</h2>
+            </div>
+            <div class="ly_cont">
+                <div>
+                    <div class="addition_zone">
+                        <p><img src="../img/etc/ghost_depositor_title_{designSkin}.png" alt="{=__('미확인 입금자 리스트')}"></p>
+                    </div>
+
+                    <div class="ly_date_depositor_box">
+                        <div class="ly_date_depositor_calendar">
+                            <label for="depositDate">
+                                <strong>{=__('입금일자')}</strong> <input type="text" id="depositDate" name="depositDate" class="js_datepicker anniversary" value="{searchDate}">
+                            </label>
+                        </div>
+                        <!-- //ly_date_depositor_calendar -->
+                        <label for="ghostDepositor">
+                            <strong>{=__('입금자명')}</strong> <input type="text" id="ghostDepositor" name="ghostDepositor" value="{searchName}" placeholder="{=__('검색어를 입력해주세요')}">
+                        </label>
+                        <button type="submit" class="btn_ly_depositor"><em>{=__('검색')}</em></button>
+                    </div>
+                    <!-- //ly_date_depositor_box -->
+
+                    <div class="scroll_box">
+                        <div class="top_table_type">
+                            <table>
+                                <colgroup>
+                                    <col style="width:80px" />
+                                    <col style="width:20%" />
+                                    <col style="width:25%" />
+                                    <col style="width:20%" />
+                                    <col style="width:25%" />
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>{=__('번호')}</th>
+                                        <th>{=__('입금일자')}</th>
+                                        <th>{=__('고객명')}</th>
+                                        <th>{=__('은행')}</th>
+                                        <th>{=__('입금액')}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <!--{ ? loop }-->
+                                    <!--{ @ loop }-->
+                                    <tr>
+                                        <td>{.no}</td>
+                                        <td>{.depositDate}</td>
+                                        <td>{.ghostDepositor}</td>
+                                        <td>{.bankName}</td>
+                                        <td>{.depositPrice}{=__('원')}</td>
+                                    </tr>
+                                    <!--{ / }-->
+                                <!--{ / }-->
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--{? bankdaUse }-->
+                        <ul class="pagination pagination-sm">
+                            {paging}
+                        </ul>
+                        <!--{:}-->
+                        {page->getPage()}
+                        <!--{/}-->
+                    </div>
+                    <!-- //scroll_box -->
+                </div>
+            </div>
+            <!-- //ly_cont -->
+            <a href="javascript:window.close();" class="ly_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+        </div>
+        <!-- //layer_wrap_cont -->
+    </form>
+</div>
+<!-- //layer_wrap -->
+<script>
+    <!--
+    $(document).ready(function () {
+        // 인풋박스 선택 이벤트
+        if ($('.js_datepicker').length) {
+            $('.js_datepicker').datetimepicker({
+                locale: '{=gGlobal.locale}',
+                format: 'YYYY-MM-DD',
+                dayViewHeaderFormat: 'YYYY MM',
+                viewMode: 'days',
+                ignoreReadonly: true,
+                debug: false,
+                keepOpen: false
+            });
+            $('.check-cal img').click(function (e) {
+                $(this).prev('.js_datepicker').data('DateTimePicker').show();
+            });
+        }
+    });
+    //-->
+</script>
+
+{ # footer }

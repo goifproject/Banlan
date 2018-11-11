@@ -1,0 +1,117 @@
+{*** 출석체크 > 댓글 | event/attend_reply.php ***}
+{ # header }
+
+<div class="content_box">
+    <div class="attend_reply_wrap">
+        <div class="attend_top_banner">
+            <!--{? attendData['designHeadFl'] == 'default'}-->
+            <img src="../img/event/img_attendance_check.png" alt=""/>
+            <!--{:}-->
+            {=gd_htmlspecialchars_stripslashes(attendData['designHead'])}
+            <!--{/}-->
+        </div>
+        <!-- //attend_top_banner -->
+        <form id="formReply" name="formReply" method="post" action="../event/attendance_ps.php">
+            <input type="hidden" id="sno" name="sno" value="{attendData['sno']}"/>
+            <input type="hidden" id="checkSno" name="checkSno" value="{checkSno}"/>
+            <input type="hidden" id="currentDate" name="currentDate" value="{currentDate}"/>
+            <input type="hidden" id="mode" name="mode" value="{mode}"/>
+            <input type="hidden" id="startDt" name="startDt" value="{attendData['startDt']}"/>
+            <input type="hidden" id="endDt" name="endDt" value="{attendData['endDt']}"/>
+
+            <div class="attend_reply_box">
+                <div class="attend_reply_check {? attendData['designBodyFl'] == 'reply2'}attend_reply_check_type2{/}"><!-- N: attend_reply_check_type2 클래스 삽입시 댓글 색상 반전 -->
+                    <div class="attend_states">
+                        <p>{=gd_get_login_name()}{=__('회원님께서는 총')} {?attendData['conditionFl'] == 'sum'}
+                            <strong>{=gd_isset(checkData['attendanceCount'],0)}/{=gd_isset(attendData['conditionCount'],0)}</strong>
+                            {:attendData['conditionFl'] == 'continue'}
+                            <strong>{=gd_isset(attendData['conditionCount'],0)} {=__('회 중 연속')} {=gd_isset(checkData['attendanceCount'],0)}</strong>
+                            {:}
+                            <strong>{=gd_isset(checkData['attendanceCount'],0)}</strong>
+                            {/} {=__('회 출석하셨습니다.')}
+                        </p>
+                        <span>{attendData['startDt']}~{attendData['endDt']}</span>
+                    </div>
+                    <div class="attend_reply_sec">
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <colgroup>
+                                <col width="7%">
+                                <col width="13%">
+                                <col>
+                                <col width="17%">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>{=__('번호')}</th>
+                                <th>{=__('참여하신 분')}</th>
+                                <th>{=__('내용')}</th>
+                                <th>{=__('등록일')}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--{@commentLists}-->
+                            <tr>
+                                <td>{.index_ + 1}</td>
+                                <td>{.memNm}</td>
+                                <td>{.reply}</td>
+                                <td>{.regDt}</td>
+                            </tr>
+                            <!--{:}-->
+                            <tr>
+                                <td colspan="4">{=__('출석체크 내역이 없습니다.')}</td>
+                            </tr>
+                            <!--{/}-->
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- //attend_reply_sec -->
+                </div>
+                <!-- //attend_reply_check -->
+                <div class="pagination">
+                    {page->getPage()}
+                </div>
+                <!-- //pagination -->
+                <div class="attend_reply_comment">
+                    <textarea id="reply" name="reply"></textarea>
+                    <button type="button" id="attendanceCheck" class="btn_attend_check">출석체크</button>
+                </div>
+                <!-- //attend_reply_comment -->
+            </div>
+            <!-- //attend_reply_box -->
+        </form>
+    </div>
+    <!-- //attend_reply_wrap -->
+    <div class="addition_zone">
+        <p>{=gd_htmlspecialchars_stripslashes(attendData['designFooter'])}</p>
+    </div>
+</div>
+<!-- //content_box -->
+<script type="text/javascript">
+    (function ($, window, document, undefined) {
+        var $btnCheck;
+
+        var attendance_check = function () {
+            var params = $('#formReply').serializeArray();
+            $.post('./attendance_ps.php', params, function (data) {
+                console.log(data);
+                if (data.code === undefined && data.message === undefined) {
+                    alert(data);
+                    window.location.href = window.location.pathname + '?sno=' + $('#sno').val();
+                } else {
+                    alert(data.message);
+                    window.location.href = data.url;
+                }
+            });
+        };
+
+        var init = function () {
+            $btnCheck = $('#attendanceCheck');
+
+            $btnCheck.click(attendance_check);
+        };
+        $(document).ready(function () {
+            init();
+        });
+    })($, window, document);
+</script>
+{ # footer }

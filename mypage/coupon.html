@@ -1,0 +1,368 @@
+{*** 마이페이지 > 쿠폰 | mypage/coupon.php ***}
+{ # header }
+<div class="content">
+    <div class="mypage_cont">
+
+        <!-- 마이페이지 회원 요약정보 -->
+        {=includeWidget('mypage/_member_summary.html')}
+        <!-- 마이페이지 회원 요약정보 -->
+
+        <div class="mypage_lately_info">
+            <div class="mypage_zone_tit">
+                <h3>{=__('쿠폰')}</h3>
+                <!--{? gd_use_coupon_offline()}-->
+                <a href="#couponregLayer" class="btn_coupon_register btn_open_layer"><em>{=__('쿠폰등록')}</em></a>
+                <!--{/}-->
+            </div>
+
+            <div class="date_check_box">
+                <form name="frmCouponSearch" method="get">
+                    <input type="hidden" name="memberCouponState" value="">
+                    <input type="hidden" name="dateOpt" value="">
+                    <h3> {=__('조회기간')} </h3>
+                    <div class="date_check_list" data-target-name="wDate[]">
+                        <button type="button" data-value="0">{=__('오늘')}</button>
+                        <button type="button" data-value="7">7{=__('일')}</button>
+                        <button type="button" data-value="15">15{=__('일')}</button>
+                        <button type="button" data-value="30">1{=__('개월')}</button>
+                        <button type="button" data-value="90">3{=__('개월')}</button>
+                        <button type="button" data-value="365">1{=__('년')}</button>
+                    </div>
+                    <!-- //date_check_list -->
+                    <div class="date_check_calendar">
+                        <input type="text" id="picker2" name="wDate[]" class="anniversary js_datepicker" value="{search['wDate'][0]}"> ~ <input type="text" name="wDate[]" class="anniversary js_datepicker" value="{search['wDate'][1]}">
+                    </div>
+                    <!-- //date_check_calendar -->
+
+                    <button type="submit" class="btn_date_check"><em>{=__('조회')}</em></button>
+                </form>
+
+            </div>
+            <!-- //date_check_box -->
+
+            <div class="mypage_lately_info_cont">
+
+                <div class="mypage_breakdown_tab">
+                    <ul>
+                        <li <!--{ ? selected['memberCouponState'].y }-->class="on"<!--{ / }-->><a href="#" onclick="gd_coupon_state('y')"><span>{=__('사용가능')}</span></a></li>
+                        <li <!--{ ? selected['memberCouponState'].n }-->class="on"<!--{ / }-->><a href="#" onclick="gd_coupon_state('n')"><span>{=__('사용불가')}</span></a></li>
+                    </ul>
+                </div>
+                <!-- //mypage_breakdown_tab -->
+
+                <div class="mypage_table_type">
+                    <span class="pick_list_day"><strong>{ search['wDate'][0] } ~ { search['wDate'][1] }</strong> {=__('까지의 쿠폰내역')}</span>
+                    <table>
+                        <colgroup>
+                            <col style="width:18%">	<!-- 쿠폰명 -->
+                            <col style="width:17%"> <!-- 혜택 -->
+                            <col style="width:15%"> <!-- 사용조건 -->
+                            <col style="width:15%"> <!-- 제한조건 -->
+                            <col style="width:20%"> <!-- 유효기간 -->
+                            <col style="width:15%"> <!-- 발급일 -->
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>{=__('쿠폰명')}</th>
+                            <th>{=__('혜택')}</th>
+                            <th>{=__('사용조건')}</th>
+                            <th>{=__('제한조건')}</th>
+                            <th>{=__('유효기간')}</th>
+                            <th>{=__('발급일')}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--{ @ data }-->
+                        <tr>
+                            <td>
+                                <div class="mypage_coupon_name">
+                                    <img src="{=convertArrData[data.index_].couponImage}">
+                                    <strong>{=.couponNm}</strong>
+                                </div>
+                            </td>
+                            <td><strong>{=convertArrData[data.index_].couponBenefit} {=convertArrData[data.index_].couponKindType}</strong></td>
+                            <td>
+                                <div class="btn_layer">
+                                    <span class="btn_gray_list"><a href="#lyUseCase{=.memberCouponNo}" class="btn_gray_small"><em>{=__('자세히보기')}</em></a></span>
+
+                                    <!-- N : 사용가능조건 레이어 시작 -->
+                                    <div id="lyUseCase{=.memberCouponNo}" class="layer_area" style="display:none;">
+                                        <div class="ly_wrap use_case_layer">
+                                            <div class="ly_tit">
+                                                <strong>{=__('사용가능조건 보기')}</strong>
+                                            </div>
+                                            <div class="ly_cont">
+                                                <div class="use_case_list">
+                                                    <dl>
+                                                        <dt>[{=__('사용범위')}]</dt>
+                                                        <dd>{=convertArrData[data.index_].couponDeviceType}</dd>
+                                                    </dl>
+                                                    <!--{ ? .couponMaxBenefitType == 'y' }-->
+                                                    <dl>
+                                                        <dt>[{=__('최대 할인/적립 금액')}]</dt>
+                                                        <dd>{=gd_currency_symbol()}{=gd_money_format(.couponMaxBenefit)}{=gd_currency_string()} {=__('할인/적립')}</dd>
+                                                    </dl>
+                                                    <!--{ / }-->
+                                                    <!--{ ? .couponApplyMemberGroup }-->
+                                                    <dl>
+                                                        <dt>[{=__('사용 가능 회원등급')}]</dt>
+                                                        <!--{ @ .couponApplyMemberGroup }-->
+                                                        <dd>{=..name}</dd>
+                                                        <!--{ / }-->
+                                                    </dl>
+                                                    <!--{ / }-->
+                                                    <!--{ ? .couponApplyProductType == 'provider' }-->
+                                                    <dl>
+                                                        <dt>[{=__('사용 가능 공급사')}]</dt>
+                                                        <!--{ @ .couponApplyProvider }-->
+                                                        <dd>{=..name}</dd>
+                                                        <!--{ / }-->
+                                                    </dl>
+                                                    <!--{ / }-->
+                                                    <!--{ ? .couponApplyProductType == 'category' }-->
+                                                    <dl>
+                                                        <dt>[{=__('사용 가능 카테고리')}]</dt>
+                                                        <!--{ @ .couponApplyCategory }-->
+                                                        <dd>{=..name}</dd>
+                                                        <!--{ / }-->
+                                                    </dl>
+                                                    <!--{ / }-->
+                                                    <!--{ ? .couponApplyProductType == 'brand' }-->
+                                                    <dl>
+                                                        <dt>[{=__('사용 가능 브랜드')}]</dt>
+                                                        <!--{ @ .couponApplyBrand }-->
+                                                        <dd>{=..name}</dd>
+                                                        <!--{ / }-->
+                                                    </dl>
+                                                    <!--{ / }-->
+                                                    <!--{ ? .couponApplyProductType == 'goods' }-->
+                                                    <dl>
+                                                        <dt>[{=__('사용 가능 상품')}]</dt>
+                                                        <!--{ @ .couponApplyGoods }-->
+                                                        <dd>{=..goodsNm}</dd>
+                                                        <!--{ / }-->
+                                                    </dl>
+                                                    <!--{ / }-->
+                                                    <!--{ ? .couponMinOrderPrice > 0 }-->
+                                                    <dl>
+                                                        <dt>[{=__('사용 가능 구매액')}]</dt>
+                                                        <dd>{=__('구매금액이 %s 이상인 경우', gd_currency_display(.couponMinOrderPrice))}</dd>
+                                                    </dl>
+                                                    <!--{ / }-->
+                                                    <dl>
+                                                        <dt>[{=__('쿠폰 중복사용 여부')}]</dt>
+                                                        <dd>{=convertArrData[data.index_].couponKindType}{=__('별')} {=convertArrData[data.index_].couponApplyDuplicateType}</dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                            <!-- //ly_cont -->
+                                            <a href="#lyUseCase{=.memberCouponNo}" class="ly_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+                                        </div>
+                                        <!-- //ly_wrap -->
+                                    </div>
+                                    <!-- N : 사용가능조건 레이어 끝 -->
+
+                                </div>
+                            </td>
+                            <td>
+                                <!--{ ? .couponExceptProviderType != 'y' && .couponExceptCategoryType != 'y' && .couponExceptBrandType != 'y' && .couponExceptGoodsType != 'y' }-->
+
+                                <!--{ : }-->
+                                <div class="btn_layer">
+                                    <span class="btn_gray_list"><a href="#lyUseCaseLimit{=.memberCouponNo}" class="btn_gray_small"><em>{=__('자세히보기')}</em></a></span>
+
+                                    <!-- N : 제한조건 레이어 시작 -->
+                                    <div id="lyUseCaseLimit{=.memberCouponNo}" class="layer_area" style="display:none;">
+                                        <div class="ly_wrap use_case_layer">
+                                            <div class="ly_tit">
+                                                <strong>{=__('제한조건 보기')}</strong>
+                                            </div>
+                                            <div class="ly_cont">
+                                                <div class="use_case_list">
+                                                    <!--{ ? .couponExceptProviderType == 'y' }-->
+                                                    <dl>
+                                                        <dt>[{=__('사용 불가 공급사')}]</dt>
+                                                        <!--{ @ .couponExceptProvider }-->
+                                                        <dd>{=..name}</dd>
+                                                        <!--{ / }-->
+                                                    </dl>
+                                                    <!--{ / }-->
+                                                    <!--{ ? .couponExceptCategoryType == 'y' }-->
+                                                    <dl>
+                                                        <dt>[{=__('사용 불가 카테고리')}]</dt>
+                                                        <!--{ @ .couponExceptCategory }-->
+                                                        <dd>{=..name}</dd>
+                                                        <!--{ / }-->
+                                                    </dl>
+                                                    <!--{ / }-->
+                                                    <!--{ ? .couponExceptBrandType == 'y' }-->
+                                                    <dl>
+                                                        <dt>[{=__('사용 불가 브랜드')}]</dt>
+                                                        <!--{ @ .couponExceptBrand }-->
+                                                        <dd>{=..name}</dd>
+                                                        <!--{ / }-->
+                                                    </dl>
+                                                    <!--{ / }-->
+                                                    <!--{ ? .couponExceptGoodsType == 'y' }-->
+                                                    <dl>
+                                                        <dt>[{=__('사용 불가 상품')}]</dt>
+                                                        <!--{ @ .couponExceptGoods }-->
+                                                        <dd>{=..goodsNm}</dd>
+                                                        <!--{ / }-->
+                                                    </dl>
+                                                    <!--{ / }-->
+                                                </div>
+                                            </div>
+                                            <!-- //ly_cont -->
+                                            <a href="#lyUseCaseLimit{=.memberCouponNo}" class="ly_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+                                        </div>
+                                        <!-- //ly_wrap -->
+                                    </div>
+                                    <!-- N : 제한조건 레이어 끝 -->
+
+                                </div>
+                                <!--{ / }-->
+                            </td>
+                            <td>
+                                <em class="coupon_date_day">
+                                    {=gd_date_format('Y-m-d H:i',.memberCouponStartDate)}
+                                    ~{=gd_date_format('Y-m-d H:i',.memberCouponEndDate)}
+                                </em>
+                                <!--{ ? .memberCouponUsable == 'YES' }-->
+                                <span class="coupon_before_use">{=__('사용가능')}</span>
+                                <!--{ : .memberCouponUsable == 'USE_CART' }-->
+                                <span class="coupon_cart_use">{=__('장바구니사용')}</span>
+                                <!--{ : .memberCouponUsable == 'USE_ORDER' }-->
+                                <span class="coupon_order_use">{=__('주문사용')}</span>
+                                <!--{ : .memberCouponUsable == 'EXPIRATION_START_PERIOD' }-->
+                                <span class="coupon_before_use">{=__('사용전')}</span>
+                                <!--{ : .memberCouponUsable == 'EXPIRATION_END_PERIOD' }-->
+                                <span class="coupon_expire_use">{=__('사용만료')}</span>
+                                <!--{ / }-->
+                            </td>
+                            <td>{=gd_date_format('Y-m-d',.regDt)}</td>
+                        </tr>
+                        <!--{ / }-->
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!-- //mypage_lately_info_cont -->
+        </div>
+        <!-- //mypage_lately_info -->
+
+        <div class="pagination">
+            {page->getPage()}
+        </div>
+        <!-- //pagination -->
+
+    </div>
+    <!-- //mypage_cont -->
+
+</div>
+<!-- //content -->
+
+<!-- 쿠폰등록 레이어 -->
+<!--{? gd_use_coupon_offline()}-->
+<div id="couponregLayer" class="layer_wrap coupon_register_layer dn">
+    <div class="layer_wrap_cont">
+        <form name="frmCouponOffline" id="frmCouponOffline" method="post" action="coupon_ps.php">
+            <input type="hidden" name="mode" value="couponOfflineRegist">
+            <div class="ly_tit">
+                <h4>{=__('쿠폰등록')}</h4>
+            </div>
+            <div class="ly_cont">
+                <div class="coupon_register_cont">
+                    <p><strong>{=__('발급 받으신 쿠폰 인증 번호를 아래에 입력해주세요.')}</strong> (8{=__('자리')} ~ {=__('최대')} 12{=__('자리')})</p>
+                    <span><input type="text" name="couponOfflineNumber" maxlength="12" /></span>
+                </div>
+                <!-- //coupon_register_cont -->
+                <div class="btn_center_box">
+                    <button type="button" class="btn_ly_cancel layer_close"><strong>{=__('취소')}</strong></button>
+                    <button class="btn_ly_save"><strong>{=__('등록')}</strong></button>
+                </div>
+            </div>
+            <!-- //ly_cont -->
+            <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+        </form>
+    </div>
+    <!-- //layer_wrap_cont -->
+</div>
+<!-- //layer_wrap -->
+<!--{/}-->
+<!-- //쿠폰등록 레이어 -->
+
+<script type="text/javascript">
+    <!--
+    $(document).ready(function () {
+        $("#frmCouponOffline").validate({
+            submitHandler: function (form) {
+                form.target = 'ifrmProcess';
+                form.submit();
+            },
+            rules: {
+                couponOfflineNumber: {
+                    required: true,
+                    minlength: 8,
+                    maxlength: 12,
+                },
+            },
+            messages: {
+                couponOfflineNumber: {
+                    required: "{=__('쿠폰 인증 번호를 입력하세요.')}",
+                    minlength: "{=__('쿠폰 인증 번호의 길이는 최소 8자 입니다.')}",
+                    maxlength: "{=__('쿠폰 인증 번호의 길이는 최대 12자 입니다.')}",
+                },
+            }
+        });
+
+        // 인풋박스 선택 이벤트
+        if ($('.js_datepicker').length) {
+            $('.js_datepicker').datetimepicker({
+                locale: '{=gGlobal.locale}',
+                format: 'YYYY-MM-DD',
+                dayViewHeaderFormat: 'YYYY MM',
+                viewMode: 'days',
+                ignoreReadonly: true,
+                debug: false,
+                keepOpen: false
+            });
+        }
+
+        // 기간버튼 선택 이벤트
+        if ($('.date_check_list').length) {
+            $('.date_check_list button').click(function (e) {
+                $startDate = $endDate = '';
+                $period = $(this).data('value');
+                $elements = $('input[name="' + $(this).closest('.date_check_list').data('target-name') + '"]');
+                $format = $($elements[0]).data('DateTimePicker').format();
+                if ($period >= 0) {
+                    $startDate = moment().hours(0).minutes(0).seconds(0).subtract($period, 'days').format($format);
+                    $endDate = moment().hours(0).minutes(0).seconds(0).format($format);
+                }
+                $($elements[0]).val($startDate);
+                $($elements[1]).val($endDate);
+                $('.date_check_list button').removeClass('on');
+                $(this).addClass('on');
+            });
+
+            // 선택된 버튼에 따른 값 초기화
+            $elements = $('input[name*=\'' + $('.date_check_list').data('target-name') + '\']');
+            if ($elements.length && $elements.val() != '') {
+                $interval = moment($($elements[1]).val()).diff(moment($($elements[0]).val()), 'days');
+                $('.date_check_list').find('button[data-value="' + $interval + '"]').trigger('click');
+            } else {
+                $('.date_check_list').find('button[data-value="-1"]').trigger('click');
+            }
+        }
+    });
+
+    function gd_coupon_state(flag){
+        $('input:hidden[name="memberCouponState"]').val(flag);
+        document.frmCouponSearch.submit();
+    }
+    //-->
+</script>
+{ # footer }

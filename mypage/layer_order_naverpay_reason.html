@@ -1,0 +1,47 @@
+{*** 발송지연 사유 레이어 | mypage/layer_order_naverpay_reason.php ***}
+
+<div class="layer_wrap_cont">
+    <div class="ly_tit">
+        <h4>
+            {=__('발송지연정보')}
+        </h4>
+    </div>
+    <div class="ly_cont">
+        <div class="scroll_box">
+            <div class="left_table_type">
+                <table>
+                    <colgroup>
+                        <col style="width:20%;">
+                        <col style="width:80%;">
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th scope="row">{=__('발송지연사유')}</th>
+                        <td>{data.reason}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{=__('발송기한')}</th>
+                        <td>{=data.date}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{=__('발송지연<br>상세 사유')}</th>
+                        <td>
+                            <div class="reason_layer_meno">
+                                {=nl2br(data.contents)}
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <!-- //scroll_box -->
+        <div class="btn_center_box">
+            <button type="button" class="btn_ly_ok layer_close"><strong>{=__('확인')}</strong></button>
+        </div>
+    </div>
+    <!-- //ly_cont -->
+    <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+</div>
+<!-- //layer_wrap_cont -->

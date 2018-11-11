@@ -1,0 +1,170 @@
+{*** 상품검색화면 | goods/goods_search.php ***}
+{ # header }
+<div class="content">
+    <div class="goods_search_cont">
+        <strong class="search_text_result">
+            <span>&quot;{=gd_htmlspecialchars_slashes(goodsData.listSearch['keyword'])}&quot;</span> {=__('검색결과')} {=number_format(gd_isset(page->recode['total']))}{=__('개')}
+            <!--{ ? paycosearchUse }-->
+            <span class="paycosearch-banner">
+            <img src="../img/etc/payco_search.png" alt="Powered by PAYCO Search" /></span>
+            <!--{ / }-->
+        </strong>
+        <div class="goods_search_box">
+            <form name="frmSearch" id="frmSearch" method="get">
+                <input type=hidden name=reSearchKeyword[] value="{=goodsData.listSearch['keyword']}">
+                <input type=hidden name=reSearchKey[] value="{=goodsData.listSearch['key']}">
+                <!--{ @ goodsData.listSearch['reSearchKeyword'] }-->
+                <input type=hidden name=reSearchKeyword[] value="{=.value_}">
+                <input type=hidden name=reSearchKey[] value="{=goodsData.listSearch['reSearchKey'][.key_]}">
+                <!--{ / }-->
+                <input type=hidden name=sort value="{sort}">
+                <input type=hidden name=pageNum value="{pageNum}">
+
+                <!--{ ?  in_array('keyword',goodsConfig.searchType) }-->
+                <div class="search_again_box">
+                    <div class="form_element">
+                        <input type="checkbox" id="rescan" class="checkbox" name="reSearch" value="y" <!--{ ?  goodsData.listSearch['reSearch'] =='y' }--> checked='checked' <!--{ / }-->>
+                        <label for="rescan" class="check_s <!--{ ?  goodsData.listSearch['reSearch'] =='y' }-->on<!--{ / }-->">{=__('결과 내 재검색')}</label>
+                    </div>
+                    <!--{ ? paycosearchUse == false }-->
+                    <select name="key" class="chosen-select">
+                        <!--{ @ goodsData.listSearch['combineSearch'] }-->
+                        <option value="{=.key_}"<!--{ ? .key_ == goodsData.listSearch['key'] }-->selected="selected"
+                        <!--{ / }-->>{=.value_}
+                        </option>
+                        <!--{ / }-->
+                    </select>
+                    <!--{ / }-->
+                    <div class="keyword-div">
+                        <input type="text" name="keyword" class="keyword_input" autocomplete="off">
+                        {=includeWidget('proc/_autocomplete_search.html', 'mode', 'detail')}
+                    </div>
+                    <button type="submit" class="btn_goods_search"><em>{=__('검색')}</em></button>
+                </div>
+                <!--{ : }-->
+                <input type="hidden" name="key" value="all" />
+                <input type="hidden" name="keyword" value="{=goodsData.listSearch['keyword']}" />
+                <!--{ / }-->
+                <!-- //search_again_box -->
+
+                <!--{ ? hitKeywordConfig.keyword }-->
+                <div class="search_hot_list">
+                    <strong class="search_hot_tit">{=__('인기검색어')}</strong>
+                    <ul>
+                        <!--{ @ hitKeywordConfig.keyword }-->
+                        <li><a href="./goods_search.php?keyword={=urlencode(.value_)}"><span>{=.value_}</span></a></li>
+                        <!--{ / }-->
+                    </ul>
+                </div>
+                <!--{ / }-->
+                <!-- //search_hot_list -->
+                <div id="detailSearch" class="dn"></div>
+            </form>
+        </div>
+        <!-- //goods_search_box -->
+
+        <div class="goods_pick_list">
+            <div class="pick_list_box">
+                <ul class="pick_list">
+                    <li>
+                        <input type="radio" id="sort1" class="radio" name="sort" value="">
+                        <label for="sort1">{=__('추천순')}</label>
+                    </li>
+                    <li>
+                        <input type="radio" id="sort6" class="radio" name="sort" value="g.regDt desc">
+                        <label for="sort6">{=__('등록일순')}</label>
+                    </li>
+                </ul>
+                <div class="choice_num_view">
+                    <select class="chosen-select" name="pageNum">
+                        !--{ @ goodsData.multiple }-->
+                        <option value="{=.value_}"  <!--{ ? pageNum == .value_ }-->selected='selected'<!--{ / }-->>{=.value_}{=__('개씩보기')}</option>
+                        <!--{ / }-->
+                    </select>
+                </div>
+                <!-- //choice_num_view -->
+            </div>
+            <!-- //pick_list_box -->
+        </div>
+        <!-- //goods_pick_list -->
+
+        <div class="goods_list">
+            <!-- //goods_list_tit -->
+            <div class="goods_list_cont">
+                { # goodsTemplate }
+            </div>
+            <!-- //goods_list_cont -->
+        </div>
+        <!-- //goods_list -->
+
+        <div class="pagination">
+            {page->getPage()}
+        </div>
+        <!-- //pagination -->
+    </div>
+    <!-- //goods_search_cont -->
+</div>
+<!-- //content -->
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('select[name=pageNum]').change(function() {
+            $('form[name=frmSearch] input[name="pageNum"]').val($(this).val());
+            $('form[name=frmSearch]').submit();
+        });
+
+        $('input[name=sort]').click(function() {
+            $('form[name=frmSearch] input[name="sort"]').val($(this).val());
+            $('form[name=frmSearch]').submit();
+        });
+
+        $('input[name="sort"][value="{sort}"]').prop("checked","checked")
+        $('input[name="sort"][value="{sort}"]').next().addClass('on');
+
+
+
+        $('input[name=reSearch]').click(function() {
+            if($(this).is(":checked") == true)
+            {
+                $('form[name=frmSearch] input[name="keyword"]').val('');
+            }
+
+        });
+
+        $('#btnSearchSubmit').click(function() {
+            $("#frmSearch").submit();
+        });
+
+
+        $("#frmSearch").validate({
+            submitHandler: function (form) {
+
+                var $orginal = $('#frmSearchDetail');
+
+                if($orginal.length)
+                {
+                    var $cloned = $orginal.clone();
+                    var $originalSelects = $orginal.find('select');
+                    $cloned.find('select').each(function(index, item) {
+                        $(item).val( $originalSelects.eq(index).val() );
+
+                    });
+
+                    var $originalTextareas = $orginal.find('textarea');
+                    $cloned.find('textarea').each(function(index, item) {
+                        $(item).val($originalTextareas.eq(index).val());
+                    });
+
+
+                    $cloned.appendTo('#detailSearch');
+                }
+
+                form.submit();
+            }
+        });
+
+    });
+</script>
+{ # footer }

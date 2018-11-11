@@ -1,0 +1,30 @@
+{*** 기본 윈도우 팝업폼 | main/html.php?htmid=popup/standard.htm ***}
+{ # share_header }
+<style type="text/css">
+    #{=popupCode}_form {cursor: auto; background: {=data.popupBgColor}}
+    <!--{ ? todayUnSee.todayUnSeeFl == 'y' }-->
+    #{=popupCode}_form .content {width:100%; min-height:{=(popupHeight - 25)}px;}
+    <!--{ : }-->
+    #{=popupCode}_form .content {width:100%; min-height:{=popupHeight}px;}
+    <!--{ / }-->
+    #{=popupCode}_form .today {width:100%; background-color:{=todayUnSee.todayUnSeeBgColor}; color:{=todayUnSee.todayUnSeeFontColor}; text-align:{=todayUnSee.todayUnSeeAlign}; height:25px; vertical-align:middle;}
+    <!--{ ? data.contentImgFl == 'y'}-->
+    #{=popupCode}_form .content img {max-width:{=data.popupSizeW}{=data.sizeTypeW};}
+    <!--{ / }-->
+</style>
+
+<div id="{=popupCode}_form">
+	<!-- 팝업 내용 : start -->
+	<div class="content">
+		{=viewPopupContent}
+	</div>
+	<!-- 팝업 내용 : end -->
+	<!--{ ? todayUnSee.todayUnSeeFl == 'y' }-->
+	<!-- 오늘 하루 보이지 않음 : start -->
+	<div class="today">
+		<label for="todayUnSee_{=popupCode}">{=__('오늘 하루 보이지 않음')}</label>
+        <input type="checkbox" id="todayUnSee_{=popupCode}" onClick="gd_popup_cookie('{=popupCode}', this);" />
+	</div>
+	<!-- 오늘 하루 보이지 않음 : end -->
+	<!--{ / }-->
+</div>

@@ -1,0 +1,143 @@
+{*** 쿠폰 다운받기 레이어 | goods/layer_coupon_down.php ***}
+<div class="layer_wrap_cont">
+    <div class="ly_tit">
+        <h4>
+            {=__('쿠폰 다운받기')}
+            <!--{ ? gd_is_login() }-->
+            <span>{=__('다운로드 가능한 총')} <strong class="goods-coupon-cnt">{goodsCouponCnt}{=__('개%s의 쿠폰이 있습니다.', '</strong>')}</span>
+            <!--{ / }-->
+        </h4>
+    </div>
+    <div class="ly_cont">
+        <div class="scroll_box">
+            <!--{ ? gd_is_login() }-->
+            <div class="top_table_type">
+                <table>
+                    <colgroup>
+                        <col style="width:150px" />
+                        <col style="width:300px" />
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>{=__('쿠폰')}</th>
+                            <th>{=__('혜택')}</th>
+                            <th>{=__('다운받기')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--{ @ goodsCouponArrData }-->
+                        <tr>
+                            <td>
+                                <strong>{.couponNm}</strong>
+                            </td>
+                            <td class="td_left">
+                                <strong class="coupon_price"><b>{convertCouponArrData[.key_].couponBenefit}</b> { convertCouponArrData[.key_].couponKindType }</strong>
+                                <span class="text_info">
+                                    <!--{ ? convertCouponArrData[.key_].couponMaxBenefit }-->
+                                    - {convertCouponArrData[.key_].couponMaxBenefit}<br />
+                                    <!--{ / }-->
+                                    <!--{ ? convertCouponArrData[.key_].couponMinOrderPrice }-->
+                                    - {convertCouponArrData[.key_].couponMinOrderPrice}<br />
+                                    <!--{ / }-->
+                                    - {convertCouponArrData[.key_].couponApplyDuplicateType}
+                                </span>
+                            </td>
+                            <td>
+                                <!--{ ? .chkMemberCoupon == 'NO_MEMBER_GROUP' }-->
+                                <strong class="coupon_completed">{=__('해당 회원등급이 아닙니다.')}</strong>
+                                <!--{ : .chkMemberCoupon == 'DUPLICATE_COUPON' }-->
+                                <strong class="coupon_completed">{=__('발급완료')}</strong>
+                                <!--{ : .chkMemberCoupon == 'YES' }-->
+                                <div class="btn_down_box">
+                                    <span class="btn_gray_list btn_coupon_down" data-coupon-no="{.couponNo}"><a href="#" class="btn_gray_small"><em class="icon_download">{=__('쿠폰 다운받기')}</em></a></span>
+                                    <em class="text_info">({convertCouponArrData[.key_].useEndDate})</em>
+                                </div>
+                                <!--{ / }-->
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                    </tbody>
+                </table>
+            </div>
+            <!--{ : }-->
+            <div class="coupon_down_txt"><p>{=__('로그인하셔야 본 서비스를 이용하실 수 있습니다.')}</p></div>
+            <!--{ / }-->
+        </div>
+        <!-- //scroll_box -->
+        <div class="btn_center_box">
+            <!--{ ? gd_is_login() }-->
+            <button class="btn_ly_cancel layer_close"><strong>{=__('취소')}</strong></button>
+            <button id="btnAllCouponDown" class="btn_ly_download"><strong>{=__('쿠폰 전체 다운받기')}</strong></button>
+            <!--{ : }-->
+            <a href="../member/join_method.php" class="btn_ly_join"><strong>회원가입</strong></a>
+            <a href="../member/login.php" class="btn_ly_login"><strong>로그인</strong></a>
+            <!--{ / }-->
+        </div>
+    </div>
+    <!-- //ly_cont -->
+    <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+</div>
+<!-- //layer_wrap_cont -->
+
+<!--{ ? gd_is_login() }-->
+<script type="text/javascript">
+    <!--
+    $(document).ready(function () {
+        $('.btn_coupon_down').click(function (e) {
+            var displayBtn = $(this).parents('td');
+            var couponNo = $(this).data('coupon-no');
+            $.ajax({
+                method: "POST",
+                cache: false,
+                url: "../goods/layer_coupon_ps.php",
+                data: "mode=coupon_down&couponNo=" + couponNo + "&goodsNo=" + {goodsNo},
+                dataType: 'json',
+                success: function (data) {
+                    alert(data['message']);
+                    var textMsg = '<strong class="coupon_completed">{=__("발급완료")}</strong>';
+                    displayBtn.html(textMsg);
+                    $('.goods-coupon-cnt').html(__('%1$i개', data['goodsCouponCnt']));
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        });
+
+        $('#btnAllCouponDown').click(function (e) {
+            var couponArrData = [];
+            $('.btn_coupon_down').each(function (index, item){
+                couponArrData.push($(item).data('coupon-no'));
+            });
+            var countCoupon = couponArrData.length;
+            if(countCoupon > 0){
+                var params = {
+                    couponNo: couponArrData,
+                    mode: 'coupon_down_all',
+                    goodsNo: '{goodsNo}'
+                };
+                $.ajax({
+                    method: "POST",
+                    cache: false,
+                    url: "../goods/layer_coupon_ps.php",
+                    data: params,
+                    dataType: 'json',
+                    success: function (data) {
+                        alert(data['message']);
+                        $('.goods-coupon-cnt').html(__('%1$i개', data['goodsCouponCnt']));
+                        gd_close_layer();
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                });
+            } else {
+                alert("{=__('발급 가능 쿠폰이 없습니다.')}");
+                return false;
+            }
+        });
+    });
+    //-->
+</script>
+<!--{ / }-->

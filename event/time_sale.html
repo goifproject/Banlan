@@ -1,0 +1,211 @@
+{*** 타임세일 리스트 | goods/goods_list.php ***}
+{ # header }
+
+
+<div class="content">
+
+    <div class="location_wrap">
+        <div class="location_cont">
+            <em><a href="#" class="local_home">HOME</a> &gt;</em>
+            <div class="location_select">
+                <div class="location_tit"><a href="#"><span>{timeSaleInfo.timeSaleTitle}</span></a></div>
+                <ul style="display:none;">
+                    <!--{ @ timeSaleList }-->
+                    <li><a href="./time_sale.php?sno={.sno}"><span>{.timeSaleTitle}</span></a></li>
+                    <!--{ / }-->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- //location_wrap -->
+
+    <div class="time_sale_cont">
+
+        <div class="time_sale_tit">
+            <h2>{timeSaleInfo.timeSaleTitle}</h2>
+            <strong>{=__('기간')} : {timeSaleInfo.startDt} ~ {timeSaleInfo.endDt}</strong>
+        </div>
+        <div class="time_sale_box">
+            <div class="time_sale_info">
+                {=timeSaleInfo.pcDescription}
+            </div>
+            <!-- //time_sale_info -->
+            <div id="displayTimeSale" class="sale_clock">
+                <div class="clock_cont">
+                    <div class="clock_box">
+                        <strong class="clock_tit">{=__('남은시간')}</strong>
+                        <em id="timeDay" class="day"></em>
+                        <span class="day">{=__('일')}</span>
+                        <em id="timeHour" class="hour">
+                            <strong>{=substr(limitDate.hour,0,1)}</strong>
+                            <strong>{=substr(limitDate.hour,0,1)}</strong>
+                        </em>
+                        <span>:</span>
+                        <em id="timeMin" class="min">
+                            <strong>{=substr(limitDate.min,0,1)}</strong>
+                            <strong>{=substr(limitDate.min,0,1)}</strong>
+                        </em>
+                        <span>:</span>
+                        <em id="timeSec" class="sec">
+                            <strong>{=substr(limitDate.sec,0,1)}</strong>
+                            <strong>{=substr(limitDate.sec,0,1)}</strong>
+                        </em>
+                    </div>
+                </div>
+                <!-- //clock_cont -->
+            </div>
+            <!-- //sale_clock -->
+        </div>
+        <!-- //time_sale_box -->
+
+        <!--{ ? themeInfo.cateHtml3 }-->
+        <div class="addition_zone">
+            {=stripslashes(themeInfo.cateHtml3)}
+        </div>
+        <!--{ / }-->
+
+        <div class="goods_pick_list">
+            <span class="pick_list_num">{=__('상품')} <strong>{=number_format(goodsListCnt)}</strong> {=__('개')}</span>
+            <form name="frmList" action="">
+                <input type="hidden" name="sno" value="{timeSaleSno}"/>
+                <div class="pick_list_box">
+                    <ul class="pick_list">
+                        <li>
+                            <input type="radio" id="sort1" class="radio" name="sort" value="">
+                            <label for="sort1">{=__('추천순')}</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="sort2" class="radio" name="sort" value="orderCnt desc,g.regDt desc">
+                            <label for="sort2">{=__('판매인기순')}</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="sort3" class="radio" name="sort" value="goodsPrice asc,g.regDt desc">
+                            <label for="sort3">{=__('낮은가격순')}</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="sort4" class="radio" name="sort" value="goodsPrice desc,g.regDt desc">
+                            <label for="sort4">{=__('높은가격순')}</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="sort5" class="radio" name="sort" value="reviewCnt desc,g.regDt desc">
+                            <label for="sort5">{=__('상품평순')}</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="sort6" class="radio" name="sort" value="g.regDt desc">
+                            <label for="sort6">{=__('등록일순')}</label>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+            <!-- //pick_list_box -->
+        </div>
+        <!-- //goods_pick_list -->
+
+        <div class="goods_list">
+            <div class="goods_list_cont">
+                <!-- 상품 리스트 -->
+                { # goodsTemplate }
+                <!-- //상품 리스트 -->
+            </div>
+        </div>
+        <!--{ ? totalPage > 1 && timeSaleInfo.moreBottomFl == 'y' && themeInfo.displayType != '04' && themeInfo.displayType != '05' && themeInfo.displayType != '06' && themeInfo.displayType != '07' }-->
+        <div class="btn_goods_down_more">
+            <input type="hidden" name="totalPage" value="{totalPage}" >
+            <button class="btn_goods_view_down_more" data-page="2">{=__('더보기')}</button>
+        </div>
+        <!--{ / }-->
+
+    </div>
+    <!-- //time_sale_cont -->
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+            $('.btn_goods_view_down_more').on('click', function(e){
+                gd_get_list($(this).data('page'));
+            });
+
+			$('form[name=frmList] select[name=pageNum]').change(function() {
+				$('form[name=frmList]').get(0).submit();
+			});
+
+			$('form[name=frmList] input[name=sort]').click(function() {
+				$('form[name=frmList]').get(0).submit();
+			});
+
+			$(':radio[name="sort"][value="{sort}"]').prop("checked","checked")
+			$(':radio[name="sort"][value="{sort}"]').next().addClass('on');
+
+			$("#displayTimeSale").hide();
+			gd_dailyMissionTimer('{=timeSaleDuration}');
+
+		});
+
+        function gd_get_list(page) {
+            var totalPage = $('input[name="totalPage"]').val();
+
+            $.get('../event/time_sale.php', {'mode' : 'get_more', 'more' : page, 'sno' : '{timeSaleInfo.sno}', 'sort' : '{sort}'}, function (data) {
+                $(".goods_list_cont").html(data);
+                if (parseInt(page) + 1 > totalPage) {
+                    $('.btn_goods_view_down_more').hide();
+                } else {
+                    $('.btn_goods_view_down_more').data('page', parseInt(page) + 1);
+                }
+            });
+        }
+
+
+		/**
+		 * 시간간격 카운트
+		 * @returns {String}
+		 */
+		function gd_dailyMissionTimer(duration) {
+
+			var timer = duration;
+			var days,hours, minutes, seconds;
+
+			var interval = setInterval(function(){
+				days	= parseInt(timer / 86400, 10);
+				hours	= parseInt(((timer % 86400 ) / 3600), 10);
+				minutes = parseInt(((timer % 3600 ) / 60), 10);
+				seconds = parseInt(timer % 60, 10);
+
+				if(days <= 0) {
+					$('.day').hide();
+				} else {
+					$('#timeDay').html("");
+
+					days 	= days < 10 ? "0" + days : days;
+					for(i = 0; i < days.toString().length; i++) {
+						$('#timeDay').append("<strong>"+days.toString().substr(i,1)+"</strong>");
+					}
+				}
+
+				hours 	= hours < 10 ? "0" + hours : hours;
+				minutes = minutes < 10 ? "0" + minutes : minutes;
+				seconds = seconds < 10 ? "0" + seconds : seconds;
+
+				$('#timeHour strong').eq(0).text(hours.toString().substr(0,1));
+				$('#timeHour strong').eq(1).text(hours.toString().substr(1,1));
+
+				$('#timeMin strong').eq(0).text(minutes.toString().substr(0,1));
+				$('#timeMin strong').eq(1).text(minutes.toString().substr(1,1));
+
+				$('#timeSec strong').eq(0).text(seconds.toString().substr(0,1));
+				$('#timeSec strong').eq(1).text(seconds.toString().substr(1,1));
+
+				$("#displayTimeSale").show();
+
+				if (--timer < 0) {
+					timer = 0;
+					clearInterval(interval);
+				}
+			}, 1000);
+		}
+
+	</script>
+
+</div>
+<!-- //content -->
+
+
+{ # footer }

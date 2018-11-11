@@ -1,0 +1,67 @@
+{*** 주문 선택 레이어 | share/layer_order_select.php ***}
+<div class="layer_wrap add_goods_layer" style="height: 745px">
+    <div class="layer_wrap_cont">
+        <div class="ly_tit">
+            <h4>{=__('리뷰 주문내역')}</h4>
+        </div>
+        <div class="ly_cont">
+            <div class="scroll_box">
+            </div>
+            <!-- //scroll_box -->
+            <div class="btn_center_box">
+                <button type="button" class="btn_ly_cancel layer_close"><strong>{=__('취소')}</strong></button>
+                <button type="button" class="btn_ly_ok js_select_confirm"><strong>{=__('확인')}</strong></button>
+            </div>
+        </div>
+        <!-- //ly_cont -->
+        <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+    </div>
+    <!-- //layer_wrap_cont -->
+</div>
+<!-- //layer_wrap -->
+
+<script>
+
+    $(document).ready(function () {
+        var goodsNo = '{=req.goodsNo}';
+        var mode = '{=req.mode}';
+        params = {goodsNo: goodsNo , mode : mode};
+        $.ajax({
+            method: "get",
+            url: "../share/layer_review_order_search.php",
+            data: params,
+            dataType: 'text'
+        }).success(function (data) {
+            $('.scroll_box').html(data);
+        }).error(function (e) {
+            console.log(e.responseText);
+        });
+
+        /**
+         * 주문선택
+         */
+        $('.js_select_confirm').bind('click', function () {
+            if ($('#frmSelect input[type=radio][name="orderGoodsNo[]"]:checked').length < 1) {
+                alert("{=__('주문을 선택해주세요.')}");
+                return;
+            }
+            var checkedOrderGoodsNo = $('#frmSelect input[name="orderGoodsNo[]"]:checked').val();
+            gd_set_add_order(checkedOrderGoodsNo);
+            gd_close_layer();
+        })
+    })
+
+    function goAjaxPaging(page) {
+        $.ajax({
+            method: "get",
+            url: "../share/layer_review_order_search.php",
+            data: page,
+            dataType: 'text'
+        }).success(function (data) {
+            $('.scroll_box').html(data);
+            console.log(data);
+        }).error(function (e) {
+            alert(e.responseText);
+        });
+    }
+</script>

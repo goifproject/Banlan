@@ -1,0 +1,132 @@
+{*** [위젯] 움직이는 배너 | proc/_slider_banner.php ***}
+
+<!--{ ? bannerUseFl === 'y' }-->
+<style type="text/css">
+    <!--{ ? bannerSize['sizeType'] == '%' }-->
+     .slider-wrap .slick-slide {
+        overflow:hidden;
+    }
+    <!--{ / }-->
+
+    .slider-banner-{=bannerCode}{
+    width:{=bannerSize['width']}{=bannerSize['sizeType']};
+    <!--{ ? bannerSize['sizeType'] != '%' }-->
+    height:{=bannerSize['height']}px;
+    <!--{ / }-->
+    }
+    .slider-banner-{=bannerCode} img{
+        <!--{ ? bannerSize['sizeType'] != '%' }-->
+        width:{=bannerSize['width']}{=bannerSize['sizeType']};
+        height:{=bannerSize['height']}px;
+        <!--{ : }-->
+		max-width: 100{=bannerSize['sizeType']};
+        <!--{ / }-->
+    }
+
+	<!--{ ? bannerSize['sizeType'] == '%' }-->
+	.body-main #wrap .slider-banner-{=bannerCode} img{max-width:none;}
+	<!--{ / }-->
+
+    .slider-banner-{=bannerCode} .slick-prev{
+       background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23{=str_replace('#', '', bannerSideButton['activeColor'])}'%2F%3E%3C%2Fsvg%3E");
+       background:{bannerSideButton['activeColor']}\0/IE8;
+    }
+    .slider-banner-{=bannerCode} .slick-next{
+        background-image:   url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23{=str_replace('#', '', bannerSideButton['activeColor'])}'%2F%3E%3C%2Fsvg%3E");
+        background:{bannerSideButton['activeColor']}\0/IE8;
+    }
+
+    <!--{ ? bannerPageButton['useFl'] == 'c' }-->
+    .slider-banner-{=bannerCode} .slick-dots li{
+        width:12.5%;
+        margin:0 4px !important;
+    }
+    .slider-banner-{=bannerCode} .slick-dots li button{
+        font-size:12px;
+        width:100%;
+        height:30px;
+        text-align:center;
+        background:#000000;
+        border-radius:0;
+        color:#fff;
+        opacity:1;
+    }
+    .slider-banner-{=bannerCode} .slick-dots li.slick-active button{
+        background:#cfcfcf;
+    }
+    <!--{ : }-->
+    .slider-banner-{=bannerCode}  .slick-dots li button{
+        width:{=bannerPageButton['size']}px;
+        height:{=bannerPageButton['size']}px;
+        border-radius:{=bannerPageButton['radius']}%;
+        background:{=bannerPageButton['inactiveColor']};
+    }
+    .slider-banner-{=bannerCode} .slick-dots li.slick-active button{
+        background:{=bannerPageButton['activeColor']};
+    }
+    <!--{ / }-->
+</style>
+
+<div  class="slider-wrap slider-banner-{=bannerCode}">
+    <!--{ @ bannerInfo }-->
+    <div>
+     {=.value_}
+    </div>
+    <!--{ / }-->
+
+</div >
+<script src="../js/slider/slick/slick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.slider-banner-{=bannerCode}').not('.slick-initialized').slick({
+            <!--{ ? bannerTime == 'manual' }-->
+            autoplay: false,
+            <!--{ : }-->
+            autoplay: true,
+            <!--{ / }-->
+            <!--{ ? bannerPageButton['useFl'] != 'n' }-->
+            dots: true,
+            <!--{ : }-->
+            dots: false,
+            <!--{ / }-->
+            <!--{ ? bannerSideButton['useFl'] === 'n' }-->
+            arrows: false,
+            <!--{ / }-->
+            infinite: true,
+            autoplaySpeed :{=bannerSliderTime},
+            speed:{=bannerSpeed},
+            slidesToShow: 1,
+            <!--{ ? bannerEffect === 'fade' }-->
+            fade: true,
+            <!--{ / }-->
+            <!--{ ? bannerSize['sizeType'] == '%' }-->
+            centerMode:true,
+            variableWidth: true,
+            adaptiveHeight: true,
+            <!--{ / }-->
+            draggable : false
+        });
+        <!--{ ? bannerPageButton['useFl'] == 'c' }-->
+        var slickIndex = $('.slider-banner-{=bannerCode}').slick('getSlick').instanceUid;
+        var navWidth, navHeight, defaultNavCSS, defaultNavBtnCSS, activeNavCSS, activeNavBtnCSS;
+        var navFontStyle = "font-size:0 !important;";
+        <!--{ @ bannerImgInfo }-->
+        <!--{ ? .value_['act'] }-->
+        navWidth = "width: {=.value_['act']['width']}px !important;";
+        navHeight = "height: {=.value_['act']['height']}px !important;";
+        activeNavCSS = ".slider-banner-{=bannerCode} .slick-dots li.slick-active#slick-slide" + slickIndex + "{=sprintf('%d', .key_)} \{" + navWidth + navHeight + "\}";
+        activeNavBtnCSS = ".slider-banner-{=bannerCode} .slick-dots li.slick-active#slick-slide" + slickIndex + "{=sprintf('%d', .key_)} button {" + navWidth + navHeight + navFontStyle + "background: url({=.value_['act']['img']}) no-repeat !important;}";
+        <!--{ / }-->
+        <!--{ ? .value_['inact']}-->
+        $(".slider-banner-{=bannerCode} .slick-dots li#slick-slide" + slickIndex + "{=sprintf('%d', .key_)}").addClass('default-slick-banner');
+        navWidth = "width: {=.value_['inact']['width']}px;";
+        navHeight = "height: {=.value_['inact']['height']}px;";
+        defaultNavCSS = ".slider-banner-{=bannerCode} .slick-dots li.default-slick-banner#slick-slide" + slickIndex + "{=sprintf('%d', .key_)} \{" + navWidth + navHeight + "\}";
+        defaultNavBtnCSS = ".slider-banner-{=bannerCode} .slick-dots li.default-slick-banner#slick-slide" + slickIndex + "{=sprintf('%d', .key_)} button {" + navWidth + navHeight + navFontStyle + "background: url({=.value_['inact']['img']}) no-repeat;}";
+        <!--{ / }-->
+        $('.slider-banner-{=bannerCode}').siblings('style').append(defaultNavCSS + defaultNavBtnCSS + activeNavCSS + activeNavBtnCSS);
+        <!--{ / }-->
+        <!--{ / }-->
+    });
+</script>
+<!--{ / }-->

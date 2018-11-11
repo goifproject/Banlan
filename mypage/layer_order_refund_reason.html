@@ -1,0 +1,113 @@
+{*** 사유 레이어 | mypage/layer_order_refund_reason.php ***}
+<div class="layer_wrap_cont">
+    <div class="ly_tit">
+        <h4>
+            <!--{ ? substr(handleInfo.orderStatus, 0, 1) == 'b' || handleInfo.userHandleMode == 'b'}-->
+            {=__('반품 상세 정보')}
+            <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'r' || handleInfo.userHandleMode == 'r'}-->
+            {=__('환불 상세 정보')}
+            <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'e' || handleInfo.userHandleMode == 'e'}-->
+            {=__('교환 상세 정보')}
+            <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'c' }-->
+            {=__('취소 상세 정보')}
+            <!--{ / }-->
+        </h4>
+    </div>
+    <div class="ly_cont">
+        <div class="scroll_box refund_cause_layer">
+
+            <!--{ ? handleInfo.userHandleMode != '' || handleInfo.userHandleReason != '' }-->
+            <h5>{=__('신청 정보')}</h5>
+            <div class="left_table_type">
+                <table>
+                    <colgroup>
+                        <col style="width:24%;">
+                        <col style="width:76%;">
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th scope="row"><span>{=__('신청일')}</span></th>
+                        <td>{handleInfo.userHandleRegDt}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{=__('신청 사유')}</th>
+                        <td>{handleInfo.userHandleReason}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><span>{=__('메모')}</span></th>
+                        <td>{=nl2br(handleInfo.userHandleDetailReason)}</td>
+                    </tr>
+                    <!--{ ? handleInfo.userHandleMode == 'b' || handleInfo.userHandleMode == 'r' }-->
+                    <tr>
+                        <th scope="row"><!--{ ? handleInfo.userHandleMode == 'b' }-->{=__('반품정보')}<!--{ : }-->{=__('환불정보')}<!--{ / }--></th>
+                        <td>
+                            <!--{ ? handleInfo.userRefundBankName }-->
+                            {=nl2br(handleInfo.userRefundBankName)} / {=nl2br(handleInfo.userRefundAccountNumber)} / {=nl2br(handleInfo.userRefundDepositor)}
+                            <!--{ : }-->
+                            -
+                            <!--{ / }-->
+                        </td>
+                    </tr>
+                    <!--{ / }-->
+                    <!--{ ? handleInfo.userHandleFl !== 'r' }-->
+                    <tr>
+                        <th scope="row"><span>{=__('승인일')}</span></th>
+                        <td>{handleInfo.userHandleModDt}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><span><!--{ ? handleInfo.userHandleFl === 'y' }-->{=__('승인사유')}<!--{ : }-->{=__('거절사유')}<!--{ / }--></span></th>
+                        <td>{=nl2br(handleInfo.adminHandleReason)}</td>
+                    </tr>
+                    <!--{ / }-->
+                    </tbody>
+                </table>
+            </div>
+            <!--{ / }-->
+
+            <!--{ ? handleInfo.handleDetailReasonShowFl == 'y' }-->
+            <h5>
+                <!--{ ? substr(handleInfo.orderStatus, 0, 1) == 'b' }-->
+                {=__('반품처리 정보')}
+                <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'r' }-->
+                {=__('환불처리 정보')}
+                <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'e' }-->
+                {=__('교환처리 정보')}
+                <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'c' }-->
+                {=__('취소처리 정보')}
+                <!--{ / }-->
+            </h5>
+            <div class="refund_cause_type">
+                <div class="refund_cause_infor">
+                    <ul>
+                        <li>
+                            <!--{ ? substr(handleInfo.orderStatus, 0, 1) == 'b' }-->
+                            {=__('반품사유')}
+                            <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'r' }-->
+                            {=__('환불사유')}
+                            <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'e' }-->
+                            {=__('교환사유')}
+                            <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'c' }-->
+                            {=__('취소사유')}
+                            <!--{ / }--> :
+                            {handleInfo.handleReason}
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="scroll_box refund_cause_txt">
+                    {handleInfo.handleDetailReason}
+                </div>
+            </div>
+            <!--{ / }-->
+
+        </div>
+        <!-- //scroll_box -->
+
+        <div class="btn_center_box">
+            <button type="button" class="btn_ly_ok layer_close"><strong>{=__('확인')}</strong></button>
+        </div>
+    </div>
+    <!-- //ly_cont -->
+    <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+</div>
+<!-- //layer_wrap_cont -->

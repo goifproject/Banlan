@@ -1,0 +1,29 @@
+{*** 설문조사 | service/poll_end.php ***}
+{ # header }
+<div class="content">
+    <div class="poll_sec">
+        <div class="poll_end_cont">
+            <span><img src="../img/etc/poll_end_img.png" alt="" /></span>
+            <p>
+                <strong>{=__('설문 응답이 완료되었습니다.')}</strong>
+                <span>
+                    {=__('참여해주셔서 감사합니다.')}
+                    <!--{ ? gd_is_login() === true && data.pollMileage > 0 }-->
+                    <br>{=__('감사의 의미로 마일리지 %s원을 지급해드렸습니다.', number_format(data.pollMileage))}
+                    <!--{ / }-->
+                </span>
+                <!--{ ? data.pollResultViewFl == 'Y'}-->
+                <a href="../service/poll_result.php?code={=data.pollCode}"><em>{=__('설문 결과보기')} &gt;</em></a>
+                <!--{ / }-->
+            </p>
+        </div>
+        <!-- //poll_end_cont -->
+
+        <div class="btn_center_box">
+            <a href="/" class="btn_main_go"><em>{=__('홈 바로가기')}</em></a>
+        </div>
+    </div>
+    <!-- //poll_sec -->
+</div>
+<!-- //content -->
+{ # footer }

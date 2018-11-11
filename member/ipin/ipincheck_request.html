@@ -1,0 +1,90 @@
+<html>
+<head>
+    <title>한국신용정보주식회사 개인인증키(대체인증키) 서비스</Title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <!--	==========================================================	-->
+    <!--	한국신용정보주식회사 처리 모듈 (수정 및 변경하지 마십시오)	-->
+    <!--	==========================================================	-->
+
+    <!--{ ? is_array(gd_isset(headerScript)) }-->
+    <!--{ @ headerScript }-->
+    <script type="text/javascript" src="{.value_}"></script>
+    <!--{ / }-->
+    <!--{ / }-->
+
+
+    <script language="javascript">
+        function loadAction() {
+            if (document.all.PingInfo.value == "") {
+                alert("한국신용정보(주)의 개인인증키 서비스가 점검중입니다.\n잠시후 다시 시도하시기 바랍니다.\n\n상태가 계속되면 사이트관리자에게 문의하십시오");
+                return;
+            }
+            goIDCheck();
+        }
+
+        function validate() {
+            var NiceId = document.getElementById("NiceId");
+            var PingInfo = document.getElementById("PingInfo");
+            var ReturnURL = document.getElementById("ReturnURL");
+
+            if (NiceId.value == "") {
+                alert(getCheckMessage("S60"));
+                NiceId.focus();
+                return false;
+            }
+
+            if (PingInfo.value == "") {
+                alert(getCheckMessage("S61"));
+                return false;
+            }
+
+            if (ReturnURL.value == "") {
+                alert(getCheckMessage("S64"));
+                ReturnURL.focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        function goIDCheck() {
+            if (validate() == true) {
+                var strNiceId = document.getElementById("NiceId").value;
+                var strPingInfo = document.getElementById("PingInfo").value;
+                var strOrderNo = document.getElementById("OrderNo").value;
+                var strInqRsn = document.getElementById("InqRsn").value;
+                var strReturnUrl = document.getElementById("ReturnURL").value;
+                var strSIKey = document.getElementById("SIKey").value;
+
+                document.reqForm.SendInfo.value = makeCertKeyInfoPA(strNiceId, strPingInfo, strOrderNo, strInqRsn, strReturnUrl, strSIKey);
+                document.reqForm.ProcessType.value = strPersonalCertKey;
+
+                var popupWindow = window.open("", "popupCertKey", "top=100, left=200, status=0, width=417, height=490");
+                document.reqForm.target = "popupCertKey";
+                document.reqForm.action = strCertKeyServiceUrl;
+                document.reqForm.submit();
+                popupWindow.focus();
+            }
+
+            return;
+        }
+    </script>
+</head>
+
+<body onLoad="javascript:loadAction();">
+<form id="reqForm" name="reqForm" method="POST" action="">
+    <input class="small" type="hidden" id="SendInfo" name="SendInfo"/>
+    <input class="small" type="hidden" id="ProcessType" name="ProcessType"/>
+</form>
+<form id="pageForm" name="pageForm" method="POST" action="">
+    <INPUT type="hidden" id="NiceId" name="NiceId" value="{=NiceId}"/>
+    <INPUT type="hidden" id="SIKey" name="SIKey" value="{=SIKey}"/>
+    <INPUT type="hidden" id="PingInfo" name="PingInfo" value="{=PingInfo}"/>
+    <INPUT type="hidden" id="ReturnURL" name="ReturnURL" value="{=ReturnURL}"/>
+    <!--	조회사유를 설정하십시오 ( '10'-회원가입, '20'-기존회원 확인, '30'-성인인증, '40'-비회원 확인, '50'-기타 사유 )	-->
+    <input type="hidden" id="InqRsn" name="InqRsn" value="10"/>
+    <!--	주문번호를 설정하십시오. (최소 14자리, 20자리미만)	-->
+    <input type="hidden" id="OrderNo" name="OrderNo" value="{=strOrderNo}"/>
+</form>
+</body>
+</html>

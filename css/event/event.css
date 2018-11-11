@@ -1,0 +1,85 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 하단영역 */
+.attend_reply_wrap + .addition_zone,
+.attend_stamp_wrap + .addition_zone{width:1000px; margin:0 auto;}
+
+/* ------------- 출석체트 > 댓글 ------------- */
+.attend_reply_wrap{width:1000px; margin:0 auto;}
+.attend_reply_box .attend_reply_check{padding: 30px 40px; border:6px solid #f4f4f4; border-top:none;}
+.attend_reply_check .attend_states{overflow:hidden; font-size:14px;}
+.attend_reply_check .attend_states p{float:left;}
+.attend_reply_check .attend_states span{float:right;}
+.attend_reply_check .attend_reply_sec{margin:15px 0 0 0;}
+.attend_reply_check .attend_reply_sec table{width:100%;}
+.attend_reply_check .attend_reply_sec table th{padding: 15px 0px; border-top:1px solid #999999; border-bottom:1px solid #dbdbdb; background:#f7f7f7; color:#24242c; text-align:center;}
+.attend_reply_check .attend_reply_sec table td{padding: 15px 5px; border-bottom:1px solid #dbdbdb; color:#444; text-align:center;}
+.attend_reply_check .attend_reply_sec table .reply_cont{text-align:left;}
+/* 댓글 색반전 */
+.attend_reply_box .attend_reply_check_type2{background:#35353f; border:6px solid #35353f;}
+.attend_reply_check_type2 .attend_states{color:#fff;}
+.attend_reply_check_type2 .attend_reply_sec table th{background:#2E2E38; border-bottom:1px solid #44444D; border-top:1px solid #44444D; color:#fff;}
+.attend_reply_check_type2 .attend_reply_sec table td{color:#e1e1e2; border-bottom:1px solid #44444D;}
+.attend_reply_box .attend_reply_comment{overflow:hidden; margin:20px 0 50px 0;}
+.attend_reply_box .attend_reply_comment textarea{float:left; width:830px; height:86px; padding:5px 10px; border:1px solid #ccc; line-height:18px;}
+.attend_reply_box .attend_reply_comment .btn_attend_check{display:block; float:right; width:160px; height:86px; padding:0 0 0 29px; background:#e38bac url('../../img/event/btn_point_check2.png') no-repeat 41px center; border:1px solid #e38bac; color:#fff; font-weight:bold; font-size:13px;}
+.attend_reply_box .attend_reply_comment .btn_attend_check:hover{background:#db83a4 url('../../img/event/btn_point_check2.png') no-repeat 41px center; border:1px solid #db83a4;}
+
+
+/* ------------- 출석체크 > 스템프 ------------- */
+.attend_stamp_wrap{width:1000px; margin:0 auto;}
+.stamp_calendar_box .stamp_calendar{padding: 30px 40px; border:6px solid #f4f4f4; border-top:none;}
+.stamp_calendar .attend_states{overflow:hidden; font-size:14px;}
+.stamp_calendar .attend_states p{float:left;}
+.stamp_calendar .attend_states span{float:right;}
+.stamp_calendar .calendar_month{padding:24px 0 10px 0; font-size:28px; color:#24242c; text-align:center;}
+.stamp_calendar .calendar_month .prev_month{width:15px; height:26px; font-size:0; text-indent:-9999px; background:url('../../img/event/btn_attend_calendar.png') no-repeat left top;}
+.stamp_calendar .calendar_month .next_month{width:15px; height:26px; font-size:0; text-indent:-9999px; background:url('../../img/event/btn_attend_calendar.png') no-repeat right top;}
+.stamp_calendar .calendar_month strong{padding:0 29px; vertical-align:-2px;}
+.stamp_calendar .calendar_sec{}
+.stamp_calendar .calendar_sec table th{height:89px; padding: 0 54px; /*border-bottom:1px solid #F4F4F4;*/ font-size:18px; color:#24242c; text-align:center;}
+.stamp_calendar .calendar_sec table td{height:89px; padding: 0 54px; border-top:1px solid #F4F4F4; font-size:18px; color:#bcbcbc; font-weight:bold; text-align:center;}
+.stamp_calendar .calendar_sec .next-month{color:#dfdfdf;}
+.stamp_calendar .calendar_sec .attend{background:url('../../img/event/bg_attendance_stamp.png') no-repeat center 13px; color:#3e3d3c;}
+/* 캘린더 색반전 */
+.stamp_calendar_box .stamp_calendar_type2{background:#35353f; border:6px solid #35353f; border-top:none;}
+.stamp_calendar_type2 .calendar_states,
+.stamp_calendar_type2 .calendar_month,
+.stamp_calendar_type2 .calendar_sec table th,
+.stamp_calendar_type2 .calendar_sec .attend{color:#fff;}
+.stamp_calendar_type2 .calendar_month .prev_month{background:url('../../img/event/btn_attend_calendar.png') no-repeat left bottom;}
+.stamp_calendar_type2 .calendar_month .next_month{background:url('../../img/event/btn_attend_calendar.png') no-repeat right bottom;}
+.stamp_calendar_type2 .calendar_sec .next-month{color:#5a5a60;}
+.stamp_calendar_type2 .calendar_sec table th,
+.stamp_calendar_type2 .calendar_sec table td{border-bottom:none;}
+.stamp_calendar_type2 .calendar_sec table tbody{background:#282831;}
+
+.stamp_calendar_box .btn_attend_check{display:block; width:240px; height:61px; margin:30px auto; padding:0 0 0 29px; background:#e38bac url('../../img/event/btn_point_check.png') no-repeat 65px 24px; border:1px solid #e38bac; color:#fff; font-weight:bold; font-size:20px;}
+.stamp_calendar_box .btn_attend_check:hover{background:#db83a4 url('../../img/event/btn_point_check.png') no-repeat 65px 24px; border:1px solid #db83a4;}
+
+
+/* ------------- 타임세일 ------------- */
+.time_sale_cont{}
+.time_sale_tit{overflow:hidden; position:relative; border-bottom:1px solid #999999;}
+.time_sale_tit h2{/*width:70%;*/ padding:0 0 30px 0; font-size:24px;}
+.time_sale_tit strong{position:absolute; bottom:7px; right:10px; color:#e38bac; font-size:13px;}
+
+.time_sale_info{/*min-height:200px; border:1px solid #dbdbdb;*/}
+.time_sale_info img{max-width:100%;}
+
+/* 상단 타임보드 */
+.sale_clock{overflow:hidden; margin:0 0 35px 0; padding:20px 0 20px 0; border:1px solid #dbdbdb; vertical-align:middle;}
+.sale_clock .clock_cont{text-align:center;}
+.sale_clock .clock_cont .clock_tit{padding:0 30px 0 0; font-size:22px;}
+.sale_clock .clock_box{display:inline-block; font-size:0; line-height:50px; vertical-align:middle;}
+.sale_clock .clock_box strong,
+.sale_clock .clock_box span{display:inline-block; font-size:34px;}
+.sale_clock .clock_box em{display:inline-block; height:50px; margin:0 10px 0 0; font-size:34px;}
+.sale_clock .clock_box em strong{display:inline-block; width:38px; height:50px; margin:0 -5px 0 0; padding:0; color:#ffffff; font-size:36px; font-weight:bold; text-align:center; line-height:50px;
+    background:url("../../img/common/bg/bg_sale_clock.png") no-repeat 0 0;}
+.sale_clock .clock_box em + span{padding:0 10px 0 5px;}
+.sale_clock .clock_box .next-month{margin:0 10px 0 0;}
+.sale_clock .clock_box .next-month + span{margin:0 7px 0 -5px;}
+.sale_clock .sale_buy_num{font-size:20px; text-align:center;}
+.sale_clock .sale_buy_num strong{color:#e38bac; font-size:24px;}
